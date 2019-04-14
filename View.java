@@ -57,7 +57,7 @@ public class View {
 	 * @param filename of the image to be accessed 
 	 * @return a buffered image when implemented
 	 */
-	private BufferedImage[] createImage(String filename){
+	private BufferedImage createImage(String filename){
 		return pics;
 	}
 	
