@@ -1,3 +1,4 @@
+import java.awt.Color;
 
 /**
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
@@ -11,8 +12,10 @@ public class Prey extends Character{
 	*@param type a boolean to be set to edible
 	*@return nothing
 	*/
+	
+	static Color color = new Color(0, 255, 0);
 	public Prey(boolean type, int x, int y){
-		super(x, y);
+		super(x, y, color);
 		edible = type; 
 	}
 
@@ -22,7 +25,7 @@ public class Prey extends Character{
 	*@return nothing
 	*/
 	public void move(){
-
+		xPos-=3;
 	}
 	
 	public boolean getEdible()

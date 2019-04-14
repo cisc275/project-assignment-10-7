@@ -13,16 +13,18 @@ import javax.swing.Timer;
  * Controls actions of Model and View as well as controls game play actions. 
  * Methods for user input key actions and starting gameplay. 
  */
-public class Controller implements ActionListener{
+public class Controller implements ActionListener, KeyListener{
 	
-	//Model model;
-	//View view;
-	boolean start_stop;
+	Model model;
+	View view;
+	boolean start_stop=true;;
 	Action drawAction;
-	Character player;
+	Bird player;
 	Character predator;
 	Character prey;
 	int timer;
+	int drawDelay = 30;
+	int dirKey;
 	
 	
 	/**
@@ -32,7 +34,32 @@ public class Controller implements ActionListener{
 	 * @param nothing
 	 * @return nothing
 	 */
-	public Controller() {}
+	public Controller() {
+		
+		view = new View();
+		model = new Model(view.getWidth(), view.getHeight(), 10, 10);
+		player = new Bird(100,0);
+		view.charArr.add(player);
+		Plane p1= new Plane(view.getWidth(), 30);
+		view.charArr.add(p1);
+		Prey f1 = new Prey(true,view.getWidth(), 100);
+		view.charArr.add(f1);
+		
+		view.frame.addKeyListener(this);
+		
+		drawAction = new AbstractAction()
+	    {
+				public void actionPerformed(ActionEvent e)
+	      {
+	    			//increment the x and y coordinates, alter direction if necessary
+					model.updateLocationDirection(start_stop, p1, f1);			
+	    			//update the view
+	    			//view.update(model.getX(), model.getY(), model.getDirect(), start_stop);
+					view.update(player.getX(), player.getY(), Direction.EAST, true);
+					//System.out.println(player.getX());
+	    		}
+	    	};
+	}
 	
 	
 	/**
@@ -57,7 +84,12 @@ public class Controller implements ActionListener{
 	 * @param e key event from user key input
 	 * @return nothing
 	 */
-	public void keyPressed(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {
+		//System.out.println(e.getKeyCode());
+		dirKey=e.getKeyCode();
+		player.move(dirKey);
+		
+	}
 
 	
 	/**
@@ -66,13 +98,25 @@ public class Controller implements ActionListener{
 	 * @param e key event from user key input
 	 * @return nothing
 	 */
-	public void keyReleased(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+		dirKey=0;
+	}
 	
 	/** 
 	 * Creates & starts timer and EventQueue, method used to begin the game.
 	 * @param Nothing
 	 * @return Nothing
 	 */
-	public void start() {}
+	public void start() {
+		
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				Timer t = new Timer(drawDelay, drawAction);
+				t.start();
+			}
+		});
+	}
 	
 }
