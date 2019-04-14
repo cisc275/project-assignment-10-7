@@ -1,11 +1,13 @@
+import java.awt.Color;
 
 /**
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
  */
 
 public class Character{
-	private int xPos;
-	private int yPos;
+	protected int xPos;
+	protected int yPos;
+	Color color;
 
 	/**
 	*This constructor sets the initial position of the object as passed
@@ -13,10 +15,11 @@ public class Character{
 	 @param y an int to represent starting y position
 	 @return nothing 
 	*/
-	Character(int x, int y)
+	Character(int x, int y, Color c)
 	{
 		xPos = x;
 		yPos=y;
+		color = c;
 
 	}
 	
@@ -27,5 +30,6 @@ public class Character{
 	public int getY() {
 		return yPos;
 	}
+	
 
 }

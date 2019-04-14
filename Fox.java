@@ -1,3 +1,4 @@
+import java.awt.Color;
 
 /**
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
@@ -11,8 +12,9 @@
 
 public class Fox extends Character{
 
+	static Color color = new Color(0, 0, 0);
 	Fox(int x, int y) {
-		super(x, y);
+		super(x, y, color);
 		// TODO Auto-generated constructor stub
 	}
 

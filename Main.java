@@ -8,5 +8,9 @@ public class Main{
 	 * Creates & instantiates new controller,
 	 * calls Controller's start method to begin the game. 
 	 */
-	public static void main(String[] args) {}
+	public static void main(String[] args) {
+		
+		Controller c = new Controller();
+		c.start();
+	}
 }

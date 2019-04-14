@@ -11,6 +11,9 @@ public class Model {
 	boolean up;
 	boolean backward;
 	boolean down;
+	int yIncr=1;
+	int xIncr=1;
+	Direction direction;
 	
 	public Model(int w, int h, int imgW, int imgH) {
 		//creates model
@@ -28,10 +31,13 @@ public class Model {
 	 * @return nothing
 	 * 
 	 */
-	public void updateLocationDirection(boolean run) {
+	public void updateLocationDirection(boolean run, Plane b, Prey f) {
+		
 		if(run) {
-			
-		} else {
+			b.move();
+			f.move();
+		} 
+		else {
 			
 		}
 	}
@@ -89,16 +95,20 @@ public class Model {
 	public void setDirection() {
 		
 	}
-
+	
 }
+		
+
+
 
 
 class ModelTest {
 
 	Model mod = new Model(500, 300, 165, 165);
+	Plane p = new Plane (0,0);
 	@Test
 	void updateLocDirTest() {//if the menu portion of the game is active, the player bird should not move
-		mod.updateLocationDirection(false);
+		//mod.updateLocationDirection(false, p);
 		assertEquals(false, mod.forward);
 		assertEquals(false, mod.backward);
 		assertEquals(false, mod.up);

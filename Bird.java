@@ -4,6 +4,8 @@
  */
 import static org.junit.Assert.assertEquals;
 
+import java.awt.Color;
+
 import org.junit.Test;
 
 public class Bird extends Character{
@@ -12,10 +14,13 @@ public class Bird extends Character{
 	private int health;
 	private Direction direction;
 	private boolean migrate;
+	int yIncr=5;
+	int xIncr=5;
+	static Color color = new Color(0, 0, 255);
 
 	
 	Bird(int x, int y) {
-		super(x, y);
+		super(x, y, color);
 		// TODO Auto-generated constructor stub
 		health=100;
 	}
@@ -36,9 +41,72 @@ public class Bird extends Character{
 	*@param d
 	*@return Nothing 
 	*/
-	public void move(Direction d)
+	public void move(int e)
 	{
+		//System.out.println("d");
+		switch (keyToDirec(e)) {
+		case NORTH: //north
+			yPos-=yIncr;
 
+			break;
+		
+		case NORTHEAST: //north east
+			xPos+=xIncr; 
+			yPos-=yIncr;
+			break;
+			
+		case EAST: //east
+			xPos+=xIncr;
+
+			break;
+			
+		case SOUTHEAST: //south east
+			xPos+=xIncr;
+			yPos+=yIncr;
+
+			break;
+			
+		case SOUTH: //south
+			yPos+=yIncr;
+
+			break;
+	
+		case SOUTHWEST: //south west
+			xPos-=xIncr;
+			yPos+=yIncr;
+
+			break;
+			
+		case WEST: //west
+			xPos-=xIncr;
+			break;
+			
+		case NORTHWEST: //north west
+			yPos-=yIncr;
+			xPos-=xIncr;
+			break;
+	}
+	
+
+	}
+	
+	private Direction keyToDirec(int d) {
+		if (d == 37)
+		{
+			return Direction.WEST;
+		}
+		else if (d == 38)
+		{
+			return Direction.NORTH;
+		}
+		else if(d == 39)
+		{
+			return Direction.EAST;
+		}
+		else 
+		{
+			return Direction.SOUTH;
+		}
 	}
 
 	/**
@@ -61,6 +129,7 @@ public class Bird extends Character{
 	{
 		return health;
 	}
+
 	
 }
 
@@ -80,7 +149,7 @@ class BirdTest {
 	@Test 
 	void testMove()
 	{
-		testBird.move(Direction.EAST);
+		testBird.move(37);
 		assertEquals(1, testBird.getX());
 	}	
 	
