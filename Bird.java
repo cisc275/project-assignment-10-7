@@ -118,8 +118,10 @@ public class Bird extends Character{
 	*/
 	public void updateHealth(int change)
 	{
-		if (health >=0)
-			health +=change;
+		health += change;
+		if (health<=0) {
+			health =0;
+		}
 	}
 
 	/**

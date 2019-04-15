@@ -123,7 +123,7 @@ public class Model {
 				if(c.getClass()==Plane.class)
 				{
 					System.out.println(c.touch);
-					((Bird)charArr.get(0)).updateHealth(5);
+					((Bird)charArr.get(0)).updateHealth(-5);
 				}
 				else
 				{

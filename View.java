@@ -140,9 +140,9 @@ public class View extends JPanel{
 				g.fillRect(376, 26, hb, 9);
 				
 				if(((Bird)c).getDirec()==Direction.WEST)
-					g.drawImage(pics[1][frameNum], xPos, yPos, sky, this);
+					g.drawImage(pics[1][frameNum], xPos, yPos, null, this);
 				else
-					g.drawImage(pics[0][frameNum], xPos, yPos, sky, this);
+					g.drawImage(pics[0][frameNum], xPos, yPos, null, this);
 			}
 		}
 		
