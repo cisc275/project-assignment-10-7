@@ -5,12 +5,11 @@ import java.awt.Color;
  */
 
 public class Plane extends Character{
-	static Color color = new Color(0, 0, 0);
 	
 
 	Plane(int x, int y) {
 		
-		super(x, y, color);
+		super(x, y, Color.black);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -1,5 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 public class Model {
@@ -14,6 +16,7 @@ public class Model {
 	int yIncr=1;
 	int xIncr=1;
 	Direction direction;
+	ArrayList<Character> charArr;
 	
 	public Model(int w, int h, int imgW, int imgH) {
 		//creates model
@@ -31,11 +34,29 @@ public class Model {
 	 * @return nothing
 	 * 
 	 */
-	public void updateLocationDirection(boolean run, Plane b, Prey f) {
+	public void updateLocationDirection(boolean run, ArrayList<Character> cA) {
+		charArr = cA;
 		
 		if(run) {
-			b.move();
-			f.move();
+			for(Character c : charArr)
+			{
+				if (c.getClass()== Plane.class)
+				{
+					Plane p=(Plane) c;
+					p.move();
+				}
+				else if (c.getClass()== Prey.class)
+				{
+					Prey p=(Prey) c;
+					p.move();
+				}
+				else if (c.getClass()==Bird.class)
+				{
+					Bird b= (Bird) c;
+					b.updateHealth(-1);
+				}
+				checkCollision(c);
+			}
 		} 
 		else {
 			
@@ -77,12 +98,26 @@ public class Model {
 	/**will check collision with the edges of the frame, predators, prey, and obstacles
 	 *and will change flags accordingly 
 	 * @param none
-	 *@return boolean -- will return true if there is collision, false otherwise
+	 * @return boolean -- will return true if there is collision, false otherwise
 	 */
-	public boolean checkCollision() {
-		boolean collide = true;
-		
-		return collide;
+	public boolean checkCollision(Character c) 
+	{
+		if (c.xPos==((Bird)charArr.get(0)).xPos)
+		{
+			if(c.yPos==((Bird)charArr.get(0)).yPos)
+			{
+				
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 		
 	}
 	
@@ -117,7 +152,7 @@ class ModelTest {
 	
 	@Test
 	void checkColTest() {
-		assertEquals(false, mod.checkCollision());//bird should not be colliding with anything in the beginning of the game
+		//assertEquals(false, mod.checkCollision());//bird should not be colliding with anything in the beginning of the game
 	}
 	
 	@Test

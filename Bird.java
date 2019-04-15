@@ -23,6 +23,7 @@ public class Bird extends Character{
 		super(x, y, color);
 		// TODO Auto-generated constructor stub
 		health=100;
+		direction = Direction.EAST;
 	}
 
 	/** 
@@ -44,7 +45,8 @@ public class Bird extends Character{
 	public void move(int e)
 	{
 		//System.out.println("d");
-		switch (keyToDirec(e)) {
+		direction =keyToDirec(e);
+		switch(direction){
 		case NORTH: //north
 			yPos-=yIncr;
 
@@ -116,8 +118,8 @@ public class Bird extends Character{
 	*/
 	public void updateHealth(int change)
 	{
-
-
+		health +=change;
+		
 	}
 
 	/**
@@ -128,6 +130,10 @@ public class Bird extends Character{
 	public int getHealth()
 	{
 		return health;
+	}
+	
+	public Direction getDirec() {
+		return direction;
 	}
 
 	

@@ -13,7 +13,7 @@ public class Prey extends Character{
 	*@return nothing
 	*/
 	
-	static Color color = new Color(0, 255, 0);
+	static Color color = new Color(210, 105, 30);
 	public Prey(boolean type, int x, int y){
 		super(x, y, color);
 		edible = type; 

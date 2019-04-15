@@ -4,6 +4,7 @@
 
 import java.awt.EventQueue;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -25,6 +26,7 @@ public class Controller implements ActionListener, KeyListener{
 	int timer;
 	int drawDelay = 30;
 	int dirKey;
+	ArrayList<Character> charArr;
 	
 	
 	/**
@@ -35,15 +37,15 @@ public class Controller implements ActionListener, KeyListener{
 	 * @return nothing
 	 */
 	public Controller() {
-		
+		charArr=new ArrayList<>();
 		view = new View();
 		model = new Model(view.getWidth(), view.getHeight(), 10, 10);
 		player = new Bird(100,0);
-		view.charArr.add(player);
-		Plane p1= new Plane(view.getWidth(), 30);
-		view.charArr.add(p1);
-		Prey f1 = new Prey(true,view.getWidth(), 100);
-		view.charArr.add(f1);
+		charArr.add(player);
+		Plane p1= new Plane(view.getWidth(), 100);
+		charArr.add(p1);
+		Prey f1 = new Prey(true,view.getWidth(), 175);
+		charArr.add(f1);
 		
 		view.frame.addKeyListener(this);
 		
@@ -52,10 +54,10 @@ public class Controller implements ActionListener, KeyListener{
 				public void actionPerformed(ActionEvent e)
 	      {
 	    			//increment the x and y coordinates, alter direction if necessary
-					model.updateLocationDirection(start_stop, p1, f1);			
+					model.updateLocationDirection(start_stop, charArr);			
 	    			//update the view
 	    			//view.update(model.getX(), model.getY(), model.getDirect(), start_stop);
-					view.update(player.getX(), player.getY(), Direction.EAST, true);
+					view.update(player.getX(), player.getY(), Direction.EAST, true, charArr);
 					//System.out.println(player.getX());
 	    		}
 	    	};

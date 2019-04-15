@@ -19,17 +19,20 @@ import javax.swing.JButton;
 
 public class View extends JPanel{
 	
-	int imageWidth;
-	int imageHeight;
+	int imageWidth = 50;
+	int imageHeight = 50;
 	final static int frameWidth = 500;
 	final static int frameHeight = 300;
-	int frameCount;
-	int frameNum;
+	int frameCount = 8;
+	int frameNum = 0;
 	Direction d;
 	int xPos=0;
 	int yPos=0;
-	BufferedImage[] pics;
+	BufferedImage[][] pics;
 	ArrayList<Character> charArr;
+	
+	Color sky = new Color(100,149,237);
+	Color grass = new Color(76,153, 0);
 	
 	JFrame frame;
 	
@@ -40,7 +43,18 @@ public class View extends JPanel{
 	 * @return nothing
 	 */
 	View(){
+		
 		charArr=new ArrayList<>();
+		BufferedImage img = createImage("bird_forward.png");
+    	pics = new BufferedImage[2][frameCount];
+    	for(int i = 0; i < frameCount; i++)
+    		pics[0][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
+    	
+    	BufferedImage img2 = createImage("bird_backward.png");
+    	for(int i = 0; i < frameCount; i++)
+    		pics[1][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
+		
+		
 		frame = new JFrame();
 		frame.getContentPane().add(this);
     	frame.setBackground(Color.gray);
@@ -60,8 +74,9 @@ public class View extends JPanel{
 	 *        the key/button press
 	 * @return nothing
 	 */
-	public void update(int x, int y, Direction d, boolean flag){
+	public void update(int x, int y, Direction d, boolean flag, ArrayList<Character> cA){
 	
+		charArr = cA;
 		xPos=x;
 		yPos=y;
 		frame.repaint();
@@ -77,8 +92,15 @@ public class View extends JPanel{
 	 * @param filename of the image to be accessed 
 	 * @return a buffered image when implemented
 	 */
-	private void createImage(String filename){
-		//return pics;
+	private BufferedImage createImage(String filename){
+		BufferedImage bufferedImage;
+    	try {
+    		bufferedImage = ImageIO.read(new File("src/"+filename));
+    		return bufferedImage;
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    	return null;
 	}
 	
 	
@@ -88,14 +110,42 @@ public class View extends JPanel{
 	 * @return nothing
 	 */
 	public void paint(Graphics g){
+			
+		
 		// Given the graphic, this method will place the images on the user screen
 		//g.drawRect(xPos, yPos, 25, 25);
+		g.setColor(grass);
+		g.fillRect(0, 200, 500, 100);
+		
+		g.setColor(sky);
+		g.fillRect(0, 0, 500, 200);
+		
+		g.setColor(Color.black);
+		g.drawRect(375, 25, 101, 10);
+		
+		
+		
 
-		for(Character c : charArr)
+		for(Character c: charArr)
 		{
-			g.setColor(c.color);
-			g.fillRect(c.xPos, c.yPos, 25, 25);
+			if (c.getClass()!=Bird.class) {
+				g.setColor(c.color);
+				g.fillRect(c.xPos, c.yPos, 25, 25);
+			}
+			else
+			{
+				int hb= ((Bird)c).getHealth();
+				frameNum = (frameNum + 1) % frameCount;
+		    	g.setColor(Color.red);
+				g.fillRect(376, 26, hb, 9);
+				
+				if(((Bird)c).getDirec()==Direction.WEST)
+					g.drawImage(pics[1][frameNum], xPos, yPos, sky, this);
+				else
+					g.drawImage(pics[0][frameNum], xPos, yPos, sky, this);
+			}
 		}
+		
 
 		
 		//g.drawImage((idlePicMap.get(direction.getName()))[frameNum], xPos, yPos, Color.gray, this);
@@ -112,24 +162,17 @@ public class View extends JPanel{
 	}
 	public int getImageHeight() {
 		return imageHeight;
-	}
-	
-	
+	}	
 
 }
-
-class ViewTest {
-	
-	View test = new View();
-
-	@Test
-	public void testUpdate() {
-		
-		Direction d = Direction.EAST;
-		test.update(10, 10, d, true);
-		
-		
+/*
+ class ViewTest {
+  
+	 View test = new View();
+	 @Test 
+	 public void testUpdate() {
+		 Direction d = Direction.EAST; test.update(10, 10, d, true);
 	}
-
-
-}
+}*/
+ 
+ 
