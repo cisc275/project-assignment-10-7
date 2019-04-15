@@ -6,6 +6,7 @@ import java.awt.Color;
 
 public class Prey extends Character{
 	private boolean edible;
+	boolean touch;
 
 	/**
 	*This constructor sets the object to be either edible or not resembling food or pollution
@@ -17,6 +18,7 @@ public class Prey extends Character{
 	public Prey(boolean type, int x, int y){
 		super(x, y, color);
 		edible = type; 
+		touch = false;
 	}
 
 	/**

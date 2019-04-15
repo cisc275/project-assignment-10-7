@@ -17,11 +17,14 @@ public class Model {
 	int xIncr=1;
 	Direction direction;
 	ArrayList<Character> charArr;
+	int colBound;
 	
 	public Model(int w, int h, int imgW, int imgH) {
 		//creates model
 		xBound = w-imgW;
 		yBound = h-imgH;
+		colBound=imgW;
+		//touch = false;
 	}
 	
 	/**
@@ -44,18 +47,27 @@ public class Model {
 				{
 					Plane p=(Plane) c;
 					p.move();
+					checkCollision(p);
 				}
 				else if (c.getClass()== Prey.class)
 				{
 					Prey p=(Prey) c;
 					p.move();
+					checkCollision(p);
 				}
 				else if (c.getClass()==Bird.class)
 				{
+					if (c.touch) {
 					Bird b= (Bird) c;
 					b.updateHealth(-1);
+					c.touch=false;
+					}
+					else
+					{
+						c.touch=true;
+					}
 				}
-				checkCollision(c);
+				
 			}
 		} 
 		else {
@@ -100,23 +112,31 @@ public class Model {
 	 * @param none
 	 * @return boolean -- will return true if there is collision, false otherwise
 	 */
-	public boolean checkCollision(Character c) 
+	public void checkCollision(Character c) 
 	{
-		if (c.xPos==((Bird)charArr.get(0)).xPos)
+		
+		if (c.xPos>=(charArr.get(0)).xPos && c.xPos<=(charArr.get(0)).xPos+50)
 		{
-			if(c.yPos==((Bird)charArr.get(0)).yPos)
-			{
+			
+			if(c.yPos>=(charArr.get(0)).yPos && c.yPos<=(charArr.get(0)).yPos+50)
+			{	
+				if(!c.touch) {
+					if(c.getClass()==Plane.class)
+					{
+						((Bird)charArr.get(0)).updateHealth(-5);
+					}
+					else if(c.getClass()==Prey.class)
+					{
+						((Bird)charArr.get(0)).updateHealth(5);
 				
-				return true;
+					}
+					c.touch=true;
+				}
 			}
 			else
 			{
-				return false;
+				c.touch=false;
 			}
-		}
-		else
-		{
-			return false;
 		}
 		
 	}

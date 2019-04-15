@@ -5,12 +5,14 @@ import java.awt.Color;
  */
 
 public class Plane extends Character{
+	boolean touch;
 	
 
 	Plane(int x, int y) {
 		
 		super(x, y, Color.black);
 		// TODO Auto-generated constructor stub
+		touch = false;
 	}
 
 	/**
