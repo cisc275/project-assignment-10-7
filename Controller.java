@@ -89,7 +89,7 @@ public class Controller implements ActionListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
-		player.move(dirKey);
+		player.move(player.keyToDirec(dirKey));
 		
 	}
 

@@ -42,10 +42,9 @@ public class Bird extends Character{
 	*@param d
 	*@return Nothing 
 	*/
-	public void move(int e)
+	public void move(Direction direction)
 	{
 		//System.out.println("d");
-		direction =keyToDirec(e);
 		switch(direction){
 		case NORTH: //north
 			yPos-=yIncr;
@@ -92,7 +91,7 @@ public class Bird extends Character{
 
 	}
 	
-	private Direction keyToDirec(int d) {
+	public Direction keyToDirec(int d) {
 		if (d == 37)
 		{
 			return Direction.WEST;
@@ -144,28 +143,3 @@ public class Bird extends Character{
 
 
 
-class BirdTest {
-	Bird testBird = new Bird(0,0, 10, 10);
-	
-	@Test
-	void testUpdateHealth()
-	{
-		testBird.updateHealth(-5);
-		assertEquals(95, testBird.getHealth());
-	}
-	
-	@Test 
-	void testMove()
-	{
-		testBird.move(37);
-		assertEquals(1, testBird.getX());
-	}	
-	
-	@Test 
-	void testEat()
-	{
-		testBird.eat();
-		assertEquals(10, testBird.getY());
-	}	
-
-}
