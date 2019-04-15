@@ -15,8 +15,8 @@ public class Prey extends Character{
 	*/
 	
 	static Color color = new Color(210, 105, 30);
-	public Prey(boolean type, int x, int y){
-		super(x, y, color);
+	public Prey(boolean type, int x, int y, int w, int h){
+		super(x, y, color, w, h);
 		edible = type; 
 		touch = false;
 	}
@@ -28,6 +28,10 @@ public class Prey extends Character{
 	*/
 	public void move(){
 		xPos-=3;
+		if (xPos<=-10)
+		{
+			xPos=500;
+		}
 	}
 	
 	public boolean getEdible()

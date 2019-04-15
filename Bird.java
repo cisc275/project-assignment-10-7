@@ -19,8 +19,8 @@ public class Bird extends Character{
 	static Color color = new Color(0, 0, 255);
 
 	
-	Bird(int x, int y) {
-		super(x, y, color);
+	Bird(int x, int y, int w, int h) {
+		super(x, y, color, w, h);
 		// TODO Auto-generated constructor stub
 		health=100;
 		direction = Direction.EAST;
@@ -118,8 +118,8 @@ public class Bird extends Character{
 	*/
 	public void updateHealth(int change)
 	{
-		health +=change;
-		
+		if (health >=0)
+			health +=change;
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class Bird extends Character{
 
 
 class BirdTest {
-	Bird testBird = new Bird(0,0);
+	Bird testBird = new Bird(0,0, 10, 10);
 	
 	@Test
 	void testUpdateHealth()

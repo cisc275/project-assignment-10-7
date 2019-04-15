@@ -48,6 +48,7 @@ public class Model {
 					Plane p=(Plane) c;
 					p.move();
 					checkCollision(p);
+					
 				}
 				else if (c.getClass()== Prey.class)
 				{
@@ -58,9 +59,9 @@ public class Model {
 				else if (c.getClass()==Bird.class)
 				{
 					if (c.touch) {
-					Bird b= (Bird) c;
-					b.updateHealth(-1);
-					c.touch=false;
+						Bird b= (Bird) c;
+						b.updateHealth(-1);
+						c.touch=false;
 					}
 					else
 					{
@@ -115,28 +116,25 @@ public class Model {
 	public void checkCollision(Character c) 
 	{
 		
-		if (c.xPos>=(charArr.get(0)).xPos && c.xPos<=(charArr.get(0)).xPos+50)
+		if (c.getBounds().intersects(charArr.get(0).getBounds()))
 		{
-			
-			if(c.yPos>=(charArr.get(0)).yPos && c.yPos<=(charArr.get(0)).yPos+50)
-			{	
-				if(!c.touch) {
-					if(c.getClass()==Plane.class)
-					{
-						((Bird)charArr.get(0)).updateHealth(-5);
-					}
-					else if(c.getClass()==Prey.class)
-					{
-						((Bird)charArr.get(0)).updateHealth(5);
-				
-					}
-					c.touch=true;
-				}
-			}
-			else
+			if (!c.touch)
 			{
-				c.touch=false;
+				if(c.getClass()==Plane.class)
+				{
+					System.out.println(c.touch);
+					((Bird)charArr.get(0)).updateHealth(5);
+				}
+				else
+				{
+					((Bird)charArr.get(0)).updateHealth(5);
+				}
+				c.touch=true;
 			}
+		}
+		else 
+		{
+			c.touch=false;
 		}
 		
 	}
@@ -160,7 +158,7 @@ public class Model {
 class ModelTest {
 
 	Model mod = new Model(500, 300, 165, 165);
-	Plane p = new Plane (0,0);
+	//Plane p = new Plane (0,0);
 	@Test
 	void updateLocDirTest() {//if the menu portion of the game is active, the player bird should not move
 		//mod.updateLocationDirection(false, p);

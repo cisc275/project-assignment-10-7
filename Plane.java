@@ -8,9 +8,9 @@ public class Plane extends Character{
 	boolean touch;
 	
 
-	Plane(int x, int y) {
+	Plane(int x, int y, int w, int h) {
 		
-		super(x, y, Color.black);
+		super(x, y, Color.black, w, h);
 		// TODO Auto-generated constructor stub
 		touch = false;
 	}
@@ -23,6 +23,10 @@ public class Plane extends Character{
 	
 	public void move(){
 		xPos -=3;
+		if (xPos<=0)
+		{
+			xPos=500;
+		}
 
 	}
 }

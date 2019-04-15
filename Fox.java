@@ -13,8 +13,8 @@ import java.awt.Color;
 public class Fox extends Character{
 
 	static Color color = new Color(0, 0, 0);
-	Fox(int x, int y) {
-		super(x, y, color);
+	Fox(int x, int y, int w, int h) {
+		super(x, y, color, w, h);
 		// TODO Auto-generated constructor stub
 	}
 

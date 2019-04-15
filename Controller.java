@@ -40,11 +40,11 @@ public class Controller implements ActionListener, KeyListener{
 		charArr=new ArrayList<>();
 		view = new View();
 		model = new Model(view.getWidth(), view.getHeight(), 10, 10);
-		player = new Bird(100,0);
+		player = new Bird(100,0, view.imageWidth, view.imageHeight);
 		charArr.add(player);
-		Plane p1= new Plane(view.getWidth(), 100);
+		Plane p1= new Plane(view.getWidth(), 100, 25, 25);
 		charArr.add(p1);
-		Prey f1 = new Prey(true,view.getWidth(), 175);
+		Prey f1 = new Prey(true,view.getWidth(), 175, 25, 25);
 		charArr.add(f1);
 		
 		view.frame.addKeyListener(this);

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Rectangle;
 
 /**
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
@@ -7,6 +8,8 @@ import java.awt.Color;
 public class Character{
 	protected int xPos;
 	protected int yPos;
+	protected int width;
+	protected int height;
 	Color color;
 	boolean touch;
 
@@ -16,12 +19,14 @@ public class Character{
 	 @param y an int to represent starting y position
 	 @return nothing 
 	*/
-	Character(int x, int y, Color c)
+	Character(int x, int y, Color c, int w, int h)
 	{
 		xPos = x;
 		yPos=y;
 		color = c;
 		touch = false;
+		width = w;
+		height = h;
 
 	}
 	
@@ -33,5 +38,8 @@ public class Character{
 		return yPos;
 	}
 	
+	public Rectangle getBounds() {
+		return new Rectangle(xPos, yPos, width, height);
+	}
 
 }
