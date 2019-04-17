@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 class ModelTest {
 
 	Model mod = new Model(500, 300, 165, 165);
+	
 	@Test
 	void locDirAndCollTest() {	//checks both updateLocationandDirection() and checkCollision() 
 								//because updateLoc calls checkColl
