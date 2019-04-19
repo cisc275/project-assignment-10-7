@@ -11,7 +11,6 @@ import javax.swing.Action;
 import javax.swing.Timer;
 import java.util.*;
 
-import javafx.scene.input.KeyCode;
 
 /**
  * Controls actions of Model and View as well as controls game play actions. 
@@ -47,6 +46,7 @@ public class Controller implements ActionListener, KeyListener{
 		charArr.add(player);
 		Plane p1= new Plane(view.getWidth(), 100, 25, 25);
 		charArr.add(p1);
+		//Timer t = new Timer();
 		Prey f1 = new Prey(true,view.getWidth(), 175, 25, 25);
 		charArr.add(f1);
 		
@@ -92,7 +92,7 @@ public class Controller implements ActionListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
-		if(e.getKeyCode() == KeyCode.ESCAPE.getCode()) {
+		if(e.getKeyCode() == 27) {
 			view.frame.dispose();
 			System.exit(0);
 		}
