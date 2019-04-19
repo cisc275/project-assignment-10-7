@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Timer;
+import java.util.*;
+
+import javafx.scene.input.KeyCode;
 
 /**
  * Controls actions of Model and View as well as controls game play actions. 
@@ -89,7 +92,12 @@ public class Controller implements ActionListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
-		player.move(player.keyToDirec(dirKey));
+		if(e.getKeyCode() == KeyCode.ESCAPE.getCode()) {
+			view.frame.dispose();
+			System.exit(0);
+		}
+		else
+			player.move(player.keyToDirec(dirKey));
 		
 	}
 

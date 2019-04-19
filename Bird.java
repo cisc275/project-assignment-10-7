@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.awt.Color;
 
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
 public class Bird extends Character{
 
@@ -104,7 +104,7 @@ public class Bird extends Character{
 		{
 			return Direction.EAST;
 		}
-		else 
+		else
 		{
 			return Direction.SOUTH;
 		}

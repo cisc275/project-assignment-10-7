@@ -1,8 +1,9 @@
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
 public class Model {
 	private int x;
@@ -39,6 +40,7 @@ public class Model {
 	 */
 	public void updateLocationDirection(boolean run, ArrayList<Character> cA) {
 		charArr = cA;
+		Timer t = new Timer();
 		
 		if(run) {
 			for(Character c : charArr)
@@ -52,7 +54,7 @@ public class Model {
 				}
 				else if (c.getClass()== Prey.class)
 				{
-					Prey p=(Prey) c;
+					Prey p= (Prey) c;
 					p.move();
 					checkCollision(p);
 				}

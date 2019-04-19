@@ -1,7 +1,9 @@
 import static org.junit.Assert.assertEquals;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
 import java.io.File;
@@ -13,7 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import javax.swing.JButton;
 
 
@@ -21,8 +23,9 @@ public class View extends JPanel{
 	
 	int imageWidth = 50;
 	int imageHeight = 50;
-	final static int frameWidth = 500;
-	final static int frameHeight = 300;
+	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	final static int frameWidth = screenSize.width;
+	final static int frameHeight = screenSize.height;
 	int frameCount = 8;
 	int frameNum = 0;
 	Direction d;
@@ -62,7 +65,12 @@ public class View extends JPanel{
     	frame.setSize(frameWidth, frameHeight);
     	frame.setFocusable(true);
     	frame.requestFocus();
+    	
+    	frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+    	frame.setUndecorated(true);
+    	
     	frame.setVisible(true);	
+    	
 	}
 	
 	/**
@@ -95,7 +103,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/"+filename));
+    		bufferedImage = ImageIO.read(new File(filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -115,10 +123,10 @@ public class View extends JPanel{
 		// Given the graphic, this method will place the images on the user screen
 		//g.drawRect(xPos, yPos, 25, 25);
 		g.setColor(grass);
-		g.fillRect(0, 200, 500, 100);
+		g.fillRect(0, 2 * screenSize.height/3, screenSize.width, screenSize.height);
 		
 		g.setColor(sky);
-		g.fillRect(0, 0, 500, 200);
+		g.fillRect(0, 0, screenSize.width, 2 * screenSize.height/3);
 		
 		g.setColor(Color.black);
 		g.drawRect(375, 25, 101, 10);
