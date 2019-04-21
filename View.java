@@ -24,8 +24,8 @@ public class View extends JPanel{
 	int imageWidth = 50;
 	int imageHeight = 50;
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	final static int frameWidth = screenSize.width;
-	final static int frameHeight = screenSize.height;
+	final static int frameWidth = screenSize.width;//original size was 500
+	final static int frameHeight = screenSize.height;//original size was 300
 	int frameCount = 8;
 	int frameNum = 0;
 	Direction d;
@@ -38,6 +38,7 @@ public class View extends JPanel{
 	Color grass = new Color(76,153, 0);
 	
 	JFrame frame;
+	JPanel panel;
 	
 	/**
 	 * This is the view constructor. It will load up
@@ -89,7 +90,7 @@ public class View extends JPanel{
 		yPos=y;
 		frame.repaint();
 		try {
-			Thread.sleep(50);
+			Thread.sleep(0);//changed to 0 for smooth frames
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -123,10 +124,10 @@ public class View extends JPanel{
 		// Given the graphic, this method will place the images on the user screen
 		//g.drawRect(xPos, yPos, 25, 25);
 		g.setColor(grass);
-		g.fillRect(0, 2 * screenSize.height/3, screenSize.width, screenSize.height);
+		g.fillRect(0, 2 * frameHeight/3, frameWidth, frameHeight);
 		
 		g.setColor(sky);
-		g.fillRect(0, 0, screenSize.width, 2 * screenSize.height/3);
+		g.fillRect(0, 0, frameWidth, 2 * frameHeight/3);
 		
 		g.setColor(Color.black);
 		g.drawRect(375, 25, 101, 10);

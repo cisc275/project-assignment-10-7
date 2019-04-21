@@ -28,10 +28,6 @@ public class Prey extends Character{
 	*/
 	public void move(){
 		xPos-=3;
-		if (xPos<=-10)
-		{
-			xPos=500;
-		}
 	}
 	
 	public boolean getEdible()
