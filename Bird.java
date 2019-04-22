@@ -14,8 +14,8 @@ public class Bird extends Character{
 	private int health;
 	private Direction direction;
 	private boolean migrate;
-	int yIncr=5;
-	int xIncr=5;
+	int yIncr=10;
+	int xIncr=10;
 	static Color color = new Color(0, 0, 255);
 
 	
@@ -120,6 +120,10 @@ public class Bird extends Character{
 		health += change;
 		if (health<=0) {
 			health =0;
+		}
+		else if (health >=100)
+		{
+			health =100;
 		}
 	}
 

@@ -89,7 +89,7 @@ public class View extends JPanel{
 		yPos=y;
 		frame.repaint();
 		try {
-			Thread.sleep(50);
+			Thread.sleep(25);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -103,7 +103,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File(filename));
+    		bufferedImage = ImageIO.read(new File("src/" + filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -123,13 +123,13 @@ public class View extends JPanel{
 		// Given the graphic, this method will place the images on the user screen
 		//g.drawRect(xPos, yPos, 25, 25);
 		g.setColor(grass);
-		g.fillRect(0, 2 * screenSize.height/3, screenSize.width, screenSize.height);
+		g.fillRect(0, 2 * frameHeight/3, frameWidth, frameHeight);
 		
 		g.setColor(sky);
-		g.fillRect(0, 0, screenSize.width, 2 * screenSize.height/3);
+		g.fillRect(0, 0, frameWidth, 2 * frameHeight/3);
 		
 		g.setColor(Color.black);
-		g.drawRect(375, 25, 101, 10);
+		g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), 0+frameHeight/10, frameWidth/5, frameHeight/30);
 		
 		
 		
@@ -145,18 +145,16 @@ public class View extends JPanel{
 				int hb= ((Bird)c).getHealth();
 				frameNum = (frameNum + 1) % frameCount;
 		    	g.setColor(Color.red);
-				g.fillRect(376, 26, hb, 9);
+		    	System.out.println(((frameWidth/5-1)*(hb))/100);
+				g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
+						((frameWidth/5-1)*(hb))/100, frameHeight/30-1);
 				
 				if(((Bird)c).getDirec()==Direction.WEST)
 					g.drawImage(pics[1][frameNum], xPos, yPos, null, this);
 				else
 					g.drawImage(pics[0][frameNum], xPos, yPos, null, this);
 			}
-		}
-		
-
-		
-		//g.drawImage((idlePicMap.get(direction.getName()))[frameNum], xPos, yPos, Color.gray, this);
+		}		
 	}
 	
 	public int getWidth() {

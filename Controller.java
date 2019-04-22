@@ -11,7 +11,7 @@ import javax.swing.Action;
 import javax.swing.Timer;
 import java.util.*;
 
-import javafx.scene.input.KeyCode;
+
 
 /**
  * Controls actions of Model and View as well as controls game play actions. 
@@ -26,8 +26,9 @@ public class Controller implements ActionListener, KeyListener{
 	Bird player;
 	Character predator;
 	Character prey;
-	int timer;
-	int drawDelay = 30;
+	Timer t;
+	int timerStop=1000000;
+	int drawDelay = 10;
 	int dirKey;
 	ArrayList<Character> charArr;
 	
@@ -62,6 +63,12 @@ public class Controller implements ActionListener, KeyListener{
 	    			//view.update(model.getX(), model.getY(), model.getDirect(), start_stop);
 					view.update(player.getX(), player.getY(), Direction.EAST, true, charArr);
 					//System.out.println(player.getX());
+					if(player.getHealth()==0 || timerStop==0)
+					{
+						t.stop();
+						
+					}
+					timerStop-=1;
 	    		}
 	    	};
 	}
@@ -92,7 +99,7 @@ public class Controller implements ActionListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
-		if(e.getKeyCode() == KeyCode.ESCAPE.getCode()) {
+		if(e.getKeyCode() == 27) {
 			view.frame.dispose();
 			System.exit(0);
 		}
@@ -117,13 +124,15 @@ public class Controller implements ActionListener, KeyListener{
 	 * @param Nothing
 	 * @return Nothing
 	 */
+
+	
 	public void start() {
 		
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
 			{
-				Timer t = new Timer(drawDelay, drawAction);
+				t = new Timer(drawDelay, drawAction);
 				t.start();
 			}
 		});

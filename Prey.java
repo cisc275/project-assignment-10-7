@@ -27,7 +27,7 @@ public class Prey extends Character{
 	*@return nothing
 	*/
 	public void move(){
-		xPos-=3;
+		xPos-=10;
 		if (xPos<=-10)
 		{
 			xPos=500;
