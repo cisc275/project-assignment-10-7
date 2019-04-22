@@ -12,7 +12,6 @@ import javax.swing.Timer;
 import java.util.*;
 
 
-
 /**
  * Controls actions of Model and View as well as controls game play actions. 
  * Methods for user input key actions and starting gameplay. 
@@ -28,6 +27,7 @@ public class Controller implements ActionListener, KeyListener{
 	Character prey;
 	Timer t;
 	int timerStop=1000000;
+	int timer=0;
 	int drawDelay = 10;
 	int dirKey;
 	ArrayList<Character> charArr;
@@ -48,11 +48,10 @@ public class Controller implements ActionListener, KeyListener{
 		charArr.add(player);
 		Plane p1= new Plane(view.getWidth(), 100, 25, 25);
 		charArr.add(p1);
-		Prey f1 = new Prey(true,view.getWidth(), 175, 25, 25);
-		charArr.add(f1);
+		//Prey f1 = new Prey(true,view.getWidth(), 175, 25, 25);
+		//charArr.add(f1);
 		
 		view.frame.addKeyListener(this);
-		
 		drawAction = new AbstractAction()
 	    {
 				public void actionPerformed(ActionEvent e)
@@ -61,7 +60,12 @@ public class Controller implements ActionListener, KeyListener{
 					model.updateLocationDirection(start_stop, charArr);			
 	    			//update the view
 	    			//view.update(model.getX(), model.getY(), model.getDirect(), start_stop);
-					view.update(player.getX(), player.getY(), Direction.EAST, true, charArr);
+					view.update(player.getX(), player.getY(), Direction.WEST, true, charArr);
+					timer++;
+					if(timer % (((int)(Math.random() * (100-50)) + 50)) == 0)
+						charArr.add(new Prey(true, view.getWidth(),
+								((2 * view.getHeight())/3), 25, 25));
+					//System.out.println(timer);
 					//System.out.println(player.getX());
 					if(player.getHealth()==0 || timerStop==0)
 					{

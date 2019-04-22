@@ -24,8 +24,8 @@ public class View extends JPanel{
 	int imageWidth = 50;
 	int imageHeight = 50;
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	final static int frameWidth = screenSize.width;
-	final static int frameHeight = screenSize.height;
+	final static int frameWidth = screenSize.width;//original size was 500
+	final static int frameHeight = screenSize.height;//original size was 300
 	int frameCount = 8;
 	int frameNum = 0;
 	Direction d;
@@ -38,6 +38,7 @@ public class View extends JPanel{
 	Color grass = new Color(76,153, 0);
 	
 	JFrame frame;
+	JPanel panel;
 	
 	/**
 	 * This is the view constructor. It will load up
@@ -89,7 +90,7 @@ public class View extends JPanel{
 		yPos=y;
 		frame.repaint();
 		try {
-			Thread.sleep(25);
+			Thread.sleep(0);//changed to 0 for smooth frames
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -145,7 +146,7 @@ public class View extends JPanel{
 				int hb= ((Bird)c).getHealth();
 				frameNum = (frameNum + 1) % frameCount;
 		    	g.setColor(Color.red);
-		    	System.out.println(((frameWidth/5-1)*(hb))/100);
+		    	//System.out.println(((frameWidth/5-1)*(hb))/100);
 				g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
 						((frameWidth/5-1)*(hb))/100, frameHeight/30-1);
 				

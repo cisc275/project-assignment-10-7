@@ -5,7 +5,7 @@ import java.util.Timer;
 
 import org.junit.jupiter.api.*;
 
-public class Model {
+public class Model{
 	private int x;
 	private int y;
 	int xBound;
@@ -42,6 +42,7 @@ public class Model {
 		charArr = cA;
 		Timer t = new Timer();
 		
+		
 		if(run) {
 			for(Character c : charArr)
 			{
@@ -76,6 +77,10 @@ public class Model {
 		else {
 			
 		}
+	}
+	
+	public void run() {
+		
 	}
 	
 	/**
