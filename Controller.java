@@ -25,8 +25,10 @@ public class Controller implements ActionListener, KeyListener{
 	Bird player;
 	Character predator;
 	Character prey;
-	int timer = 0;
-	int drawDelay = 30;
+	Timer t;
+	int timerStop=1000000;
+	int timer=0;
+	int drawDelay = 10;
 	int dirKey;
 	ArrayList<Character> charArr;
 	
@@ -62,9 +64,15 @@ public class Controller implements ActionListener, KeyListener{
 					timer++;
 					if(timer % (((int)(Math.random() * (100-50)) + 50)) == 0)
 						charArr.add(new Prey(true, view.getWidth(),
-				((2 * view.getHeight())/3), 25, 25));
-					System.out.println(timer);
+								((2 * view.getHeight())/3), 25, 25));
+					//System.out.println(timer);
 					//System.out.println(player.getX());
+					if(player.getHealth()==0 || timerStop==0)
+					{
+						t.stop();
+						
+					}
+					timerStop-=1;
 	    		}
 	    	};
 	}
@@ -120,13 +128,15 @@ public class Controller implements ActionListener, KeyListener{
 	 * @param Nothing
 	 * @return Nothing
 	 */
+
+	
 	public void start() {
 		
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
 			{
-				Timer t = new Timer(drawDelay, drawAction);
+				t = new Timer(drawDelay, drawAction);
 				t.start();
 			}
 		});
