@@ -40,7 +40,6 @@ public class Model{
 	 */
 	public void updateLocationDirection(boolean run, ArrayList<Character> cA) {
 		charArr = cA;
-		Timer t = new Timer();
 		
 		
 		if(run) {
@@ -77,10 +76,6 @@ public class Model{
 		else {
 			
 		}
-	}
-	
-	public void run() {
-		
 	}
 	
 	/**
@@ -134,7 +129,7 @@ public class Model{
 				}
 				else
 				{
-					((Bird)charArr.get(0)).updateHealth(5);
+					((Bird)charArr.get(0)).updateHealth(100);
 				}
 				c.touch=true;
 			}

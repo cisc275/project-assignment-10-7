@@ -22,7 +22,7 @@ public class Bird extends Character{
 	Bird(int x, int y, int w, int h) {
 		super(x, y, color, w, h);
 		// TODO Auto-generated constructor stub
-		health=100;
+		health=1000;
 		direction = Direction.EAST;
 	}
 
@@ -121,9 +121,9 @@ public class Bird extends Character{
 		if (health<=0) {
 			health =0;
 		}
-		else if (health >=100)
+		else if (health >=1000)
 		{
-			health =100;
+			health =1000;
 		}
 	}
 

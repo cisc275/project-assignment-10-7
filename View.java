@@ -83,7 +83,7 @@ public class View extends JPanel{
 	 *        the key/button press
 	 * @return nothing
 	 */
-	public void update(int x, int y, Direction d, boolean flag, ArrayList<Character> cA){
+	public void update(int x, int y, boolean flag, ArrayList<Character> cA){
 	
 		charArr = cA;
 		xPos=x;
@@ -148,7 +148,7 @@ public class View extends JPanel{
 		    	g.setColor(Color.red);
 		    	//System.out.println(((frameWidth/5-1)*(hb))/100);
 				g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
-						((frameWidth/5-1)*(hb))/100, frameHeight/30-1);
+						((frameWidth/5-1)*(hb))/1000, frameHeight/30-1);
 				
 				if(((Bird)c).getDirec()==Direction.WEST)
 					g.drawImage(pics[1][frameNum], xPos, yPos, null, this);

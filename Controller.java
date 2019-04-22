@@ -26,11 +26,12 @@ public class Controller implements ActionListener, KeyListener{
 	Character predator;
 	Character prey;
 	Timer t;
-	int timerStop=1000000;
+	boolean timerStop=true;
 	int timer=0;
 	int drawDelay = 10;
 	int dirKey;
 	ArrayList<Character> charArr;
+	java.util.Timer gameTime;
 	
 	
 	/**
@@ -59,20 +60,16 @@ public class Controller implements ActionListener, KeyListener{
 	    			//increment the x and y coordinates, alter direction if necessary
 					model.updateLocationDirection(start_stop, charArr);			
 	    			//update the view
-	    			//view.update(model.getX(), model.getY(), model.getDirect(), start_stop);
-					view.update(player.getX(), player.getY(), Direction.WEST, true, charArr);
+					view.update(player.getX(), player.getY(), true, charArr);
 					timer++;
 					if(timer % (((int)(Math.random() * (100-50)) + 50)) == 0)
 						charArr.add(new Prey(true, view.getWidth(),
 								((2 * view.getHeight())/3), 25, 25));
-					//System.out.println(timer);
-					//System.out.println(player.getX());
-					if(player.getHealth()==0 || timerStop==0)
+					if(player.getHealth()==0 || !timerStop)
 					{
 						t.stop();
 						
 					}
-					timerStop-=1;
 	    		}
 	    	};
 	}
@@ -138,8 +135,18 @@ public class Controller implements ActionListener, KeyListener{
 			{
 				t = new Timer(drawDelay, drawAction);
 				t.start();
+				gameTime = new java.util.Timer();
+				gameTime.schedule(new RemindTask(), 60000);
 			}
 		});
 	}
+	
+	 class RemindTask extends TimerTask {
+	        public void run() {
+	        	timerStop = false;
+	            System.out.println("Time's up!");
+	            gameTime.cancel(); //Terminate the timer thread
+	        }
+	    }
 	
 }
