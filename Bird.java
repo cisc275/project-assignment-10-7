@@ -14,8 +14,11 @@ public class Bird extends Character{
 	private int health;
 	private Direction direction;
 	private boolean migrate;
+	private boolean doesSwoop = false;
+	private int swoop = 1; 
 	int yIncr=10;
 	int xIncr=10;
+	int storeY;
 	static Color color = new Color(0, 0, 255);
 
 	
@@ -33,8 +36,18 @@ public class Bird extends Character{
 	*/
 	public void eat()
 	{
-		
-
+		switch(swoop)
+		{
+		   // case statements
+		   // values must be of same type of expression
+		   case 1 :
+			   yPos+=3;
+		      break; // break is optional
+		   
+		   case 2 :
+			   yPos-=3;
+		      break; // break is optional
+		}
 	}
 
 	/**
@@ -139,6 +152,22 @@ public class Bird extends Character{
 	
 	public Direction getDirec() {
 		return direction;
+	}
+	
+	public boolean getDoesSwoop() {
+		return doesSwoop;
+	}
+	
+	public void setDoesSwoop(boolean x) {
+		doesSwoop = x; 
+	}
+	
+	public int getSwoop() {
+		return swoop;
+	}
+	
+	public void setSwoop(int x) {
+		swoop = x; 
 	}
 
 	

@@ -32,6 +32,7 @@ public class Controller implements ActionListener, KeyListener{
 	int dirKey;
 	ArrayList<Character> charArr;
 	java.util.Timer gameTime;
+	private boolean up = false;
 	
 	
 	/**
@@ -99,14 +100,21 @@ public class Controller implements ActionListener, KeyListener{
 	 */
 	public void keyPressed(KeyEvent e) {
 		//System.out.println(e.getKeyCode());
-		dirKey=e.getKeyCode();
-		if(e.getKeyCode() == 27) {
-			view.frame.dispose();
-			System.exit(0);
-		}
-		else
-			player.move(player.keyToDirec(dirKey));
-		
+//		dirKey=e.getKeyCode();
+//		if(e.getKeyCode() == 27) {
+//			view.frame.dispose();
+//			System.exit(0);
+//		}
+//		else if(e.getKeyCode() == 32) {
+//			player.storeY = player.yPos;
+////			System.out.println("This is the current Y of the player: " + player.yPos);
+////			System.out.println("This is the stored Y of the player: " + player.storeY);
+//			System.out.println("DAB");
+//			player.setDoesSwoop(true);
+//		}
+//		else
+//			player.move(player.keyToDirec(dirKey));
+//		
 	}
 
 	
@@ -117,7 +125,38 @@ public class Controller implements ActionListener, KeyListener{
 	 * @return nothing
 	 */
 	public void keyReleased(KeyEvent e) {
-		dirKey=0;
+//		dirKey=0;
+		dirKey=e.getKeyCode();
+		if(e.getKeyCode() == 27) {
+			view.frame.dispose();
+			System.exit(0);
+		}
+		//code for going down
+		else if(e.getKeyCode() == 32 && up == false) {
+			player.storeY = player.yPos;
+//			System.out.println("This is the current Y of the player: " + player.yPos);
+//			System.out.println("This is the stored Y of the player: " + player.storeY);
+			System.out.println("down");
+			up = !up;
+			player.setSwoop(1);
+			player.setDoesSwoop(!player.getDoesSwoop());
+		}
+		// code for going back up
+		else if(e.getKeyCode() == 32 && up == true) {
+			System.out.println("up");
+//			player.setDoesSwoop(!player.getDoesSwoop());
+			up = !up;
+			player.setSwoop(2);
+		}
+		else
+			player.move(player.keyToDirec(dirKey));
+	
+
+		System.out.println("This is the current Y of the player: " + player.yPos);
+		System.out.println("This is the stored Y of the player: " + player.storeY);
+		
+//		player.setDoesSwoop(false);
+//		player.setSwoop(1);
 	}
 	
 	/** 

@@ -59,12 +59,15 @@ public class Model{
 					checkCollision(p);
 				}
 				else if (c.getClass()==Bird.class)
-				{
+				{	Bird b= (Bird) c;
+					if(b.getDoesSwoop()) {
+						b.eat();
+					}
 					if (c.touch) {
-						Bird b= (Bird) c;
 						b.updateHealth(-1);
 						c.touch=false;
 					}
+					
 					else
 					{
 						c.touch=true;
