@@ -102,7 +102,7 @@ public class View extends JPanel{
 		run = flag;
 		frame.repaint();
 		try {
-			Thread.sleep(0);//changed to 0 for smooth frames
+			Thread.sleep(50);//changed to 0 for smooth frames
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
