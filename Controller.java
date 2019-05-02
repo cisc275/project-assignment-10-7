@@ -5,45 +5,20 @@
 import java.awt.EventQueue;
 import java.awt.event.*;
 import java.util.ArrayList;
-<<<<<<< HEAD
-
-=======
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Timer;
 import java.util.*;
-<<<<<<< HEAD
-
-
-/**
- * Controls actions of Model and View as well as controls game play actions. 
-=======
 import java.io.*;
 
-
 /**
- * Controls actions of model and View as well as controls game play actions. 
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
+ * Controls actions of model and View as well as controls game play actions.
  * Methods for user input key actions and starting gameplay. 
  */
 public class Controller implements ActionListener, KeyListener{
 	
 	Model model;
 	View view;
-<<<<<<< HEAD
-	boolean start_stop=true;;
-	Action drawAction;
-	Bird player;
-	Character predator;
-	Character prey;
-	Timer t;
-	boolean timerStop=true;
-	int timer=0;
-	int drawDelay = 10;
-	int dirKey;
-	ArrayList<Character> charArr;
-=======
 	boolean start_stop=true;
 	Action drawAction;
 	
@@ -57,7 +32,6 @@ public class Controller implements ActionListener, KeyListener{
 	int arrInd=0;
 	
 	ArrayList<Bird> playerArr;
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
 	java.util.Timer gameTime;
 	int count = 0;
 	
@@ -70,34 +44,6 @@ public class Controller implements ActionListener, KeyListener{
 	 * @return nothing
 	 */
 	public Controller() {
-<<<<<<< HEAD
-		charArr=new ArrayList<>();
-		view = new View(false);
-		model = new Model(view.getWidth(), view.getHeight(), 10, 10);
-		player = new Bird(100,0, view.imageWidth, view.imageHeight);
-		charArr.add(player);
-		Plane p1= new Plane(view.getWidth(), 100, 25, 25);
-		charArr.add(p1);
-		//Prey f1 = new Prey(true,view.getWidth(), 175, 25, 25);
-		//charArr.add(f1);
-		
-		view.frame.addKeyListener(this);
-		drawAction = new AbstractAction()
-	    {
-				public void actionPerformed(ActionEvent e)
-	      {
-	    			//increment the x and y coordinates, alter direction if necessary
-					model.updateLocationDirection(start_stop, charArr);			
-	    			//update the view
-					view.update(player.getX(), player.getY(), true, charArr);
-					timer++;
-					if(timer % (((int)(Math.random() * (100-50)) + 50)) == 0)
-						charArr.add(new Prey(true, view.getWidth(),
-								((2 * view.getHeight())/3), 25, 25));
-					if(player.getHealth()==0 || !timerStop)
-					{
-						t.stop();
-=======
 		
 		playerArr = new ArrayList<>();
 		view = new View();
@@ -125,7 +71,7 @@ public class Controller implements ActionListener, KeyListener{
 						t.stop();
 						serialize();
 						
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
+
 						try {
 							Thread.sleep(500);//changed to 0 for smooth frames
 						} catch (InterruptedException ie) {
@@ -133,23 +79,6 @@ public class Controller implements ActionListener, KeyListener{
 						}
 						if(count == 0) {
 							timerStop = true;
-<<<<<<< HEAD
-							//player = new Bird(100,0, view.imageWidth, view.imageHeight);
-							player.updateHealth(1000);
-							count=1;
-							start();
-							view = new View(true);
-								
-						}
-						else if(count == 1) {
-							view.newFrame();
-							count++;
-						}
-						
-					}
-	    		}
-	    	};
-=======
 							model.getPlayer().updateHealth(1000);
 							count=1;
 							start();
@@ -182,7 +111,7 @@ public class Controller implements ActionListener, KeyListener{
 				}
       		}	
 	   	};
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
+
 	}
 	
 	
@@ -192,9 +121,7 @@ public class Controller implements ActionListener, KeyListener{
 	 * @param a from user key input or button press
 	 * @return nothing
 	 */
-<<<<<<< HEAD
-	public void actionPerformed(ActionEvent a) {}
-=======
+
 	public void actionPerformed(ActionEvent a) {
 		if(a.getActionCommand().equals("Run")) {
 			run=true;
@@ -209,7 +136,6 @@ public class Controller implements ActionListener, KeyListener{
 		}
 		
 	}
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
 	
 	
 	/**
@@ -227,26 +153,39 @@ public class Controller implements ActionListener, KeyListener{
 	 */
 	public void keyPressed(KeyEvent e) {
 		//System.out.println(e.getKeyCode());
-<<<<<<< HEAD
-		
-=======
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
 		dirKey=e.getKeyCode();
 		if(e.getKeyCode() == 27) {
 			view.frame.dispose();
 			System.exit(0);
 		}
-<<<<<<< HEAD
-		else {
-			player.move(player.keyToDirec(e.getKeyCode()));
-		}
-=======
+		// Spacebar will trigger the eat method in Model
+		else if(e.getKeyCode() == 32) {
+					
+					System.out.println("Spacebar is being pressed");
+					
+					// The origin the bird will return to
+					model.storeY = model.getPlayer().yPos;
+					System.out.println("The stored Y is: " + model.storeY);
+					
+					// Signal the bird to fall when eat runs;
+					model.getPlayer().risefall = 1;
+					
+					// Signal the eat to run continuously
+					model.eatFlag = true;
+					
+//					if(model.getBdr() == true){
+//						//The bird will not go past the grass
+//						model.getPlayer().risefall = 3;
+//					}
+//					else {
+//						model.getPlayer().risefall = 1;
+//					}
+					
+				}
 		else
 			model.getPlayer().move(model.getPlayer().keyToDirec(dirKey));
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
 		
 	}
-
 	
 	/**
 	 * Using key code from keyPressed, performs/records changes 
