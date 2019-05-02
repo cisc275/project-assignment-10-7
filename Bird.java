@@ -2,13 +2,13 @@
 /**
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
  */
-import static org.junit.Assert.assertEquals;
+
 
 import java.awt.Color;
 
-import org.junit.jupiter.api.*;
 
-public class Bird extends Character{
+
+public class Bird extends Character {
 
 
 	private int health;
@@ -17,7 +17,11 @@ public class Bird extends Character{
 	int yIncr=10;
 	int xIncr=10;
 	static Color color = new Color(0, 0, 255);
-
+	
+	
+	Bird(){
+		super();
+	}
 	
 	Bird(int x, int y, int w, int h) {
 		super(x, y, color, w, h);
@@ -44,69 +48,85 @@ public class Bird extends Character{
 	*/
 	public void move(Direction direction)
 	{
-		//System.out.println("d");
-		switch(direction){
-		case NORTH: //north
-			yPos-=yIncr;
-
-			break;
+		switch(direction)
+		{
+			case NORTH: //north
+				if(checkTopBorder())
+				yPos-=yIncr;
+				break;
+			
+			case NORTHEAST: //north east
+				if(checkTopBorder() && checkRightBorder())
+				{
+				xPos+=xIncr; 
+				yPos-=yIncr;
+				}
+				break;
+				
+			case EAST: //east
+				if (checkRightBorder())
+				xPos+=xIncr;
+				break;
+				
+			case SOUTHEAST: //south east
+				if (checkBottomBorder() && checkRightBorder())
+				{
+				xPos+=xIncr;
+				yPos+=yIncr;
+				}
+				break;
+				
+			case SOUTH: //south
+				if (checkBottomBorder())
+				yPos+=yIncr;
+				break;
 		
-		case NORTHEAST: //north east
-			xPos+=xIncr; 
-			yPos-=yIncr;
-			break;
-			
-		case EAST: //east
-			xPos+=xIncr;
-
-			break;
-			
-		case SOUTHEAST: //south east
-			xPos+=xIncr;
-			yPos+=yIncr;
-
-			break;
-			
-		case SOUTH: //south
-			yPos+=yIncr;
-
-			break;
-	
-		case SOUTHWEST: //south west
-			xPos-=xIncr;
-			yPos+=yIncr;
-
-			break;
-			
-		case WEST: //west
-			xPos-=xIncr;
-			break;
-			
-		case NORTHWEST: //north west
-			yPos-=yIncr;
-			xPos-=xIncr;
-			break;
-	}
+			case SOUTHWEST: //south west
+				if(checkBottomBorder() && checkLeftBorder())
+				{
+				xPos-=xIncr;
+				yPos+=yIncr;
+				}
+				break;
+				
+			case WEST: //west
+				if (checkLeftBorder())
+				xPos-=xIncr;
+				break;
+				
+			case NORTHWEST: //north west
+				if(checkTopBorder() && checkLeftBorder()) {
+				yPos-=yIncr;
+				xPos-=xIncr;
+				}
+				break;
+		}
 	
 
 	}
 	
 	public Direction keyToDirec(int d) {
-		if (d == 37)
+		switch(d)
 		{
+		case 37:
+			direction = Direction.WEST;
 			return Direction.WEST;
-		}
-		else if (d == 38)
-		{
+
+		case 38:
+			direction = Direction.NORTH;
 			return Direction.NORTH;
-		}
-		else if(d == 39)
-		{
+
+		
+		case 39:
+			direction = Direction.EAST;
 			return Direction.EAST;
-		}
-		else
-		{
+		
+		case 40:
+			direction = Direction.SOUTH;
 			return Direction.SOUTH;
+			
+		default:
+			return Direction.EAST;
 		}
 	}
 
@@ -139,6 +159,34 @@ public class Bird extends Character{
 	
 	public Direction getDirec() {
 		return direction;
+	}
+	
+	public boolean checkLeftBorder() {
+		if(xPos <= 0)
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean checkRightBorder() {
+		if(xPos >= View.frameWidth - width)
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean checkBottomBorder() {
+		if(yPos >= View.frameHeight - height)
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean checkTopBorder() {
+		if(yPos <= 0)
+			return false;
+		else
+			return true;
 	}
 
 	

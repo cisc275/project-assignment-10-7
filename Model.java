@@ -1,9 +1,7 @@
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
-import java.util.Timer;
+import java.util.Iterator;
 
-import org.junit.jupiter.api.*;
+
 
 public class Model{
 	private int x;
@@ -17,15 +15,22 @@ public class Model{
 	int yIncr=1;
 	int xIncr=1;
 	Direction direction;
-	ArrayList<Character> charArr;
+	static ArrayList<AutoCharacters> charArr;
 	int colBound;
+	Bird player;
+	Plane p1;
+	static int timer=0;
+	
 	
 	public Model(int w, int h, int imgW, int imgH) {
 		//creates model
 		xBound = w-imgW;
 		yBound = h-imgH;
 		colBound=imgW;
-		//touch = false;
+		charArr=new ArrayList<>();
+		player = new Bird(100,0, imgW, imgH);
+		p1= new Plane(View.frameWidth, 100, 25, 25);
+		charArr.add(p1);
 	}
 	
 	/**
@@ -38,44 +43,27 @@ public class Model{
 	 * @return nothing
 	 * 
 	 */
-	public void updateLocationDirection(boolean run, ArrayList<Character> cA) {
-		charArr = cA;
-		
-		
+	public void updateLocationDirection(boolean run) {
+	
 		if(run) {
-			for(Character c : charArr)
+			Prey.preyFactory();
+			Iterator <AutoCharacters> i = charArr.iterator();
+			while(i.hasNext())
 			{
-				if (c.getClass()== Plane.class)
-				{
-					Plane p=(Plane) c;
-					p.move();
-					checkCollision(p);
-					
-				}
-				else if (c.getClass()== Prey.class)
-				{
-					Prey p= (Prey) c;
-					p.move();
-					checkCollision(p);
-				}
-				else if (c.getClass()==Bird.class)
-				{
-					if (c.touch) {
-						Bird b= (Bird) c;
-						b.updateHealth(-1);
-						c.touch=false;
-					}
-					else
-					{
-						c.touch=true;
-					}
-				}
-				
+				AutoCharacters c = i.next();
+				c.move();
+				checkCollision(c);
+				timer++;
+			}
+			if (player.touch) {
+				player.updateHealth(-1);
+				player.touch=false;
+			}
+			else
+			{
+				player.touch=true;
 			}
 		} 
-		else {
-			
-		}
 	}
 	
 	/**
@@ -115,21 +103,21 @@ public class Model{
 	 * @param none
 	 * @return boolean -- will return true if there is collision, false otherwise
 	 */
-	public void checkCollision(Character c) 
+	public void checkCollision(AutoCharacters c) 
 	{
-		
-		if (c.getBounds().intersects(charArr.get(0).getBounds()))
+
+		if (c.getBounds().intersects(player.getBounds()))
 		{
 			if (!c.touch)
 			{
 				if(c.getClass()==Plane.class)
 				{
 					System.out.println(c.touch);
-					((Bird)charArr.get(0)).updateHealth(-5);
+					player.updateHealth(-100);
 				}
 				else
 				{
-					((Bird)charArr.get(0)).updateHealth(100);
+					player.updateHealth(100);
 				}
 				c.touch=true;
 			}
@@ -149,6 +137,10 @@ public class Model{
 	 */ 
 	public void setDirection() {
 		
+	}
+	
+	public Bird getPlayer() {
+		return player;
 	}
 	
 }

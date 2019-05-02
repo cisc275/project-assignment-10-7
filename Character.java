@@ -1,17 +1,20 @@
 import java.awt.Color;
+
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 /**
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
  */
 
-public class Character{
+public class Character implements Serializable{
 	protected int xPos;
 	protected int yPos;
 	protected int width;
 	protected int height;
 	Color color;
 	boolean touch;
+	static final long serialVersionUID=12L;
 
 	/**
 	*This constructor sets the initial position of the object as passed
@@ -19,6 +22,7 @@ public class Character{
 	 @param y an int to represent starting y position
 	 @return nothing 
 	*/
+	Character(){}
 	Character(int x, int y, Color c, int w, int h)
 	{
 		xPos = x;

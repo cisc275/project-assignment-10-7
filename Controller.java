@@ -5,33 +5,36 @@
 import java.awt.EventQueue;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Timer;
 import java.util.*;
+import java.io.*;
 
 
 /**
- * Controls actions of Model and View as well as controls game play actions. 
+ * Controls actions of model and View as well as controls game play actions. 
  * Methods for user input key actions and starting gameplay. 
  */
 public class Controller implements ActionListener, KeyListener{
 	
 	Model model;
 	View view;
-	boolean start_stop=true;;
+	boolean start_stop=true;
 	Action drawAction;
-	Bird player;
-	Character predator;
-	Character prey;
+	
 	Timer t;
 	boolean timerStop=true;
-	int timer=0;
 	int drawDelay = 10;
 	int dirKey;
-	ArrayList<Character> charArr;
+	boolean deserial = false;
+	boolean run = false;
+	boolean serial = false;
+	int arrInd=0;
+	
+	ArrayList<Bird> playerArr;
 	java.util.Timer gameTime;
+	int count = 0;
 	
 	
 	/**
@@ -42,36 +45,72 @@ public class Controller implements ActionListener, KeyListener{
 	 * @return nothing
 	 */
 	public Controller() {
-		charArr=new ArrayList<>();
+		
+		playerArr = new ArrayList<>();
 		view = new View();
-		model = new Model(view.getWidth(), view.getHeight(), 10, 10);
-		player = new Bird(100,0, view.imageWidth, view.imageHeight);
-		charArr.add(player);
-		Plane p1= new Plane(view.getWidth(), 100, 25, 25);
-		charArr.add(p1);
-		//Prey f1 = new Prey(true,view.getWidth(), 175, 25, 25);
-		//charArr.add(f1);
+		model = new Model(view.getWidth(), view.getHeight(), view.imageHeight, view.imageWidth);
+
 		
 		view.frame.addKeyListener(this);
+		view.b1.addActionListener(this);
+		view.b2.addActionListener(this);
+		view.b3.addActionListener(this);
+		
 		drawAction = new AbstractAction()
 	    {
-				public void actionPerformed(ActionEvent e)
-	      {
+			public void actionPerformed(ActionEvent e)
+			{
+				if (run) {
 	    			//increment the x and y coordinates, alter direction if necessary
-					model.updateLocationDirection(start_stop, charArr);			
+					model.updateLocationDirection(start_stop);			
 	    			//update the view
-					view.update(player.getX(), player.getY(), true, charArr);
-					timer++;
-					if(timer % (((int)(Math.random() * (100-50)) + 50)) == 0)
-						charArr.add(new Prey(true, view.getWidth(),
-								((2 * view.getHeight())/3), 25, 25));
-					if(player.getHealth()==0 || !timerStop)
+					view.update(model.getPlayer(), run);
+					
+					
+					if(model.getPlayer().getHealth()==0 || !timerStop)
 					{
 						t.stop();
+						serialize();
 						
+						try {
+							Thread.sleep(500);//changed to 0 for smooth frames
+						} catch (InterruptedException ie) {
+							ie.printStackTrace();
+						}
+						if(count == 0) {
+							timerStop = true;
+							model.getPlayer().updateHealth(1000);
+							count=1;
+							start();
+							view.lvl2Frame();
+							addKey();
+								
+						}
+						else if(count == 1) {
+							view.endFrame();
+							count++;
+						}
+
 					}
+					if(serial) {
+						Bird splayer= new Bird();
+						splayer.xPos=model.getPlayer().xPos;
+						splayer.yPos=model.getPlayer().yPos;
+						playerArr.add(splayer);
+					}
+					
+					
 	    		}
-	    	};
+				if(deserial && arrInd<playerArr.size())
+				{
+					model.getPlayer().xPos=playerArr.get(arrInd).xPos;
+					model.getPlayer().yPos=playerArr.get(arrInd).yPos;
+					model.updateLocationDirection(start_stop);
+					view.update(model.getPlayer(), true);
+					arrInd++;
+				}
+      		}	
+	   	};
 	}
 	
 	
@@ -81,7 +120,20 @@ public class Controller implements ActionListener, KeyListener{
 	 * @param a from user key input or button press
 	 * @return nothing
 	 */
-	public void actionPerformed(ActionEvent a) {}
+	public void actionPerformed(ActionEvent a) {
+		if(a.getActionCommand().equals("Run")) {
+			run=true;
+		}
+		else if(a.getActionCommand().equals("Deserialize")) {
+			deserialize();
+			deserial=true;
+		}
+		else if(a.getActionCommand().contentEquals("Serialize"))
+		{
+			serial=true;
+		}
+		
+	}
 	
 	
 	/**
@@ -105,7 +157,7 @@ public class Controller implements ActionListener, KeyListener{
 			System.exit(0);
 		}
 		else
-			player.move(player.keyToDirec(dirKey));
+			model.getPlayer().move(model.getPlayer().keyToDirec(dirKey));
 		
 	}
 
@@ -120,32 +172,73 @@ public class Controller implements ActionListener, KeyListener{
 		dirKey=0;
 	}
 	
+	
+	/**
+	 * Adds key listener to current frame in view.
+	 * 	Used for adding key logic to new level. 
+	 * @param Nothing
+	 * @return Nothing
+	 */
+	public void addKey() {
+		view.frame.addKeyListener(this);
+	}
+	
 	/** 
 	 * Creates & starts timer and EventQueue, method used to begin the game.
 	 * @param Nothing
 	 * @return Nothing
 	 */
-
-	
 	public void start() {
 		
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
 			{
+				
 				t = new Timer(drawDelay, drawAction);
 				t.start();
+				if (run) {
 				gameTime = new java.util.Timer();
 				gameTime.schedule(new RemindTask(), 60000);
+				}
 			}
 		});
 	}
 	
-	 class RemindTask extends TimerTask {
+	public void serialize() {
+		try {
+            FileOutputStream fos = new FileOutputStream("bird.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(playerArr);
+            oos.close();
+               }
+            catch (Exception e)
+            {}
+	}
+	
+	public void deserialize() {
+		try {
+		FileInputStream fis = new FileInputStream("bird.ser");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        System.out.println("here");
+        playerArr =  (ArrayList) ois.readObject();
+        
+        ois.close();        
+        //new File("bird.ser").delete();
+		}catch (Exception e)
+		{
+			System.out.println(e);
+		}
+		
+	}
+	
+	 class RemindTask extends TimerTask 
+	 {
 	        public void run() {
 	        	timerStop = false;
 	            System.out.println("Time's up!");
 	            gameTime.cancel(); //Terminate the timer thread
+	            
 	        }
 	    }
 	

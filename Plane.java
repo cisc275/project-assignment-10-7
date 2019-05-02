@@ -4,15 +4,13 @@ import java.awt.Color;
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
  */
 
-public class Plane extends Character{
-	boolean touch;
+public class Plane extends AutoCharacters{
 	
 
 	Plane(int x, int y, int w, int h) {
 		
-		super(x, y, Color.black, w, h);
+		super(x, y,  w, h, Color.black);
 		// TODO Auto-generated constructor stub
-		touch = false;
 	}
 
 	/**
@@ -21,12 +19,12 @@ public class Plane extends Character{
 	*@return nothing
 	*/
 	
-	public void move(){
-		xPos -=3;
-		if (xPos<=0)
-		{
-			xPos=500;
-		}
-
-	}
+//	public void move(){
+//		xPos -=3;
+//		if (xPos<=0)
+//		{
+//			xPos=500;
+//		}
+//
+//	}
 }
