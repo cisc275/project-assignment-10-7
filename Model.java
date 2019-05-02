@@ -20,6 +20,15 @@ public class Model{
 	ArrayList<Character> charArr;
 	int colBound;
 	
+	//Variables for Eat
+	boolean eatFlag = false;
+	int storeY;
+	int bd; // the boundary 
+	boolean bdReached = false;
+	
+	//Variables for remove
+	boolean removeFlag = false; 
+	
 	public Model(int w, int h, int imgW, int imgH) {
 		//creates model
 		xBound = w-imgW;
@@ -59,15 +68,35 @@ public class Model{
 					checkCollision(p);
 				}
 				else if (c.getClass()==Bird.class)
-				{	Bird b= (Bird) c;
-					if(b.getDoesSwoop()) {
+				{
+					Bird b= (Bird) c;
+					if(eatFlag == true) {
+						
 						b.eat();
+						// System.out.println(bd);
+						// This should show that the bird hit the y-Boundary (grass)
+						if(b.yPos == bd) {
+							System.out.println("Boundary has been reached");
+							bdReached = true;	
+						}
+						//This should return the bird back to its original position
+						else if(b.yPos == storeY) {
+							System.out.println("The bird has returned to its origin");
+							System.out.println ("The bird's original (yPos) is: " + b.yPos);
+							eatFlag = !eatFlag;
+						}
+						else {
+							// System.out.println("The bird has not returned to its origin");
+						}
+						
+						
 					}
+				
 					if (c.touch) {
+						
 						b.updateHealth(-1);
 						c.touch=false;
 					}
-					
 					else
 					{
 						c.touch=true;
@@ -134,7 +163,11 @@ public class Model{
 				{
 					((Bird)charArr.get(0)).updateHealth(100);
 				}
-				c.touch=true;
+				// c.touch=true;
+				if(c.touch == true && c.getClass()== Prey.class) {
+					//Have a flag here to signal to remove 
+					removeFlag = true; 
+				}
 			}
 		}
 		else 
@@ -154,5 +187,13 @@ public class Model{
 		
 	}
 	
+	public boolean getBdr() {
+		return bdReached;
+	}
+	public void setBdr(boolean x) {
+		bdReached = x;
+	};
+	
 }
+	
 		
