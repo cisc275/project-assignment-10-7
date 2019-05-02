@@ -156,6 +156,30 @@ public class Controller implements ActionListener, KeyListener{
 			view.frame.dispose();
 			System.exit(0);
 		}
+		// Spacebar will trigger the eat method in Model
+		else if(e.getKeyCode() == 32) {
+					
+					System.out.println("Spacebar is being pressed");
+					
+					// The origin the bird will return to
+					model.storeY = model.getPlayer().yPos;
+					System.out.println("The stored Y is: " + model.storeY);
+					
+					// Signal the bird to fall when eat runs;
+					model.getPlayer().risefall = 1;
+					
+					// Signal the eat to run continuously
+					model.eatFlag = true;
+					
+//					if(model.getBdr() == true){
+//						//The bird will not go past the grass
+//						model.getPlayer().risefall = 3;
+//					}
+//					else {
+//						model.getPlayer().risefall = 1;
+//					}
+					
+				}
 		else
 			model.getPlayer().move(model.getPlayer().keyToDirec(dirKey));
 		
@@ -170,6 +194,14 @@ public class Controller implements ActionListener, KeyListener{
 	 */
 	public void keyReleased(KeyEvent e) {
 		dirKey=0;
+		if(e.getKeyCode() == 32) {
+			System.out.println("Spacebar is being released");
+			
+			//Signal eat method to switch to bird rising
+			model.getPlayer().risefall = 2;
+			// model.eatFlag = false;
+			// System.out.println("The Bird's final yPos is: " + player.yPos);
+		}
 	}
 	
 	
