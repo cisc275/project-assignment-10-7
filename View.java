@@ -127,7 +127,7 @@ public class View extends JPanel{
 		run = flag;
 		frame.repaint();
 		try {
-			Thread.sleep(0);//changed to 0 for smooth frames
+			Thread.sleep(50);//changed to 0 for smooth frames
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -255,7 +255,7 @@ public class View extends JPanel{
 		frame1.setFocusable(true);
 		frame1.requestFocus();
 		frame1.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		frame1.setUndecorated(false);
+		frame1.setUndecorated(true);
 		frame1.setVisible(true);
 		frame = frame1;
     	

@@ -54,6 +54,7 @@ public class Model{
 	
 		if(run) {
 			Prey.preyFactory();
+			Plane.planeFactory();
 			Iterator <AutoCharacters> i = charArr.iterator();
 			while(i.hasNext())
 			{
@@ -63,24 +64,8 @@ public class Model{
 				timer++;
 			}
 			
-			if(eatFlag == true) {
-				
+			if(eatFlag) {
 				player.eat();
-				// System.out.println(bd);
-				// This should show that the bird hit the y-Boundary (grass)
-				if(player.yPos == bd) {
-					System.out.println("Boundary has been reached");
-					bdReached = true;	
-				}
-				//This should return the bird back to its original position
-				else if(player.yPos == storeY) {
-					System.out.println("The bird has returned to its origin");
-					System.out.println ("The bird's original (yPos) is: " + player.yPos);
-					eatFlag = !eatFlag;
-				}
-				else {
-					// System.out.println("The bird has not returned to its origin");
-				}
 			}
 			if (player.touch) {
 				player.updateHealth(-1);

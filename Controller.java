@@ -89,6 +89,7 @@ public class Controller implements ActionListener, KeyListener{
 						}
 						else if(count == 1) {
 							view.endFrame();
+							addKey();
 							count++;
 						}
 
@@ -126,6 +127,7 @@ public class Controller implements ActionListener, KeyListener{
 	public void actionPerformed(ActionEvent a) {
 		if(a.getActionCommand().equals("Run")) {
 			run=true;
+			view.frame.requestFocus();
 		}
 		else if(a.getActionCommand().equals("Deserialize")) {
 			deserialize();
@@ -155,36 +157,25 @@ public class Controller implements ActionListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
-		if(e.getKeyCode() == 27) {
+		switch(e.getKeyCode()) {
+		case 27:
 			view.frame.dispose();
 			System.exit(0);
-		}
-		// Spacebar will trigger the eat method in Model
-		else if(e.getKeyCode() == 32) {
-					
-					System.out.println("Spacebar is being pressed");
-					
-					// The origin the bird will return to
-					model.storeY = model.getPlayer().yPos;
-					System.out.println("The stored Y is: " + model.storeY);
-					
-					// Signal the bird to fall when eat runs;
-					model.getPlayer().risefall = 1;
-					
-					// Signal the eat to run continuously
-					model.eatFlag = true;
-					
-//					if(model.getBdr() == true){
-//						//The bird will not go past the grass
-//						model.getPlayer().risefall = 3;
-//					}
-//					else {
-//						model.getPlayer().risefall = 1;
-//					}
-					
-				}
-		else
+			break;
+		
+		case 32:
+			// Signal the bird to fall when eat runs;
+			model.getPlayer().risefall = 1;
+			// Signal the eat to run continuously
+			model.eatFlag = true;
+			break;
+			
+		default:
 			model.getPlayer().move(model.getPlayer().keyToDirec(dirKey));
+			break;
+			
+		}
+
 		
 	}
 	
@@ -197,8 +188,6 @@ public class Controller implements ActionListener, KeyListener{
 	public void keyReleased(KeyEvent e) {
 		dirKey=0;
 		if(e.getKeyCode() == 32) {
-			System.out.println("Spacebar is being released");
-			
 			//Signal eat method to switch to bird rising
 			model.getPlayer().risefall = 2;
 			// model.eatFlag = false;
