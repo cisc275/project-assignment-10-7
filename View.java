@@ -1,3 +1,13 @@
+/** Image Credits:
+ * 	 Plane: https://www.kisspng.com/png-vector-night-sky-flying-cartoon-white-plane-24841/
+ *   Northern Harrier: https://www.shutterstock.com/image-vector/vector-illustration-cartoon-flying-bird-animation-325506773?src=HJDXMRFmR8I9_tDY3f3fsQ-1-3&drawer=open
+ *   Osprey: https://www.shutterstock.com/image-vector/vector-illustration-cartoon-flying-house-sparrow-1136982263?src=xRdlkBFtay_XNEfQPLy4CA-1-16
+ *   Mouse: https://www.freepik.com/free-vector/cartoon-mice-collection_1588305.htm
+ *   Fish: 
+ *   Pollution:
+ *   Marsh background: https://www.vecteezy.com/vector-art/175365-seagrass-marsh-illustration
+ *   Grass background: https://www.shutterstock.com/video/clip-12615866-animated-green-grass-blue-sky-clouds
+ */
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,12 +25,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-
-
 public class View extends JPanel{
 	
-	int imageWidth = 50;
-	int imageHeight = 50;
+	int imageWidth = 75;
+	int imageHeight = 75;
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	final static int frameWidth = screenSize.width;//original size was 500
 	final static int frameHeight = screenSize.height;//original size was 300
@@ -32,12 +40,14 @@ public class View extends JPanel{
 	Color sky = new Color(100,149,237);
 	Color grass = new Color(76,153, 0);
 	
+	BufferedImage grassImg;
+	BufferedImage marshImg;
+	
 	JFrame frame;
 	JFrame frame1;
 	JFrame frame2;
 	JPanel panel;
 	boolean frameSwitch; 
-
 	boolean run=false;
 
 	JButton b1;
@@ -54,16 +64,23 @@ public class View extends JPanel{
 	 */
 
 	View(){
-		BufferedImage img = createImage("bird_forward.png");
-    	pics = new BufferedImage[2][frameCount];
-    	for(int i = 0; i < frameCount; i++)
+    	pics = new BufferedImage[5][frameCount];
+    	BufferedImage img = createImage("bird_forward_75.png");
+    	BufferedImage img2 = createImage("bird_backward_75.png");
+    	BufferedImage b2img = createImage("bird2_forward_75.png");
+    	BufferedImage b2img2 = createImage("bird2_backward_75.png");
+    	BufferedImage planeImg = createImage("plane.png");
+    	grassImg  = createImage("grass.jpg");
+    	marshImg  = createImage("marsh.jpg");
+    	for(int i = 0; i < frameCount; i++) {
     		pics[0][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
-    	
-    	BufferedImage img2 = createImage("bird_backward.png");
-    	for(int i = 0; i < frameCount; i++)
     		pics[1][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
-		
-
+    		pics[2][i] = b2img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
+    		pics[3][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
+    	}
+    	
+    	pics[4][0] = planeImg;
+    	
     	b1 = new JButton("Deserialize");
     	b1.setBounds(frameWidth-200,frameHeight-100,100,50);
     	
@@ -75,10 +92,11 @@ public class View extends JPanel{
 		
     	frame1 = new JFrame();
     	frame = frame1;
-		frame.add(b1);
+    	frame.add(b1);
 		frame.add(b2);
 		frame.add(b3);
-		frame.getContentPane().add(this);
+    	frame.getContentPane().add(this);
+    	
     	frame.setBackground(Color.gray);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
@@ -89,6 +107,8 @@ public class View extends JPanel{
     	frame.setUndecorated(true);
     	
     	frame.setVisible(true);	
+    	
+    	
     	
 	}
 	
@@ -140,11 +160,12 @@ public class View extends JPanel{
 		
 		// Given the graphic, this method will place the images on the user screen
 		if(frameSwitch) {
-			g.setColor(sky);
-			g.fillRect(0, 2 * frameHeight/3, frameWidth, frameHeight);
+			g.drawImage(marshImg, 0, 0, null, this);
+			//g.setColor(sky);
+			//g.fillRect(0, 2 * frameHeight/3, frameWidth, frameHeight);
 		
-			g.setColor(sky);
-			g.fillRect(0, 0, frameWidth, 2 * frameHeight/3);
+			//g.setColor(sky);
+			//g.fillRect(0, 0, frameWidth, 2 * frameHeight/3);
 		
 			g.setColor(Color.black);
 			g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), 0+frameHeight/10, frameWidth/5, frameHeight/30);
@@ -152,11 +173,13 @@ public class View extends JPanel{
 
 		// Given the graphic, this method will place the images on the user screen;
 		else{
-			g.setColor(grass);
-			g.fillRect(0, 2 * frameHeight/3, frameWidth, frameHeight);
+			g.drawImage(grassImg, 0, 0, null, this);
+
+			//g.setColor(grass);
+			//g.fillRect(0, 2 * frameHeight/3, frameWidth, frameHeight);
 		
-			g.setColor(sky);
-			g.fillRect(0, 0, frameWidth, 2 * frameHeight/3);
+			//g.setColor(sky);
+			//g.fillRect(0, 0, frameWidth, 2 * frameHeight/3);
 		
 			g.setColor(Color.black);
 			g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), 0+frameHeight/10, frameWidth/5, frameHeight/30);
@@ -165,9 +188,14 @@ public class View extends JPanel{
 		
 
 		for(AutoCharacters c: Model.charArr)
-		{
+		{	
+			if(c.color.equals(Color.BLACK)) {
+				g.drawImage(pics[4][0], c.xPos, c.yPos, null, this);
+			}
+			else {
 				g.setColor(c.color);
 				g.fillRect(c.xPos, c.yPos, 25, 25);
+			}
 		}		
 		
 		if(run) {
@@ -177,10 +205,19 @@ public class View extends JPanel{
 			g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
 					((frameWidth/5-1)*(hb))/1000, frameHeight/30-1);
 			
-			if(player.getDirec().equals(Direction.WEST)) {
-				g.drawImage(pics[1][frameNum], player.xPos, player.yPos, null, this);}
-			else
-				g.drawImage(pics[0][frameNum], player.xPos, player.yPos, null, this);
+			if(frameSwitch) {
+				if(player.getDirec()==Direction.WEST)
+					g.drawImage(pics[3][frameNum], player.xPos, player.yPos, null, this);
+				else
+					g.drawImage(pics[2][frameNum], player.xPos, player.yPos, null, this);
+			}
+			else{
+				if(player.getDirec()==Direction.WEST)
+					g.drawImage(pics[1][frameNum], player.xPos, player.yPos, null, this);
+				else
+					g.drawImage(pics[0][frameNum], player.xPos, player.yPos, null, this);
+			}
+
 		}
 
 	}

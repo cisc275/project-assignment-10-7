@@ -55,6 +55,7 @@ public class Controller implements ActionListener, KeyListener{
 		view.b2.addActionListener(this);
 		view.b3.addActionListener(this);
 		
+		
 		drawAction = new AbstractAction()
 	    {
 			public void actionPerformed(ActionEvent e)
