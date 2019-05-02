@@ -195,10 +195,16 @@ public class Controller implements ActionListener, KeyListener{
 	 */
 	public void keyReleased(KeyEvent e) {
 		dirKey=0;
+		if(e.getKeyCode() == 32) {
+			System.out.println("Spacebar is being released");
+			
+			//Signal eat method to switch to bird rising
+			model.getPlayer().risefall = 2;
+			// model.eatFlag = false;
+			// System.out.println("The Bird's final yPos is: " + player.yPos);
+		}
 	}
 	
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * Adds key listener to current frame in view.
@@ -210,30 +216,21 @@ public class Controller implements ActionListener, KeyListener{
 		view.frame.addKeyListener(this);
 	}
 	
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
+
 	/** 
 	 * Creates & starts timer and EventQueue, method used to begin the game.
 	 * @param Nothing
 	 * @return Nothing
 	 */
-<<<<<<< HEAD
 
-	
-	public void start() {
-=======
 	public void start() {
 		
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
+
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
 			{
-<<<<<<< HEAD
-				t = new Timer(drawDelay, drawAction);
-				t.start();
-				gameTime = new java.util.Timer();
-				gameTime.schedule(new RemindTask(), 60000);
-=======
+				
 				
 				t = new Timer(drawDelay, drawAction);
 				t.start();
@@ -241,14 +238,11 @@ public class Controller implements ActionListener, KeyListener{
 				gameTime = new java.util.Timer();
 				gameTime.schedule(new RemindTask(), 60000);
 				}
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
 			}
 		});
 	}
 	
-<<<<<<< HEAD
-	 class RemindTask extends TimerTask {
-=======
+
 	public void serialize() {
 		try {
             FileOutputStream fos = new FileOutputStream("bird.ser");
@@ -278,15 +272,12 @@ public class Controller implements ActionListener, KeyListener{
 	
 	 class RemindTask extends TimerTask 
 	 {
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
+
 	        public void run() {
 	        	timerStop = false;
 	            System.out.println("Time's up!");
 	            gameTime.cancel(); //Terminate the timer thread
-<<<<<<< HEAD
-=======
-	            
->>>>>>> f79898b89181bfd06ad7dd824b3bfe2cc68b0289
+
 	        }
 	    }
 	

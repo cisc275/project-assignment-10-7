@@ -18,6 +18,10 @@ public class Bird extends Character {
 	int xIncr=10;
 	static Color color = new Color(0, 0, 255);
 	
+	// Variables to help eat method 
+		int risefall = 1; 
+		int storeY;
+	
 	
 	Bird(){
 		super();
@@ -37,7 +41,22 @@ public class Bird extends Character {
 	*/
 	public void eat()
 	{
+		switch(risefall) {
+		case 1:
+			//This will cause the bird to fall
+			yPos+=5;
+			break;
+		case 2:
+			//This will cause the bird to rise 
+			yPos-=5;
+			break;
+		case 3:
+			// This will cause the bird to stay still (when hitting boundaries)
+			yPos+=0;
+			break;
 		
+		}
+
 
 	}
 

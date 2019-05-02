@@ -21,6 +21,13 @@ public class Model{
 	Plane p1;
 	static int timer=0;
 	
+	//Variables for Eat
+		boolean eatFlag = false;
+		int storeY;
+		int bd; // the boundary 
+		boolean bdReached = false;
+
+	
 	
 	public Model(int w, int h, int imgW, int imgH) {
 		//creates model
@@ -54,6 +61,26 @@ public class Model{
 				c.move();
 				checkCollision(c);
 				timer++;
+			}
+			
+			if(eatFlag == true) {
+				
+				player.eat();
+				// System.out.println(bd);
+				// This should show that the bird hit the y-Boundary (grass)
+				if(player.yPos == bd) {
+					System.out.println("Boundary has been reached");
+					bdReached = true;	
+				}
+				//This should return the bird back to its original position
+				else if(player.yPos == storeY) {
+					System.out.println("The bird has returned to its origin");
+					System.out.println ("The bird's original (yPos) is: " + player.yPos);
+					eatFlag = !eatFlag;
+				}
+				else {
+					// System.out.println("The bird has not returned to its origin");
+				}
 			}
 			if (player.touch) {
 				player.updateHealth(-1);
@@ -112,12 +139,12 @@ public class Model{
 			{
 				if(c.getClass()==Plane.class)
 				{
-					System.out.println(c.touch);
 					player.updateHealth(-100);
 				}
 				else
 				{
 					player.updateHealth(100);
+					
 				}
 				c.touch=true;
 			}
