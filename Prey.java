@@ -47,4 +47,8 @@ public class Prey extends AutoCharacters{
 		return edible;
 	}
 	
+	public static void removePrey(AutoCharacters c) {
+		Model.charArr.remove(c);
+}
+	
 }
