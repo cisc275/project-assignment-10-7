@@ -164,10 +164,13 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32:
-			// Signal the bird to fall when eat runs;
-			model.getPlayer().risefall = 1;
-			// Signal the eat to run continuously
-			model.eatFlag = true;
+			if(model.bdReached == false) {
+				model.getPlayer().risefall = 1;
+			}
+			else {
+				model.getPlayer().risefall = 2; 
+			}
+			
 			break;
 			
 		default:
