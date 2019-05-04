@@ -164,6 +164,7 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32:
+			model.eatFlag = true;
 			if(model.bdReached == false) {
 				model.getPlayer().risefall = 1;
 			}
