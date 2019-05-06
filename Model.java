@@ -55,17 +55,35 @@ public class Model{
 		if(run) {
 			Prey.preyFactory();
 			Plane.planeFactory();
+			Fox.addFox();
+			Pollution.pFactory();
 			Iterator <AutoCharacters> i = charArr.iterator();
 			while(i.hasNext())
 			{
-				AutoCharacters c = i.next();
+				AutoCharacters c;
+				c = i.next();
+				if (!c.collided) {
 				c.move();
+				flipFox(c);
 				checkCollision(c);
-				timer++;
+				timer++;}
+				else {
+					i.remove();
+			}
 			}
 			
 			if(eatFlag) {
 				player.eat();
+				if(player.yPos == 560 ) { //533 is where the prey are spawning
+										// can't hit it for some reason 
+					System.out.println("Penalty!");
+					bdReached = true; 
+					
+					}
+				if(player.yPos == 0) {
+					System.out.println("Penalty has been reset");
+					bdReached = false; 
+				}
 			}
 			if (player.touch) {
 				player.updateHealth(-1);
@@ -126,12 +144,22 @@ public class Model{
 				{
 					player.updateHealth(-100);
 				}
+				else if(c.getClass()==Fox.class) {
+					player.updateHealth(-100);
+				}
+				else if(c.getClass()==Pollution.class) {
+					player.updateHealth(-100);
+					c.collided = true;
+				}
 				else
 				{
 					player.updateHealth(100);
+					c.collided=true;
 					
 				}
 				c.touch=true;
+				
+				
 			}
 		}
 		else 
@@ -154,6 +182,21 @@ public class Model{
 	public Bird getPlayer() {
 		return player;
 	}
+	
+	// This will help the fox to flip when it reaches the border 
+		public void flipFox(AutoCharacters c) {
+			if(c.getClass()==Fox.class && c.xPos <= 0) {
+				c.flip = 2;
+			}
+			else if(c.getClass()==Fox.class && c.xPos >= View.frameWidth) {
+				c.flip = 1;
+			}
+			else {
+				// c.flip = 1;
+				System.out.println("Not a fox");
+			}
+		}
+
 	
 }
 		

@@ -66,7 +66,7 @@ public class View extends JPanel{
 	 */
 
 	View(){
-    	pics = new BufferedImage[7][frameCount];
+    	pics = new BufferedImage[10][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
     	BufferedImage b2img = createImage("bird2_forward_75.png");
@@ -76,6 +76,9 @@ public class View extends JPanel{
     	BufferedImage fishImg = createImage("fish.png");
     	grassImg  = createImage("grass.jpg");
     	marshImg  = createImage("marsh.jpg");
+    	BufferedImage trashImg = createImage("trash.png");
+    	BufferedImage foxImg = createImage("test_fox.png");
+    	
     	for(int i = 0; i < frameCount; i++) {
     		pics[0][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[1][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
@@ -86,6 +89,8 @@ public class View extends JPanel{
     	}
     	
     	pics[4][0] = planeImg;
+    	pics[8][0] = trashImg;
+    	pics[9][0] = foxImg;
     	
     	b1 = new JButton("Deserialize");
     	b1.setBounds(frameWidth-200,frameHeight-100,100,50);
@@ -147,7 +152,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/" + filename));
+    		bufferedImage = ImageIO.read(new File(filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -207,6 +212,12 @@ public class View extends JPanel{
 			else {
 				if(c.color.equals(Color.BLACK)) {
 					g.drawImage(pics[4][0], c.xPos, c.yPos, null, this);
+				}
+				else if(c.color.equals(Color.gray)){
+					g.drawImage(pics[8][0], c.xPos, c.yPos, null, this);
+				}
+				else if(c.color.equals(Color.orange)) {
+					g.drawImage(pics[9][0], c.xPos, c.yPos, null, this);
 				}
 				else {
 					g.drawImage(pics[5][0], c.xPos, c.yPos, null, this);
