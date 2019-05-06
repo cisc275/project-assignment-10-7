@@ -78,7 +78,7 @@ public class View extends JPanel{
 	 */
 
 	View(){
-    	pics = new BufferedImage[9][frameCount];
+    	pics = new BufferedImage[10][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
     	BufferedImage b2img = createImage("bird2_forward_75.png");
@@ -90,6 +90,8 @@ public class View extends JPanel{
     	BufferedImage fox2Img = createImage("foxbackwards.png");
     	grassImg  = createImage("grass.jpg");
     	marshImg  = createImage("marsh.jpg");
+    	BufferedImage trashImg = createImage("trash.png");
+    	
     	for(int i = 0; i < frameCount; i++) {
     		pics[0][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[1][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
@@ -101,7 +103,8 @@ public class View extends JPanel{
     	
     	pics[4][0] = planeImg;
     	pics[7][0] = foxImg;
-    	pics[8][0] = fox2Img;
+    	pics[8][0] = trashImg;
+    	pics[9][0] = fox2Img;
     	
     	b1 = new JButton("Deserialize");
     	b1.setBounds(frameWidth-200,frameHeight-100,100,50);
@@ -167,7 +170,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/" + filename));
+    		bufferedImage = ImageIO.read(new File("src/"+filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();

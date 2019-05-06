@@ -20,6 +20,7 @@ public class Fox extends AutoCharacters{
 		super(x, y, w, h, color);
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	/**
 	*This function changes the position of the Fox to jump after
@@ -40,7 +41,7 @@ public class Fox extends AutoCharacters{
 			xPos -=15;
 			break;
 		case 2:
-			west=8;
+			west=9;
 			xPos +=15;
 			break;
 		}

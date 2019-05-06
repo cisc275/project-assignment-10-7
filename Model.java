@@ -63,6 +63,7 @@ public class Model{
 	
 		if(run) {
 			Prey.preyFactory();
+			Pollution.pFactory();
 			if(game)
 				Plane.planeFactory();
 			else
@@ -172,6 +173,8 @@ public class Model{
 					
 				}
 				c.touch=true;
+				
+				
 			}
 		}
 		else 
