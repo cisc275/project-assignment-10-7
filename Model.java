@@ -36,7 +36,7 @@ public class Model{
 		colBound=imgW;
 		charArr=new ArrayList<>();
 		player = new Bird(100,0, imgW, imgH);
-		p1= new Plane(View.frameWidth, 100, 25, 25);
+		p1= new Plane(View.frameWidth, 100, 200, 80);
 		charArr.add(p1);
 	}
 	

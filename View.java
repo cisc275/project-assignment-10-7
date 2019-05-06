@@ -3,7 +3,7 @@
  *   Northern Harrier: https://www.shutterstock.com/image-vector/vector-illustration-cartoon-flying-bird-animation-325506773?src=HJDXMRFmR8I9_tDY3f3fsQ-1-3&drawer=open
  *   Osprey: https://www.shutterstock.com/image-vector/vector-illustration-cartoon-flying-house-sparrow-1136982263?src=xRdlkBFtay_XNEfQPLy4CA-1-16
  *   Mouse: https://www.freepik.com/free-vector/cartoon-mice-collection_1588305.htm
- *   Fish: 
+ *   Fish: Own illustration
  *   Pollution:
  *   Marsh background: https://www.vecteezy.com/vector-art/175365-seagrass-marsh-illustration
  *   Grass background: https://www.shutterstock.com/video/clip-12615866-animated-green-grass-blue-sky-clouds
@@ -29,6 +29,8 @@ public class View extends JPanel{
 	
 	int imageWidth = 75;
 	int imageHeight = 75;
+	int smallWidth = 50;
+	int smallHeight = 50;
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	final static int frameWidth = screenSize.width;//original size was 500
 	final static int frameHeight = screenSize.height;//original size was 300
@@ -64,12 +66,14 @@ public class View extends JPanel{
 	 */
 
 	View(){
-    	pics = new BufferedImage[5][frameCount];
+    	pics = new BufferedImage[7][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
     	BufferedImage b2img = createImage("bird2_forward_75.png");
     	BufferedImage b2img2 = createImage("bird2_backward_75.png");
     	BufferedImage planeImg = createImage("plane.png");
+    	BufferedImage mouseImg = createImage("mouse.png");
+    	BufferedImage fishImg = createImage("fish.png");
     	grassImg  = createImage("grass.jpg");
     	marshImg  = createImage("marsh.jpg");
     	for(int i = 0; i < frameCount; i++) {
@@ -77,6 +81,8 @@ public class View extends JPanel{
     		pics[1][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[2][i] = b2img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[3][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
+    		pics[5][i] = mouseImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
+    		pics[6][i] = fishImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
     	}
     	
     	pics[4][0] = planeImg;
@@ -189,12 +195,22 @@ public class View extends JPanel{
 
 		for(AutoCharacters c: Model.charArr)
 		{	
-			if(c.color.equals(Color.BLACK)) {
-				g.drawImage(pics[4][0], c.xPos, c.yPos, null, this);
+			
+			if(frameSwitch) {
+				if(c.color.equals(Color.BLACK)) {
+					g.drawImage(pics[4][0], c.xPos, c.yPos, null, this);
+				}
+				else {
+					g.drawImage(pics[6][0], c.xPos, c.yPos, null, this);
+				}
 			}
 			else {
-				g.setColor(c.color);
-				g.fillRect(c.xPos, c.yPos, 25, 25);
+				if(c.color.equals(Color.BLACK)) {
+					g.drawImage(pics[4][0], c.xPos, c.yPos, null, this);
+				}
+				else {
+					g.drawImage(pics[5][0], c.xPos, c.yPos, null, this);
+				}
 			}
 		}		
 		
