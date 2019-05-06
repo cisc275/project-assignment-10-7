@@ -33,7 +33,7 @@ public class Plane extends AutoCharacters{
 		
 		Random rand = new Random();
 		if (planeCount<10 && rand.nextInt(100)==5) {
-			Plane p = new Plane(View.frameWidth,rand.nextInt((2*View.frameHeight)/3), 25, 25);
+			Plane p = new Plane(View.frameWidth,rand.nextInt((2*View.frameHeight)/3), 50, 50);
 			Model.charArr.add(p);
 			planeCount++;
 		}

@@ -13,7 +13,7 @@ public class AutoCharacters extends Character{
 	*/
 	public void move(){
 		xPos -=10;
-		if (xPos<=0)
+		if (xPos<=0-200)
 		{
 			xPos=View.frameWidth;
 		}

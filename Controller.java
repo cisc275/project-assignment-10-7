@@ -52,7 +52,7 @@ public class Controller implements ActionListener, KeyListener{
 		
 		view.frame.addKeyListener(this);
 		view.b1.addActionListener(this);
-		view.b2.addActionListener(this);
+		
 		view.b3.addActionListener(this);
 		
 		
@@ -71,25 +71,39 @@ public class Controller implements ActionListener, KeyListener{
 					{
 						t.stop();
 						serialize();
-						
+						timerStop=false;
+						gameTime.cancel();
 
-						try {
-							Thread.sleep(500);//changed to 0 for smooth frames
-						} catch (InterruptedException ie) {
-							ie.printStackTrace();
-						}
 						if(count == 0) {
-							timerStop = true;
+							run=false;
+							view.update(model.getPlayer(), run);
+							count=1;	
 							model.getPlayer().updateHealth(1000);
-							count=1;
-							start();
-							view.lvl2Frame();
+							view.lvl2startFrame();
 							addKey();
 								
 						}
-						else if(count == 1) {
+						else if(count == 1) 
+						{
+							run=false;
+							timerStop=true;
+							view.lvl2Frame();
+							addKey();
+							count++;
+						}
+						else if(count ==2)
+						{
 							view.endFrame();
 							addKey();
+							run = false;
+							count++;
+						}
+						else if (count == 3)
+						{
+							//run = false;
+							view.quizView();
+							addKey();
+							addQuizButton();
 							count++;
 						}
 
@@ -102,7 +116,7 @@ public class Controller implements ActionListener, KeyListener{
 					}
 					
 					
-	    		}
+	    		}//if(run)
 				if(deserial && arrInd<playerArr.size())
 				{
 					model.getPlayer().xPos=playerArr.get(arrInd).xPos;
@@ -111,7 +125,7 @@ public class Controller implements ActionListener, KeyListener{
 					view.update(model.getPlayer(), true);
 					arrInd++;
 				}
-      		}	
+      		}//public void actionPerformed(ActionEvent e)	
 	   	};
 
 	}
@@ -137,6 +151,12 @@ public class Controller implements ActionListener, KeyListener{
 		{
 			serial=true;
 		}
+		else if(a.getActionCommand().equals("b1"))
+		{
+			view.qb1.setText("Pressed Bitch");
+			view.quizLabel.setText("Question");
+		}
+
 		
 	}
 	
@@ -158,6 +178,13 @@ public class Controller implements ActionListener, KeyListener{
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
 		switch(e.getKeyCode()) {
+		case 10:
+			if (!run)
+				start();
+			System.out.println("Done");
+			run = true;
+			break; 
+			
 		case 27:
 			view.frame.dispose();
 			System.exit(0);
@@ -206,6 +233,14 @@ public class Controller implements ActionListener, KeyListener{
 		view.frame.addKeyListener(this);
 	}
 	
+	public void addQuizButton() {
+		view.qb1.addActionListener(this);
+		view.qb2.addActionListener(this);
+		view.qb3.addActionListener(this);
+		view.qb4.addActionListener(this);
+		
+	}
+	
 
 	/** 
 	 * Creates & starts timer and EventQueue, method used to begin the game.
@@ -215,18 +250,17 @@ public class Controller implements ActionListener, KeyListener{
 
 	public void start() {
 		
-
+		
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
 			{
-				
-				
+				System.out.println("Started");
 				t = new Timer(drawDelay, drawAction);
 				t.start();
 				if (run) {
 				gameTime = new java.util.Timer();
-				gameTime.schedule(new RemindTask(), 60000);
+				gameTime.schedule(new RemindTask(), 5000);
 				}
 			}
 		});
