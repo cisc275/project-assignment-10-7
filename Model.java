@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,14 +19,20 @@ public class Model{
 	static ArrayList<AutoCharacters> charArr;
 	int colBound;
 	Bird player;
-	Plane p1;
 	static int timer=0;
 	
+	boolean game=false;;
+	
 	//Variables for Eat
-		boolean eatFlag = false;
-		int storeY;
-		int bd; // the boundary 
-		boolean bdReached = false;
+	boolean eatFlag = false;
+	int storeY;
+	int bd; // the boundary 
+	boolean bdReached = false;
+	
+	int [] ansArr = {2,1,3};
+	int question=0;
+	
+	
 
 	
 	
@@ -36,8 +43,10 @@ public class Model{
 		colBound=imgW;
 		charArr=new ArrayList<>();
 		player = new Bird(100,0, imgW, imgH);
-		p1= new Plane(View.frameWidth, 100, 25, 25);
-		charArr.add(p1);
+	
+		
+		
+		
 	}
 	
 	/**
@@ -54,19 +63,50 @@ public class Model{
 	
 		if(run) {
 			Prey.preyFactory();
-			Plane.planeFactory();
+			if(game)
+				Plane.planeFactory();
+			else
+				Fox.addFox();
 			Iterator <AutoCharacters> i = charArr.iterator();
+			
 			while(i.hasNext())
 			{
-				AutoCharacters c = i.next();
-				c.move();
-				checkCollision(c);
-				timer++;
+				AutoCharacters c;
+				c = i.next();
+				if (!c.touch) {
+					
+					if (c.getClass()==Fox.class)
+					{
+						Fox f = (Fox)c;
+						f.move();
+					}
+					else {
+						c.move();
+					}
+					checkCollision(c);
+					timer++;
+				}
+				else {
+					i.remove();
+					Prey.preyCount--;
+				}
+				
 			}
 			
-			if(eatFlag) {
+			if(eatFlag) 
+			{
 				player.eat();
+				if(player.yPos >= 560 ) { //533 is where the prey are spawning
+										// can't hit it for some reason 
+					System.out.println("Penalty!");
+					bdReached = true; 
+					
+				}
+				if(player.yPos <= 100) {
+					bdReached = false; 
+				}
 			}
+			
 			if (player.touch) {
 				player.updateHealth(-1);
 				player.touch=false;
@@ -122,13 +162,13 @@ public class Model{
 		{
 			if (!c.touch)
 			{
-				if(c.getClass()==Plane.class)
+				if(c.getClass()==Prey.class)
 				{
-					player.updateHealth(-100);
+					player.updateHealth(100);
 				}
 				else
 				{
-					player.updateHealth(100);
+					player.updateHealth(-100);
 					
 				}
 				c.touch=true;
@@ -154,6 +194,24 @@ public class Model{
 	public Bird getPlayer() {
 		return player;
 	}
+	
+	public boolean checkQuiz( int a) 
+	{
+		if (ansArr[question]==a)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public void nextQuestion(View view) {
+		question ++;
+		view.setText(question);
+	}
+	
 	
 }
 		

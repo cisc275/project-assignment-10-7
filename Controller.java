@@ -61,11 +61,10 @@ public class Controller implements ActionListener, KeyListener{
 			public void actionPerformed(ActionEvent e)
 			{
 				if (run) {
-	    			//increment the x and y coordinates, alter direction if necessary
+					//increment the x and y coordinates, alter direction if necessary
 					model.updateLocationDirection(start_stop);			
 	    			//update the view
 					view.update(model.getPlayer(), run);
-					
 					
 					if(model.getPlayer().getHealth()==0 || !timerStop)
 					{
@@ -79,6 +78,8 @@ public class Controller implements ActionListener, KeyListener{
 							view.update(model.getPlayer(), run);
 							count=1;	
 							model.getPlayer().updateHealth(1000);
+							model.game=true;
+							Model.charArr=new ArrayList<>();
 							view.lvl2startFrame();
 							addKey();
 								
@@ -100,12 +101,14 @@ public class Controller implements ActionListener, KeyListener{
 						}
 						else if (count == 3)
 						{
-							//run = false;
+							run = false;
 							view.quizView();
 							addKey();
 							addQuizButton();
+							view.setText(0);
 							count++;
 						}
+
 
 					}
 					if(serial) {
@@ -117,6 +120,8 @@ public class Controller implements ActionListener, KeyListener{
 					
 					
 	    		}//if(run)
+				
+				
 				if(deserial && arrInd<playerArr.size())
 				{
 					model.getPlayer().xPos=playerArr.get(arrInd).xPos;
@@ -153,8 +158,19 @@ public class Controller implements ActionListener, KeyListener{
 		}
 		else if(a.getActionCommand().equals("b1"))
 		{
-			view.qb1.setText("Pressed Bitch");
-			view.quizLabel.setText("Question");
+			model.checkQuiz(1);
+		}
+		else if(a.getActionCommand().equals("b2"))
+		{
+			model.checkQuiz(2);
+		}
+		else if(a.getActionCommand().equals("b3"))
+		{
+			model.checkQuiz(3);
+		}
+		else if(a.getActionCommand().equals("b4"))
+		{
+			model.checkQuiz(4);
 		}
 
 		
@@ -179,10 +195,13 @@ public class Controller implements ActionListener, KeyListener{
 		dirKey=e.getKeyCode();
 		switch(e.getKeyCode()) {
 		case 10:
-			if (!run)
+			if (!run && count <=3) {
 				start();
-			System.out.println("Done");
-			run = true;
+				run = true;
+			}
+			else if(!run && count>3) {
+				model.nextQuestion(view);
+			}
 			break; 
 			
 		case 27:
@@ -191,10 +210,13 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32:
-			// Signal the bird to fall when eat runs;
-			model.getPlayer().risefall = 1;
-			// Signal the eat to run continuously
 			model.eatFlag = true;
+			if(model.bdReached == false) {
+				model.getPlayer().risefall = 1;
+			}
+			else {
+				model.getPlayer().risefall = 2; 
+			}
 			break;
 			
 		default:
@@ -260,7 +282,7 @@ public class Controller implements ActionListener, KeyListener{
 				t.start();
 				if (run) {
 				gameTime = new java.util.Timer();
-				gameTime.schedule(new RemindTask(), 5000);
+				gameTime.schedule(new RemindTask(), 30000);
 				}
 			}
 		});
@@ -273,9 +295,9 @@ public class Controller implements ActionListener, KeyListener{
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(playerArr);
             oos.close();
-               }
-            catch (Exception e)
-            {}
+		}
+        catch (Exception e)
+        {}
 	}
 	
 	public void deserialize() {
