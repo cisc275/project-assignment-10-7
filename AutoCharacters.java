@@ -1,7 +1,9 @@
 import java.awt.Color;
 
 public class AutoCharacters extends Character{
-
+	
+	int west = 8;
+	
 	AutoCharacters(int x, int y, int w, int h, Color color){
 		super(x, y, color, w, h);
 	}
@@ -13,7 +15,7 @@ public class AutoCharacters extends Character{
 	*/
 	public void move(){
 		xPos -=10;
-		if (xPos<=0)
+		if (xPos<=0-200)
 		{
 			xPos=View.frameWidth;
 		}

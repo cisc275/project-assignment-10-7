@@ -48,17 +48,29 @@ public class View extends JPanel{
 	BufferedImage marshImg;
 	
 	JFrame frame;
-	JFrame frame1;
+	JFrame frameEnd;
 	JFrame frame2;
+	JFrame frame3;
 	JPanel panel;
 	boolean frameSwitch; 
 	boolean run=false;
 
 	JButton b1;
-	JButton b2;
 	JButton b3;
 	Bird player;
 
+	JButton qb1;
+	JButton qb2;
+	JButton qb3;
+	JButton qb4;
+	JLabel quizLabel;
+	JLabel quizLabel2;
+
+	
+	String[][] questArr = {{"What is the bird in the first game?", "Osprey", "Northern Harrier", "Eagle", "Hawk"},
+			{"What is the bird in the second game?", "Osprey", "Northern Harrier", "Eagle", "Hawk"},
+			{"What is the food of the Osprey?", "Mice", "Seeds", "Fish", "Bread"}
+	};
 	
 	/**
 	 * This is the view constructor. It will load up
@@ -68,7 +80,8 @@ public class View extends JPanel{
 	 */
 
 	View(){
-    	pics = new BufferedImage[9][frameCount];
+
+    	pics = new BufferedImage[10][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
     	BufferedImage b2img = createImage("bird2_forward_75.png");
@@ -76,10 +89,12 @@ public class View extends JPanel{
     	BufferedImage planeImg = createImage("plane.png");
     	BufferedImage mouseImg = createImage("mouse.png");
     	BufferedImage fishImg = createImage("fish.png");
-    	BufferedImage foxImg = createImage("fox.png");
-    	BufferedImage foxImg2 = createImage("fox_backward.png");
+    	BufferedImage foxImg = createImage("test_fox.png");
+    	BufferedImage fox2Img = createImage("foxbackwards.png");
     	grassImg  = createImage("grass.jpg");
     	marshImg  = createImage("marsh.jpg");
+    	BufferedImage trashImg = createImage("trash.png");
+    	
     	for(int i = 0; i < frameCount; i++) {
     		pics[0][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[1][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
@@ -87,25 +102,21 @@ public class View extends JPanel{
     		pics[3][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
     		pics[5][i] = mouseImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
     		pics[6][i] = fishImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
-    		pics[7][i] = foxImg.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
-    		pics[8][i] = foxImg2.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
     	}
     	
     	pics[4][0] = planeImg;
+    	pics[7][0] = foxImg;
+    	pics[8][0] = trashImg;
+    	pics[9][0] = fox2Img;
     	
     	b1 = new JButton("Deserialize");
     	b1.setBounds(frameWidth-200,frameHeight-100,100,50);
     	
-    	b2 = new JButton("Run");
-    	b2.setBounds(frameWidth-300,frameHeight-100,100,50);
-    	
     	b3 = new JButton("Serialize");
-    	b3.setBounds(frameWidth-400,frameHeight-100,100,50);
+    	b3.setBounds(frameWidth-300,frameHeight-100,100,50);
 		
-    	frame1 = new JFrame();
-    	frame = frame1;
+    	frame = new JFrame();
     	frame.add(b1);
-		frame.add(b2);
 		frame.add(b3);
     	frame.getContentPane().add(this);
     	
@@ -136,13 +147,22 @@ public class View extends JPanel{
 
 	public void update(Bird p, boolean flag){
 		player = p;
-		run = flag;
+		
 		frame.repaint();
+		
+		int sleepTime = 50;
+		if(!flag)
+			sleepTime=1000;
+		else
+			sleepTime=50;
+		
 		try {
-			Thread.sleep(50);//changed to 0 for smooth frames
+			Thread.sleep(sleepTime);//changed to 0 for smooth frames
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		run = flag;
+		
 	}
 	
 	/**
@@ -153,7 +173,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/" + filename));
+    		bufferedImage = ImageIO.read(new File("src/"+filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -173,11 +193,6 @@ public class View extends JPanel{
 		// Given the graphic, this method will place the images on the user screen
 		if(frameSwitch) {
 			g.drawImage(marshImg, 0, 0, null, this);
-			//g.setColor(sky);
-			//g.fillRect(0, 2 * frameHeight/3, frameWidth, frameHeight);
-		
-			//g.setColor(sky);
-			//g.fillRect(0, 0, frameWidth, 2 * frameHeight/3);
 		
 			g.setColor(Color.black);
 			g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), 0+frameHeight/10, frameWidth/5, frameHeight/30);
@@ -186,41 +201,34 @@ public class View extends JPanel{
 		// Given the graphic, this method will place the images on the user screen;
 		else{
 			g.drawImage(grassImg, 0, 0, null, this);
-
-			//g.setColor(grass);
-			//g.fillRect(0, 2 * frameHeight/3, frameWidth, frameHeight);
-		
-			//g.setColor(sky);
-			//g.fillRect(0, 0, frameWidth, 2 * frameHeight/3);
 		
 			g.setColor(Color.black);
 			g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), 0+frameHeight/10, frameWidth/5, frameHeight/30);
 		}
 		
 		
-
-		for(AutoCharacters c: Model.charArr)
-		{	
-			
-			if(frameSwitch) {
-				if(c.color.equals(Color.BLACK)) {
-					g.drawImage(pics[4][0], c.xPos, c.yPos, null, this);
-				}
-				else {
-					g.drawImage(pics[6][0], c.xPos, c.yPos, null, this);
-				}
-			}
-			else {
-				if(c.color.equals(Color.BLACK)) {
-					g.drawImage(pics[4][0], c.xPos, c.yPos, null, this);
-				}
-				else {
-					g.drawImage(pics[5][0], c.xPos, c.yPos, null, this);
-				}
-			}
-		}		
-		
 		if(run) {
+			for(AutoCharacters c: Model.charArr)
+			{	
+				
+				if(frameSwitch) {
+					if(c.color.equals(Color.BLACK)) {
+						g.drawImage(pics[4][0], c.xPos, c.yPos, null, this);
+					}
+					else {
+						g.drawImage(pics[6][0], c.xPos, c.yPos, null, this);
+					}
+				}
+				else {
+					if(c.color.equals(Color.BLACK)) {
+						g.drawImage(pics[c.west][0], c.xPos, c.yPos, null, this);
+					}
+					else {
+						g.drawImage(pics[5][0], c.xPos, c.yPos, null, this);
+					}
+				}
+			}	
+			
 			int hb= player.getHealth();
 			frameNum = (frameNum + 1) % frameCount;
 	    	g.setColor(Color.red);
@@ -264,22 +272,24 @@ public class View extends JPanel{
 	 * @param Nothing 
 	 */
 	public void endFrame() {
-	
-		frame1 = new JFrame();
+		
+		frameEnd= new JFrame();
 		JLabel label1 = new JLabel("Game Over!", JLabel.CENTER);
 		label1.setOpaque(true);
         label1.setBackground(sky);
         label1.setFont(new Font("Calibri", Font.BOLD, 100));
-		frame1.add(label1);
-		frame1.setBackground(Color.gray);
-		frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame1.setSize(frameWidth, frameHeight);
-		frame1.setFocusable(true);
-		frame1.requestFocus();
-		frame1.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		frame1.setUndecorated(true);
-		frame1.setVisible(true);
-		frame = frame1;
+		frameEnd.add(label1);
+		frameEnd.setBackground(Color.gray);
+		frameEnd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frameEnd.setSize(frameWidth, frameHeight);
+		frameEnd.setFocusable(true);
+		frameEnd.requestFocus();
+		frameEnd.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frameEnd.setUndecorated(true);
+		frameEnd.setVisible(true);
+		JFrame temp = frame;
+		frame = frameEnd;
+		temp.dispose();
     	
 	}
 	
@@ -289,18 +299,101 @@ public class View extends JPanel{
 	 * @return Nothing
 	 */
 	public void lvl2Frame() {
+		frameNum=0;
 		frameSwitch = true;
 		frame2 = new JFrame();
+		
+		frame2.setBackground(Color.gray);
+    	frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	frame2.setSize(frameWidth, frameHeight);
+    	frame2.setFocusable(true);
+    	frame2.requestFocus();
+    	frame2.getContentPane().add(this);
+    	frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+    	frame2.setUndecorated(true);
+		frame2.setVisible(true);
+		JFrame temp = frame;
 		frame = frame2;
-		frame.setBackground(Color.gray);
-    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.setSize(frameWidth, frameHeight);
-    	frame.setFocusable(true);
-    	frame.requestFocus();
-    	frame.getContentPane().add(this);
-    	frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-    	frame.setUndecorated(true);
-		frame.setVisible(true);
+		temp.dispose();
+	}
+	
+	/**
+	 * Creates new frame for end of game screen.
+	 * @param Nothing 
+	 */
+	public void lvl2startFrame() {
+	
+		frame3 = new JFrame();
+		JLabel label1 = new JLabel("Level 2", JLabel.CENTER);
+		label1.setOpaque(true);
+        label1.setBackground(sky);
+        label1.setFont(new Font("Calibri", Font.BOLD, 100));
+		frame3.add(label1);
+		//frame3.setBackground(Color.gray);
+		frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame3.setSize(frameWidth, frameHeight);
+		frame3.setFocusable(true);
+		frame3.requestFocus();
+		frame3.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame3.setUndecorated(true);
+		frame3.setVisible(true);
+		JFrame temp = frame;
+		frame = frame3;
+		temp.dispose();
+    	
+	}
+	
+	public void quizView(){
+		frame2 = new JFrame();
+		
+		
+		qb1 = new JButton();
+    	qb1.setBounds(frameWidth/6,2*frameHeight/3,frameWidth/5, frameHeight/10);
+    	qb1.setActionCommand("b1");
+    	frame2.add(qb1);
+    	qb2 = new JButton();
+    	qb2.setBounds(2*frameWidth/3,2*frameHeight/3,frameWidth/5, frameHeight/10);
+    	qb2.setActionCommand("b2");
+    	frame2.add(qb2);
+    	qb3 = new JButton();
+    	qb3.setBounds(frameWidth/6,5*frameHeight/6,frameWidth/5, frameHeight/10);
+    	qb3.setActionCommand("b3");
+    	frame2.add(qb3);
+    	qb4 = new JButton();
+    	qb4.setBounds(2*frameWidth/3, 5*frameHeight/6,frameWidth/5, frameHeight/10);
+    	qb4.setActionCommand("b4");
+    	frame2.add(qb4);
+    	
+		quizLabel = new JLabel("Big", JLabel.CENTER);
+		quizLabel.setOpaque(true);
+		quizLabel.setFont(new Font("Calibri", Font.BOLD, 50));
+		frame2.add(quizLabel);
+		quizLabel2 = new JLabel("hey", JLabel.CENTER);
+		quizLabel2.setOpaque(true);
+		quizLabel2.setFont(new Font("Calibri", Font.BOLD, 25));
+		frame2.add(quizLabel2);
+		frame2.setBackground(Color.gray);
+		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame2.setSize(frameWidth, frameHeight);
+		frame2.setFocusable(true);
+		frame2.requestFocus();
+		frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame2.setUndecorated(true);
+		frame2.setVisible(true);
+		JFrame temp = frame;
+		frame = frame2;
+		temp.dispose();
+
+	}
+	
+	public void setText(int q) {
+		quizLabel2.setText(questArr[q][0]);
+		qb1.setText(questArr[q][1]);
+		qb2.setText(questArr[q][2]);
+		qb3.setText(questArr[q][3]);
+		qb4.setText(questArr[q][4]);
+		
 	}
 
+	
 }
