@@ -31,6 +31,8 @@ public class View extends JPanel{
 	int imageHeight = 75;
 	int smallWidth = 50;
 	int smallHeight = 50;
+	int foxHeight = 150;
+	int foxWidth = 150;
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	final static int frameWidth = screenSize.width;//original size was 500
 	final static int frameHeight = screenSize.height;//original size was 300
@@ -66,7 +68,7 @@ public class View extends JPanel{
 	 */
 
 	View(){
-    	pics = new BufferedImage[7][frameCount];
+    	pics = new BufferedImage[9][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
     	BufferedImage b2img = createImage("bird2_forward_75.png");
@@ -74,6 +76,8 @@ public class View extends JPanel{
     	BufferedImage planeImg = createImage("plane.png");
     	BufferedImage mouseImg = createImage("mouse.png");
     	BufferedImage fishImg = createImage("fish.png");
+    	BufferedImage foxImg = createImage("fox.png");
+    	BufferedImage foxImg2 = createImage("fox_backward.png");
     	grassImg  = createImage("grass.jpg");
     	marshImg  = createImage("marsh.jpg");
     	for(int i = 0; i < frameCount; i++) {
@@ -83,6 +87,8 @@ public class View extends JPanel{
     		pics[3][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
     		pics[5][i] = mouseImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
     		pics[6][i] = fishImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
+    		pics[7][i] = foxImg.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
+    		pics[8][i] = foxImg2.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
     	}
     	
     	pics[4][0] = planeImg;
