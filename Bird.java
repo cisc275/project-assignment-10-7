@@ -4,19 +4,21 @@
  */
 
 
-import java.awt.Color;
 
 
 
-public class Bird extends Character {
+public class Bird extends Character{
 
 
+	final static int maxHealth = 1000;
 	private int health;
 	private Direction direction;
 	private boolean migrate;
 	int yIncr=10;
 	int xIncr=10;
-	static Color color = new Color(0, 0, 255);
+	int xVector;
+	int yVector;
+	
 	
 	// Variables to help eat method 
 		int risefall = 1; 	
@@ -26,10 +28,16 @@ public class Bird extends Character {
 	}
 	
 	Bird(int x, int y, int w, int h) {
-		super(x, y, color, w, h);
+		super(x, y, w, h);
 		// TODO Auto-generated constructor stub
 		health=1000;
 		direction = Direction.EAST;
+		xVector=0;
+		yVector=0;
+		migrate = false;
+		width = 75;
+		height = 75;
+		
 	}
 
 	/** 
@@ -42,11 +50,12 @@ public class Bird extends Character {
 		switch(risefall) {
 		case 1:
 			//This will cause the bird to fall
-			move(Direction.SOUTH);
+			setYVec(10);
+			//move(Direction.SOUTH);
 			break;
 		case 2:
 			//This will cause the bird to rise 
-			move(Direction.NORTH);
+			setYVec(-10);
 			break;
 //		case 3:
 //			// This will cause the bird to stay still (when hitting boundaries)
@@ -63,87 +72,31 @@ public class Bird extends Character {
 	*@param d
 	*@return Nothing 
 	*/
-	public void move(Direction direction)
+	public void move()
 	{
-		switch(direction)
-		{
-			case NORTH: //north
-				if(checkTopBorder())
-				yPos-=yIncr;
-				break;
-			
-			case NORTHEAST: //north east
-				if(checkTopBorder() && checkRightBorder())
-				{
-				xPos+=xIncr; 
-				yPos-=yIncr;
-				}
-				break;
-				
-			case EAST: //east
-				if (checkRightBorder())
-				xPos+=xIncr;
-				break;
-				
-			case SOUTHEAST: //south east
-				if (checkBottomBorder() && checkRightBorder())
-				{
-				xPos+=xIncr;
-				yPos+=yIncr;
-				}
-				break;
-				
-			case SOUTH: //south
-				if (checkBottomBorder())
-				yPos+=yIncr;
-				break;
-		
-			case SOUTHWEST: //south west
-				if(checkBottomBorder() && checkLeftBorder())
-				{
-				xPos-=xIncr;
-				yPos+=yIncr;
-				}
-				break;
-				
-			case WEST: //west
-				if (checkLeftBorder())
-				xPos-=xIncr;
-				break;
-				
-			case NORTHWEST: //north west
-				if(checkTopBorder() && checkLeftBorder()) {
-				yPos-=yIncr;
-				xPos-=xIncr;
-				}
-				break;
-		}
-	
-
+		checkImage();
+		xPos+=xVector;
+		yPos+=yVector;
 	}
 	
-	public Direction keyToDirec(int d) {
+	public void keyToDirec(int d) {
 		switch(d)
 		{
+		case 0:
+			setXVec(0);
+			break;
 		case 37:
+			setXVec(-10);
 			direction = Direction.WEST;
-			return Direction.WEST;
-
-		case 38:
-			direction = Direction.NORTH;
-			return Direction.NORTH;
-
-		
-		case 39:
-			direction = Direction.EAST;
-			return Direction.EAST;
-		
-		case 40:
-			direction = Direction.SOUTH;
-			return Direction.SOUTH;
+			break;
 			
+		case 39:
+			setXVec(10);
+			direction = Direction.EAST;
+			break;
+		
 		default:
-			return Direction.EAST;
+			break;
 		}
 	}
 
@@ -158,9 +111,9 @@ public class Bird extends Character {
 		if (health<=0) {
 			health =0;
 		}
-		else if (health >=1000)
+		else if (health >=maxHealth)
 		{
-			health =1000;
+			health =maxHealth;
 		}
 	}
 
@@ -178,6 +131,10 @@ public class Bird extends Character {
 		return direction;
 	}
 	
+	public void setMigrate(boolean m) {
+		migrate=m;
+	}
+	
 	public boolean checkLeftBorder() {
 		if(xPos <= 0)
 			return false;
@@ -186,7 +143,7 @@ public class Bird extends Character {
 	}
 	
 	public boolean checkRightBorder() {
-		if(xPos >= View.frameWidth - width)
+		if(xPos >= View.frameWidth - 100)
 			return false;
 		else
 			return true;
@@ -200,10 +157,54 @@ public class Bird extends Character {
 	}
 	
 	public boolean checkTopBorder() {
-		if(yPos <= 0)
+		if(yPos < -10)
 			return false;
 		else
 			return true;
+	}
+	
+	public void checkImage() {
+		int imgInd=0;
+		if (migrate)
+		{
+			if(direction.equals(Direction.EAST))
+				imgInd=View.MigFwd;
+			else
+				imgInd=View.MigBck;
+		}
+		else {
+			if(direction.equals(Direction.EAST))
+				imgInd=View.NonMigFwd;
+			else
+				imgInd=View.NonMigBck;
+		}
+		super.setImgInd(imgInd);
+	}
+	
+	public void setXVec(int x) {
+		if(x>0)
+		{
+			if(checkRightBorder())
+				xVector=x;
+			else
+				xVector=0;
+		}
+		else
+		{
+			if(checkLeftBorder())
+				xVector=x;
+			else
+				xVector=0;
+		}
+	}
+	
+	public void setYVec(int y) {
+		if(checkTopBorder() && checkBottomBorder()|| y>0) 
+			yVector = y;
+		else {
+			yVector=0;
+		}
+
 	}
 
 	
