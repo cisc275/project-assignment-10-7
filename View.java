@@ -109,6 +109,12 @@ public class View extends JPanel{
     	BufferedImage trashImg = createImage("trash.png");
     	
     	for(int i = 0; i < frameCount; i++) {
+//    		pics[NonMigFwd][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
+//    		pics[NonMigBck][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
+//    		pics[MigFwd][i] = b2img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
+//    		pics[MigBck][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
+//    		pics[Mouse][i] = mouseImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
+//    		pics[Fish][i] = fishImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
     		pics[NonMigFwd][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[NonMigBck][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[MigFwd][i] = b2img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
@@ -170,7 +176,7 @@ public class View extends JPanel{
 			sleepTime=30;
 		
 		try {
-			Thread.sleep(sleepTime);//changed to 0 for smooth frames
+			Thread.sleep(10);//changed to 0 for smooth frames
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -186,7 +192,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/"+filename));
+    		bufferedImage = ImageIO.read(new File(filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -205,11 +211,11 @@ public class View extends JPanel{
 		
 		// Given the graphic, this method will place the images on the user screen
 		if(frameSwitch) {
-			g.drawImage(marshImg, 0, 0, null, this);
+			g.drawImage(marshImg, 0, 0, frameWidth, frameHeight, this);
 		}
 		// Given the graphic, this method will place the images on the user screen;
 		else{
-			g.drawImage(grassImg, 0, 0, null, this);
+			g.drawImage(grassImg, 0, 0, frameWidth, frameHeight, this);
 		}
 		
 		g.setColor(Color.black);
