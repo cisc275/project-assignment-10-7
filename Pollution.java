@@ -9,6 +9,8 @@ public class Pollution extends AutoCharacters implements Movers{
 	Pollution(int x, int y, int w, int h) {
 		
 		super(x, y,  w, h);
+		width = 25;
+		height = 25;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -18,7 +20,7 @@ public class Pollution extends AutoCharacters implements Movers{
 	public static void pFactory() {
 		Random rand = new Random();
 	     if(pCount<8 && rand.nextInt(100)==5) {
-	    	 Pollution p = new Pollution(View.frameWidth-rand.nextInt(View.frameWidth),((2 * View.frameHeight)/3), 25, 25);
+	    	 Pollution p = new Pollution(View.frameWidth-rand.nextInt(View.frameWidth),((2 * View.frameHeight)/3)+25, width, height);
 	    	 p.setImgInd(View.Trash);
 	 		Model.charArr.add(p);
 	 		pCount++; 

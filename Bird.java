@@ -33,6 +33,8 @@ public class Bird extends Character{
 		xVector=0;
 		yVector=0;
 		migrate = false;
+		width = 75;
+		height = 75;
 		
 	}
 

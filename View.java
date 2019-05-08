@@ -14,6 +14,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -33,6 +35,9 @@ public class View extends JPanel{
 	int imageHeight = 75;
 	int smallWidth = 50;
 	int smallHeight = 50;
+	int foxHeight = 150;
+	int foxWidth = 150;
+	int movebg = 0;
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	final static int frameWidth = screenSize.width;//original size was 500
 	final static int frameHeight = screenSize.height;//original size was 300
@@ -53,12 +58,12 @@ public class View extends JPanel{
 	final static int FoxBck=9;
 	
 	
-	
 	Color sky = new Color(100,149,237);
 	Color grass = new Color(76,153, 0);
 	
 	BufferedImage grassImg;
 	BufferedImage marshImg;
+	BufferedImage marshFlipImg;
 	
 	JFrame frame;
 	JFrame frameEnd;
@@ -103,31 +108,29 @@ public class View extends JPanel{
     	BufferedImage planeImg = createImage("plane.png");
     	BufferedImage mouseImg = createImage("mouse.png");
     	BufferedImage fishImg = createImage("fish.png");
-    	BufferedImage foxImg = createImage("test_fox.png");
-    	BufferedImage fox2Img = createImage("foxbackwards.png");
-    	grassImg  = createImage("grass.jpg");
-    	marshImg  = createImage("marsh.jpg");
+    	BufferedImage foxImg = createImage("fox.png");
+    	BufferedImage fox2Img = createImage("fox_backward.png");
+    	BufferedImage grass  = createImage("grass.png");
+    	BufferedImage marsh  = createImage("marsh.png");
+    	BufferedImage marsh2  = createImage("marsh_flip.png");
+    	marshImg = resize(marsh, frameHeight, frameWidth);
+    	marshFlipImg = resize(marsh2, frameHeight, frameWidth);
+    	grassImg = resize(grass, frameHeight, frameWidth);
     	BufferedImage trashImg = createImage("trash.png");
     	
     	for(int i = 0; i < frameCount; i++) {
-//    		pics[NonMigFwd][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
-//    		pics[NonMigBck][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
-//    		pics[MigFwd][i] = b2img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
-//    		pics[MigBck][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
-//    		pics[Mouse][i] = mouseImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
-//    		pics[Fish][i] = fishImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
     		pics[NonMigFwd][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[NonMigBck][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[MigFwd][i] = b2img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     		pics[MigBck][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
     		pics[Mouse][i] = mouseImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
     		pics[Fish][i] = fishImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
+    		pics[FoxFwd][i] = foxImg.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
+    		pics[FoxBck][i] = fox2Img.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
+    		pics[Trash][i] = trashImg;
+    		pics[PlaneImg][i] = planeImg;
     	}
     	
-    	pics[PlaneImg][0] = planeImg;
-    	pics[FoxFwd][0] = foxImg;
-    	pics[Trash][0] = trashImg;
-    	pics[FoxBck][0] = fox2Img;
     	
     	b1 = new JButton("Deserialize");
     	b1.setBounds(frameWidth-200,frameHeight-100,100,50);
@@ -154,6 +157,15 @@ public class View extends JPanel{
     	
     	
 	}
+	
+	public static BufferedImage resize(BufferedImage img, int height, int width) {
+        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return resized;
+    }
 	
 	/**
 	 * This will update the frame of the image 
@@ -208,15 +220,19 @@ public class View extends JPanel{
 	 * @return nothing
 	 */
 	public void paint(Graphics g){
-			
 		
 		// Given the graphic, this method will place the images on the user screen
 		if(frameSwitch) {
-			g.drawImage(marshImg, 0, 0, frameWidth, frameHeight, this);
+			movebg-=2;
+			if (movebg % frameWidth == 0) {
+				movebg = 0;
+			}
+			g.drawImage(marshImg, (movebg % frameWidth), 0, null);
+			g.drawImage(marshFlipImg, ((movebg % frameWidth)+frameWidth), 0, null);
 		}
-		// Given the graphic, this method will place the images on the user screen;
+		// Given the graphic, this method will place the images on the user screen
 		else{
-			g.drawImage(grassImg, 0, 0, frameWidth, frameHeight, this);
+			g.drawImage(grassImg, 0, 0, null, this);
 		}
 		
 		g.setColor(Color.black);
@@ -224,13 +240,14 @@ public class View extends JPanel{
 		
 		
 		if(run) {
+			frameNum = (frameNum + 1) % frameCount;
 			for(Movers c: Model.charArr)
 			{	
 				Character curChar=(Character)c;
-				g.drawImage(pics[curChar.imgArrNum][0], curChar.xPos, curChar.yPos, null, this);
+				g.drawImage(pics[curChar.imgArrNum][frameNum], curChar.xPos, curChar.yPos, null, this);
 			}	
 
-			frameNum = (frameNum + 1) % frameCount;
+			
 	    	g.setColor(Color.red);
 			g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
 					((frameWidth/5-1)*(player.getHealth()))/1000, frameHeight/30-1);

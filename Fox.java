@@ -16,9 +16,12 @@ public class Fox extends AutoCharacters implements Movers{
 	static int foxCount=0;
 	int flip =1;
 	private int imgInd = 7;
+	
 	Fox(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		super.setImgInd(imgInd);
+		height = 150;
+		width = 150;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -51,7 +54,7 @@ public class Fox extends AutoCharacters implements Movers{
 	public static void addFox() {
 		Random rand = new Random();
 	     if(foxCount<5 && rand.nextInt(100)==5) {
-	    	 Fox f = new Fox(View.frameWidth,((2 * View.frameHeight)/3), 25, 25);
+	    	 Fox f = new Fox(View.frameWidth,((2 * View.frameHeight)/3) - 50, width, height);
 	 		Model.charArr.add(f);
 	 		foxCount++; 
 	     }

@@ -26,7 +26,7 @@ public class Prey extends AutoCharacters implements Movers{
 		
 		Random rand = new Random();
 		if (preyCount<10 && rand.nextInt(100)==5) {
-			Prey cre = new Prey(View.frameWidth,((2 * View.frameHeight)/3), 25, 25);
+			Prey cre = new Prey(View.frameWidth,((2 * View.frameHeight)/3)+50, 25, 25);
 			cre.setImgInd(preyInd);
 			Model.charArr.add(cre);
 			preyCount++;

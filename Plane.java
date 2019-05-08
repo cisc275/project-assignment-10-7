@@ -11,6 +11,8 @@ public class Plane extends AutoCharacters implements Movers{
 	Plane(int x, int y, int w, int h) {
 		
 		super(x, y,  w, h);
+		width = 200;
+		height = 75;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -32,7 +34,7 @@ public class Plane extends AutoCharacters implements Movers{
 		
 		Random rand = new Random();
 		if (planeCount<10 && rand.nextInt(100)==5) {
-			Plane p = new Plane(View.frameWidth,rand.nextInt((2*View.frameHeight)/3), 50, 50);
+			Plane p = new Plane(View.frameWidth,rand.nextInt((2*View.frameHeight)/3), width, height);
 			 p.setImgInd(View.PlaneImg);
 			Model.charArr.add(p);
 			planeCount++;
