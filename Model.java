@@ -15,6 +15,10 @@ public class Model{
 	static ArrayList<Movers> charArr;
 	int colBound;
 	Bird player;
+	static int score = 0;
+	static int foxLimit = 5;
+	static int preyLimit = 10;
+	static int pollLimit = 8;
 	
 	boolean game=false;;
 	
@@ -74,6 +78,11 @@ public class Model{
 				{
 					i.remove();
 					Prey.preyCount--;
+					score++;
+					if(score % 5 == 0 && score != 0) {
+						foxLimit += 3;
+						preyLimit -= 1;
+					}
 				}
 			}
 			player.move();
@@ -93,6 +102,15 @@ public class Model{
 			player.updateHealth(-1);
 		
 		} 
+	}
+	
+	public void switchGame() {
+		player.updateHealth(Bird.maxHealth);
+		game = true;
+		Model.charArr = new ArrayList<>();
+		Prey.preyCount = 0;
+		Pollution.pCount = 0;
+		player.setMigrate(true);
 	}
 	
 	/**

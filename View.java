@@ -17,10 +17,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -207,7 +210,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/"+filename));
+    		bufferedImage = ImageIO.read(new File(filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -223,6 +226,14 @@ public class View extends JPanel{
 	 */
 	public void paint(Graphics g){
 		
+		//Text Attributes for score
+				HashMap<TextAttribute, Object> attributes = new HashMap<>();
+				attributes.put(TextAttribute.FAMILY, "Calibri");
+				attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+				attributes.put(TextAttribute.SIZE, (int) (g.getFont().getSize() * 5));
+				Font myFont = Font.getFont(attributes);
+				g.setFont(myFont);
+		
 		// Given the graphic, this method will place the images on the user screen
 		if(frameSwitch) {
 			movebg-=2;
@@ -231,10 +242,12 @@ public class View extends JPanel{
 			}
 			g.drawImage(marshImg, (movebg % frameWidth), 0, null);
 			g.drawImage(marshFlipImg, ((movebg % frameWidth)+frameWidth), 0, null);
+			g.drawString("SCORE: " + Model.score, 0, (int)(frameHeight * .04));
 		}
 		// Given the graphic, this method will place the images on the user screen
 		else{
 			g.drawImage(grassImg, 0, 0, null, this);
+			g.drawString("SCORE: " + Model.score, 0, (int)(frameHeight * .04));
 		}
 		
 		g.setColor(Color.black);

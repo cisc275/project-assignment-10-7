@@ -24,7 +24,7 @@ public class Controller implements ActionListener, KeyListener{
 	
 	Timer t;
 	boolean timerStop=true;
-	int drawDelay = 10;
+	int drawDelay = 0;
 	int dirKey;
 	boolean deserial = false;
 	boolean run = false;
@@ -78,10 +78,7 @@ public class Controller implements ActionListener, KeyListener{
 							
 							view.update(model.getPlayer(), run);
 							count=1;	
-							model.getPlayer().updateHealth(Bird.maxHealth);
-							model.getPlayer().setMigrate(true);
-							model.game=true;
-							Model.charArr=new ArrayList<>();
+							model.switchGame();
 							view.lvl2startFrame();
 								
 						}
