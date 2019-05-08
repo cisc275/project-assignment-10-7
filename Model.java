@@ -9,10 +9,6 @@ public class Model{
 	private int y;
 	int xBound;
 	int yBound;
-	boolean forward;
-	boolean up;
-	boolean backward;
-	boolean down;
 	int yIncr=1;
 	int xIncr=1;
 	Direction direction;

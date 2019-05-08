@@ -86,8 +86,7 @@ public class Controller implements ActionListener, KeyListener{
 								
 						}
 						else if(count == 1) 
-						{
-							
+						{							
 							timerStop=true;
 							view.lvl2Frame();
 							count++;
@@ -282,7 +281,7 @@ public class Controller implements ActionListener, KeyListener{
 				t.start();
 				if (run) {
 					gameTime = new java.util.Timer();
-					gameTime.schedule(new RemindTask(), 10000);
+					gameTime.schedule(new RemindTask(), 1000);
 				}
 			}
 		});

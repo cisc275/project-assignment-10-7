@@ -9,6 +9,7 @@
  *   Grass background: https://www.shutterstock.com/video/clip-12615866-animated-green-grass-blue-sky-clouds
  */
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -76,6 +77,8 @@ public class View extends JPanel{
 	JButton qb4;
 	JLabel quizLabel;
 	JLabel quizLabel2;
+	
+	JPanel cards;
 
 	
 	String[][] questArr = {{"What is the bird in the first game?", "Osprey", "Northern Harrier", "Eagle", "Hawk"},
@@ -323,50 +326,99 @@ public class View extends JPanel{
 	}
 	
 	public void quizView(){
+		
 		frame2 = new JFrame();
 		
+		cards = new JPanel(new CardLayout());
+		JPanel card1 = new JPanel(null);
+		cards.add(card1);
 		
-		qb1 = new JButton();
-    	qb1.setBounds(frameWidth/6,2*frameHeight/3,frameWidth/5, frameHeight/10);
-    	qb1.setActionCommand("b1");
-    	frame2.add(qb1);
-    	qb2 = new JButton();
-    	qb2.setBounds(2*frameWidth/3,2*frameHeight/3,frameWidth/5, frameHeight/10);
-    	qb2.setActionCommand("b2");
-    	frame2.add(qb2);
-    	qb3 = new JButton();
-    	qb3.setBounds(frameWidth/6,5*frameHeight/6,frameWidth/5, frameHeight/10);
-    	qb3.setActionCommand("b3");
-    	frame2.add(qb3);
-    	qb4 = new JButton();
-    	qb4.setBounds(2*frameWidth/3, 5*frameHeight/6,frameWidth/5, frameHeight/10);
-    	qb4.setActionCommand("b4");
-    	frame2.add(qb4);
-    	
 		quizLabel = new JLabel("Big", JLabel.CENTER);
 		quizLabel.setOpaque(true);
 		quizLabel.setFont(new Font("Calibri", Font.BOLD, 50));
-		frame2.add(quizLabel);
-		quizLabel2 = new JLabel("hey", JLabel.CENTER);
-		quizLabel2.setOpaque(true);
-		quizLabel2.setFont(new Font("Calibri", Font.BOLD, 25));
-		frame2.add(quizLabel2);
+		  
+		qb1 = new JButton();
+    	qb1.setBounds(frameWidth/6,2*frameHeight/3,frameWidth/5, frameHeight/10);
+    	qb1.setActionCommand("b1");
+    	
+    	qb2 = new JButton();
+    	qb2.setBounds(2*frameWidth/3,2*frameHeight/3,frameWidth/5, frameHeight/10);
+    	qb2.setActionCommand("b2");
+    	
+    	qb3 = new JButton();
+    	qb3.setBounds(frameWidth/6,5*frameHeight/6,frameWidth/5, frameHeight/10);
+    	qb3.setActionCommand("b3");
+    	
+    	qb4 = new JButton();
+    	qb4.setBounds(2*frameWidth/3, 5*frameHeight/6,frameWidth/5, frameHeight/10);
+    	qb4.setActionCommand("b4");
+    	
+    	
+        card1.add(qb1);
+        card1.add(qb2);
+        card1.add(qb3);
+        card1.add(qb4);
+        card1.add(quizLabel);
+        
+      
+        
+        frame2.getContentPane().add(cards);
 		frame2.setBackground(Color.gray);
 		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame2.setSize(frameWidth, frameHeight);
 		frame2.setFocusable(true);
 		frame2.requestFocus();
 		frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		
 		frame2.setUndecorated(true);
 		frame2.setVisible(true);
-		JFrame temp = frame;
-		frame = frame2;
-		temp.dispose();
+		frame=frame2;
+        
+		
+//		frame2 = new JFrame();
+//		
+//		
+//		qb1 = new JButton();
+//    	qb1.setBounds(frameWidth/6,2*frameHeight/3,frameWidth/5, frameHeight/10);
+//    	qb1.setActionCommand("b1");
+//    	frame2.add(qb1);
+//    	qb2 = new JButton();
+//    	qb2.setBounds(2*frameWidth/3,2*frameHeight/3,frameWidth/5, frameHeight/10);
+//    	qb2.setActionCommand("b2");
+//    	frame2.add(qb2);
+//    	qb3 = new JButton();
+//    	qb3.setBounds(frameWidth/6,5*frameHeight/6,frameWidth/5, frameHeight/10);
+//    	qb3.setActionCommand("b3");
+//    	frame2.add(qb3);
+//    	qb4 = new JButton();
+//    	qb4.setBounds(2*frameWidth/3, 5*frameHeight/6,frameWidth/5, frameHeight/10);
+//    	qb4.setActionCommand("b4");
+//    	frame2.add(qb4);
+//    	
+//		quizLabel = new JLabel("Big", JLabel.CENTER);
+//		quizLabel.setOpaque(true);
+//		quizLabel.setFont(new Font("Calibri", Font.BOLD, 50));
+//		frame2.add(quizLabel);
+//		quizLabel2 = new JLabel("hey", JLabel.CENTER);
+//		quizLabel2.setOpaque(true);
+//		quizLabel2.setFont(new Font("Calibri", Font.BOLD, 25));
+//		frame2.add(quizLabel2);
+//		frame2.setBackground(Color.gray);
+//		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame2.setSize(frameWidth, frameHeight);
+//		frame2.setFocusable(true);
+//		frame2.requestFocus();
+//		frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+//		frame2.setUndecorated(true);
+//		frame2.setVisible(true);
+//		JFrame temp = frame;
+//		frame = frame2;
+//		temp.dispose();
 
 	}
 	
 	public void setText(int q) {
-		quizLabel2.setText(questArr[q][0]);
+		quizLabel.setText(questArr[0][0]);
 		qb1.setText(questArr[q][1]);
 		qb2.setText(questArr[q][2]);
 		qb3.setText(questArr[q][3]);

@@ -14,8 +14,6 @@ public class Bird extends Character{
 	private int health;
 	private Direction direction;
 	private boolean migrate;
-	int yIncr=10;
-	int xIncr=10;
 	int xVector;
 	int yVector;
 	
