@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Prey extends AutoCharacters implements Movers{
 	static int preyCount=0;
-	static int width = 200;
-	static int height = 75;
+	static int prwidth = 50;
+	static int prheight = 50;
 
 	/**
 	*This constructor sets the object to be either edible or not resembling food or pollution
@@ -26,7 +26,7 @@ public class Prey extends AutoCharacters implements Movers{
 		
 		Random rand = new Random();
 		if (preyCount<10 && rand.nextInt(100)==5) {
-			Prey cre = new Prey(View.frameWidth,((2 * View.frameHeight)/3)+50, 25, 25);
+			Prey cre = new Prey(View.frameWidth,((2 * View.frameHeight)/3)+50, prwidth, prheight);
 			cre.setImgInd(preyInd);
 			Model.charArr.add(cre);
 			preyCount++;

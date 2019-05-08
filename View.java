@@ -37,8 +37,8 @@ public class View extends JPanel{
 	int imageHeight = 75;
 	int smallWidth = 50;
 	int smallHeight = 50;
-	int foxHeight = 150;
-	int foxWidth = 150;
+	int foxHeight = 45;
+	int foxWidth = 130;
 	int movebg = 0;
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	final static int frameWidth = screenSize.width;//original size was 500
