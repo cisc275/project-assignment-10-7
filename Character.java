@@ -1,6 +1,7 @@
 import java.awt.Color;
 
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 /**
@@ -12,9 +13,11 @@ public class Character implements Serializable{
 	protected int yPos;
 	protected int width;
 	protected int height;
-	Color color;
 	boolean touch;
+	
 	static final long serialVersionUID=12L;
+	
+	int imgArrNum;
 
 	/**
 	*This constructor sets the initial position of the object as passed
@@ -23,11 +26,10 @@ public class Character implements Serializable{
 	 @return nothing 
 	*/
 	Character(){}
-	Character(int x, int y, Color c, int w, int h)
+	Character(int x, int y, int w, int h)
 	{
 		xPos = x;
-		yPos=y;
-		color = c;
+		yPos= y;
 		touch = false;
 		width = w;
 		height = h;
@@ -41,6 +43,11 @@ public class Character implements Serializable{
 	public int getY() {
 		return yPos;
 	}
+	
+	public void setImgInd(int i) {
+		imgArrNum = i;
+	}
+	
 	
 	public Rectangle getBounds() {
 		return new Rectangle(xPos, yPos, width, height);

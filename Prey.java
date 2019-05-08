@@ -5,9 +5,10 @@ import java.util.Random;
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
  */
 
-public class Prey extends AutoCharacters{
-	private boolean edible;
+public class Prey extends AutoCharacters implements Movers{
 	static int preyCount=0;
+//	final static int fishInd = 6;
+//	final int mouseInd = 5;
 
 	/**
 	*This constructor sets the object to be either edible or not resembling food or pollution
@@ -15,36 +16,35 @@ public class Prey extends AutoCharacters{
 	*@return nothing
 	*/
 	
-	static Color color = new Color(210, 105, 30);
-	public Prey(boolean type, int x, int y, int w, int h){
-		super(x, y, w, h, color);
-		edible = type; 
-		//preyCount++;
-		
+	public Prey(int x, int y, int w, int h){
+		super(x, y, w, h);
+
+	
 	}
 	
-	public static void preyFactory() {
+	public static void preyFactory(int preyInd) {
 		
 		Random rand = new Random();
 		if (preyCount<10 && rand.nextInt(100)==5) {
-			Prey cre = new Prey(true, View.frameWidth,((2 * View.frameHeight)/3), 25, 25);
+			Prey cre = new Prey(View.frameWidth,((2 * View.frameHeight)/3), 25, 25);
+			cre.setImgInd(preyInd);
 			Model.charArr.add(cre);
 			preyCount++;
 		}
 	}
 
 	/**
-	*This function changes the position of the object
+	*This function changes the position of the Plane to cross the view to attack
 	*@param none
 	*@return nothing
 	*/
-//	public void move(){
-//		xPos-=3;
-//	}
-//	
-	public boolean getEdible()
-	{
-		return edible;
+	public void move(){
+		xPos -=10;
+		if (xPos<=0-200)
+		{
+			xPos=View.frameWidth;
+		}
+
 	}
 	
 }

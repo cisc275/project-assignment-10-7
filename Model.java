@@ -16,10 +16,9 @@ public class Model{
 	int yIncr=1;
 	int xIncr=1;
 	Direction direction;
-	static ArrayList<AutoCharacters> charArr;
+	static ArrayList<Movers> charArr;
 	int colBound;
 	Bird player;
-	static int timer=0;
 	
 	boolean game=false;;
 	
@@ -42,11 +41,7 @@ public class Model{
 		yBound = h-imgH;
 		colBound=imgW;
 		charArr=new ArrayList<>();
-		player = new Bird(100,0, imgW, imgH);
-	
-		
-		
-		
+		player = new Bird(100,0, imgW, imgH);		
 	}
 	
 	/**
@@ -62,60 +57,45 @@ public class Model{
 	public void updateLocationDirection(boolean run) {
 	
 		if(run) {
-			Prey.preyFactory();
 			Pollution.pFactory();
-			if(game)
+			if(game) {
+				Prey.preyFactory(View.Fish);
 				Plane.planeFactory();
+			}
 			else
+			{
+				Prey.preyFactory(View.Mouse);
 				Fox.addFox();
-			Iterator <AutoCharacters> i = charArr.iterator();
+			}
+			Iterator <Movers> i = charArr.iterator();
 			
 			while(i.hasNext())
 			{
-				AutoCharacters c;
+				Movers c;
 				c = i.next();
-				if (!c.touch) {
-					
-					if (c.getClass()==Fox.class)
-					{
-						Fox f = (Fox)c;
-						f.move();
-					}
-					else {
-						c.move();
-					}
-					checkCollision(c);
-					timer++;
-				}
-				else {
+				c.move();
+				if (checkCollision((AutoCharacters)c))
+				{
 					i.remove();
 					Prey.preyCount--;
 				}
-				
 			}
+			player.move();
 			
 			if(eatFlag) 
 			{
 				player.eat();
-				if(player.yPos >= 560 ) { //533 is where the prey are spawning
+				if(player.yPos >= yBound-100 ) { //533 is where the prey are spawning
 										// can't hit it for some reason 
-					System.out.println("Penalty!");
 					bdReached = true; 
 					
 				}
-				if(player.yPos <= 100) {
+				if(player.yPos <= View.frameHeight/2) {
 					bdReached = false; 
 				}
 			}
-			
-			if (player.touch) {
-				player.updateHealth(-1);
-				player.touch=false;
-			}
-			else
-			{
-				player.touch=true;
-			}
+			player.updateHealth(-1);
+		
 		} 
 	}
 	
@@ -156,9 +136,9 @@ public class Model{
 	 * @param none
 	 * @return boolean -- will return true if there is collision, false otherwise
 	 */
-	public void checkCollision(AutoCharacters c) 
+	public boolean checkCollision(AutoCharacters c) 
 	{
-
+		boolean check = false;
 		if (c.getBounds().intersects(player.getBounds()))
 		{
 			if (!c.touch)
@@ -166,22 +146,20 @@ public class Model{
 				if(c.getClass()==Prey.class)
 				{
 					player.updateHealth(100);
+					return true;
 				}
 				else
 				{
 					player.updateHealth(-100);
-					
 				}
 				c.touch=true;
-				
-				
 			}
 		}
 		else 
 		{
 			c.touch=false;
 		}
-		
+		return check;
 	}
 	
 	/**

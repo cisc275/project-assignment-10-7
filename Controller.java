@@ -52,7 +52,6 @@ public class Controller implements ActionListener, KeyListener{
 		
 		view.frame.addKeyListener(this);
 		view.b1.addActionListener(this);
-		
 		view.b3.addActionListener(this);
 		
 		
@@ -72,44 +71,41 @@ public class Controller implements ActionListener, KeyListener{
 						serialize();
 						timerStop=false;
 						gameTime.cancel();
+						run=false;
+						
 
 						if(count == 0) {
-							run=false;
+							
 							view.update(model.getPlayer(), run);
 							count=1;	
-							model.getPlayer().updateHealth(1000);
+							model.getPlayer().updateHealth(Bird.maxHealth);
+							model.getPlayer().setMigrate(true);
 							model.game=true;
 							Model.charArr=new ArrayList<>();
 							view.lvl2startFrame();
-							addKey();
 								
 						}
 						else if(count == 1) 
 						{
-							run=false;
+							
 							timerStop=true;
 							view.lvl2Frame();
-							addKey();
 							count++;
 						}
 						else if(count ==2)
 						{
 							view.endFrame();
-							addKey();
-							run = false;
 							count++;
 						}
 						else if (count == 3)
 						{
-							run = false;
 							view.quizView();
-							addKey();
 							addQuizButton();
 							view.setText(0);
 							count++;
 						}
-
-
+						
+						addKey();
 					}
 					if(serial) {
 						Bird splayer= new Bird();
@@ -220,7 +216,7 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 			
 		default:
-			model.getPlayer().move(model.getPlayer().keyToDirec(dirKey));
+			model.getPlayer().keyToDirec(e.getKeyCode());
 			break;
 			
 		}
@@ -236,12 +232,16 @@ public class Controller implements ActionListener, KeyListener{
 	 */
 	public void keyReleased(KeyEvent e) {
 		dirKey=0;
-		if(e.getKeyCode() == 32) {
+		switch(e.getKeyCode()) {
+		case 32:
 			//Signal eat method to switch to bird rising
 			model.getPlayer().risefall = 2;
-			// model.eatFlag = false;
-			// System.out.println("The Bird's final yPos is: " + player.yPos);
+			break;
+		default:
+			model.getPlayer().keyToDirec(0);
+			
 		}
+		
 	}
 	
 	
@@ -281,8 +281,8 @@ public class Controller implements ActionListener, KeyListener{
 				t = new Timer(drawDelay, drawAction);
 				t.start();
 				if (run) {
-				gameTime = new java.util.Timer();
-				gameTime.schedule(new RemindTask(), 30000);
+					gameTime = new java.util.Timer();
+					gameTime.schedule(new RemindTask(), 10000);
 				}
 			}
 		});

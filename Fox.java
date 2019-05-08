@@ -11,13 +11,14 @@ import java.util.Random;
  *
  */
 
-public class Fox extends AutoCharacters{
+public class Fox extends AutoCharacters implements Movers{
 
 	static int foxCount=0;
 	int flip =1;
-	static Color color = new Color(0, 0, 0);
+	private int imgInd = 7;
 	Fox(int x, int y, int w, int h) {
-		super(x, y, w, h, color);
+		super(x, y, w, h);
+		super.setImgInd(imgInd);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -37,11 +38,11 @@ public class Fox extends AutoCharacters{
 		checkBorder();
 		switch(flip) {
 		case 1:
-			west=7;
 			xPos -=15;
+			super.setImgInd(View.FoxFwd);
 			break;
 		case 2:
-			west=9;
+			super.setImgInd(View.FoxBck);
 			xPos +=15;
 			break;
 		}
