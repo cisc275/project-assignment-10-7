@@ -216,8 +216,6 @@ public class View extends JPanel{
 	 * @return nothing
 	 */
 	public void paint(Graphics g){
-			
-		
 		
 		// Given the graphic, this method will place the images on the user screen
 		if(frameSwitch) {
