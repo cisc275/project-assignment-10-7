@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 public class View extends JPanel{
@@ -176,7 +177,7 @@ public class View extends JPanel{
 			sleepTime=30;
 		
 		try {
-			Thread.sleep(10);//changed to 0 for smooth frames
+			Thread.sleep(sleepTime);//changed to 0 for smooth frames
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -192,7 +193,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File(filename));
+    		bufferedImage = ImageIO.read(new File("src/"+filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -337,11 +338,17 @@ public class View extends JPanel{
 		
 		cards = new JPanel(new CardLayout());
 		JPanel card1 = new JPanel(null);
+		
+		
 		cards.add(card1);
 		
-		quizLabel = new JLabel("Big", JLabel.CENTER);
+		JTextField TextField1 = new JTextField("TextField1", 20);
+		 
+		
+		//quizLabel.setFont(new Font("Calibri", Font.BOLD, 50));
+		quizLabel = new JLabel("Big");
 		quizLabel.setOpaque(true);
-		quizLabel.setFont(new Font("Calibri", Font.BOLD, 50));
+		card1.add(quizLabel);
 		  
 		qb1 = new JButton();
     	qb1.setBounds(frameWidth/6,2*frameHeight/3,frameWidth/5, frameHeight/10);
@@ -364,7 +371,7 @@ public class View extends JPanel{
         card1.add(qb2);
         card1.add(qb3);
         card1.add(qb4);
-        card1.add(quizLabel);
+        
         
       
         
@@ -424,7 +431,7 @@ public class View extends JPanel{
 	}
 	
 	public void setText(int q) {
-		quizLabel.setText(questArr[0][0]);
+		//quizLabel.setText(questArr[0][0]);
 		qb1.setText(questArr[q][1]);
 		qb2.setText(questArr[q][2]);
 		qb3.setText(questArr[q][3]);

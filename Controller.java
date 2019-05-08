@@ -281,7 +281,7 @@ public class Controller implements ActionListener, KeyListener{
 				t.start();
 				if (run) {
 					gameTime = new java.util.Timer();
-					gameTime.schedule(new RemindTask(), 1000);
+					gameTime.schedule(new RemindTask(), 10000);
 				}
 			}
 		});
