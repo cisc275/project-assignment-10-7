@@ -87,7 +87,6 @@ public class View extends JPanel{
 	JLabel quizLabel2;
 	JPanel quizPanel;
 	
-	JPanel cards;
 
 	
 	String[][] questArr = {{"What is the bird in the first game?", "Osprey", "Northern Harrier", "Eagle", "Hawk"},
@@ -362,8 +361,13 @@ public class View extends JPanel{
 		quizLabel = new JLabel();
 		Font font = new Font("Verdana", Font.BOLD, frameHeight / 35);
 		quizLabel.setFont(font);
-		quizLabel.setBounds(frameWidth/2, frameHeight/2, frameWidth/2, frameHeight/8);
+		quizLabel.setBounds(frameWidth/3, frameHeight/3, frameWidth/2, frameHeight/8);
 		quizPanel.add(quizLabel);
+		
+		quizLabel2 = new JLabel();
+		quizLabel2.setFont(font);
+		quizLabel2.setBounds(frameWidth/3, frameHeight/2, frameWidth/2, frameHeight/8);
+		quizPanel.add(quizLabel2);
 
 		qb1 = new JButton();
     	qb1.setBounds(frameWidth/6,2*frameHeight/3,frameWidth/5, frameHeight/10);
@@ -400,7 +404,9 @@ public class View extends JPanel{
 		
 		frame2.setUndecorated(true);
 		frame2.setVisible(true);
-		frame=frame2;
+		JFrame temp = frame;
+		frame = frame2;
+		temp.dispose();
 		
 
 
@@ -413,6 +419,22 @@ public class View extends JPanel{
 		qb3.setText(questArr[q][3]);
 		qb4.setText(questArr[q][4]);
 		
+	}
+	
+	public void setAnswer(int q, boolean ans)
+	{
+		if(ans) {
+			quizLabel2.setText("Correct");
+		}
+		else
+		{
+			quizLabel2.setText("Incorrect");
+		}
+	}
+	
+	public void setAnswer()
+	{
+		quizLabel2.setText("");
 	}
 
 	

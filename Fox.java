@@ -17,7 +17,7 @@ public class Fox extends AutoCharacters implements Movers{
 	int flip =1;
 	private int imgInd = 7;
 	static int width = 150;
-	static int height = 150;
+	static int height = 50;
 	
 	Fox(int x, int y, int w, int h) {
 		super(x, y, w, h);

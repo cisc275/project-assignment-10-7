@@ -153,19 +153,19 @@ public class Controller implements ActionListener, KeyListener{
 		}
 		else if(a.getActionCommand().equals("b1"))
 		{
-			model.checkQuiz(1);
+			view.setAnswer(model.question, model.checkQuiz(1));
 		}
 		else if(a.getActionCommand().equals("b2"))
 		{
-			model.checkQuiz(2);
+			view.setAnswer(model.question, model.checkQuiz(2));
 		}
 		else if(a.getActionCommand().equals("b3"))
 		{
-			model.checkQuiz(3);
+			view.setAnswer(model.question, model.checkQuiz(3));
 		}
 		else if(a.getActionCommand().equals("b4"))
 		{
-			model.checkQuiz(4);
+			view.setAnswer(model.question, model.checkQuiz(4));
 		}
 
 		
@@ -196,6 +196,7 @@ public class Controller implements ActionListener, KeyListener{
 			}
 			else if(!run && count>3) {
 				model.nextQuestion(view);
+				view.setAnswer();
 			}
 			break; 
 			
