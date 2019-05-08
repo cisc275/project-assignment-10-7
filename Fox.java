@@ -16,12 +16,12 @@ public class Fox extends AutoCharacters implements Movers{
 	static int foxCount=0;
 	int flip =1;
 	private int imgInd = 7;
+	static int width = 150;
+	static int height = 150;
 	
 	Fox(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		super.setImgInd(imgInd);
-		height = 150;
-		width = 150;
 		// TODO Auto-generated constructor stub
 	}
 	

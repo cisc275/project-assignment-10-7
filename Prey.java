@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Prey extends AutoCharacters implements Movers{
 	static int preyCount=0;
-//	final static int fishInd = 6;
-//	final int mouseInd = 5;
+	static int width = 200;
+	static int height = 75;
 
 	/**
 	*This constructor sets the object to be either edible or not resembling food or pollution

@@ -7,12 +7,13 @@ import java.util.Random;
 
 public class Plane extends AutoCharacters implements Movers{
 	static int planeCount =0;
+	static int width = 200;
+	static int height = 75;
 
 	Plane(int x, int y, int w, int h) {
 		
 		super(x, y,  w, h);
-		width = 200;
-		height = 75;
+
 		// TODO Auto-generated constructor stub
 	}
 

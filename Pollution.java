@@ -5,12 +5,12 @@ import java.util.Random;
 public class Pollution extends AutoCharacters implements Movers{
 	
 	static int pCount=0;
+	static int width = 25;
+	static int height = 25;
 	
 	Pollution(int x, int y, int w, int h) {
 		
 		super(x, y,  w, h);
-		width = 25;
-		height = 25;
 		// TODO Auto-generated constructor stub
 	}
 	

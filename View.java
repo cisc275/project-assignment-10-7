@@ -22,11 +22,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 
 public class View extends JPanel{
@@ -83,6 +85,7 @@ public class View extends JPanel{
 	JButton qb4;
 	JLabel quizLabel;
 	JLabel quizLabel2;
+	JPanel quizPanel;
 	
 	JPanel cards;
 
@@ -245,6 +248,7 @@ public class View extends JPanel{
 			{	
 				Character curChar=(Character)c;
 				g.drawImage(pics[curChar.imgArrNum][frameNum], curChar.xPos, curChar.yPos, null, this);
+				g.drawRect(curChar.getX(), curChar.getY(), curChar.width, curChar.height);
 			}	
 
 			
@@ -351,22 +355,16 @@ public class View extends JPanel{
 	
 	public void quizView(){
 		
-		frame2 = new JFrame();
-		
-		cards = new JPanel(new CardLayout());
-		JPanel card1 = new JPanel(null);
-		
-		
-		cards.add(card1);
-		
-		JTextField TextField1 = new JTextField("TextField1", 20);
-		 
-		
-		//quizLabel.setFont(new Font("Calibri", Font.BOLD, 50));
-		quizLabel = new JLabel("Big");
-		quizLabel.setOpaque(true);
-		card1.add(quizLabel);
-		  
+		quizPanel = new JPanel();
+		quizPanel.setBackground(Color.gray);
+		quizPanel.setLayout(null);
+
+		quizLabel = new JLabel();
+		Font font = new Font("Verdana", Font.BOLD, frameHeight / 35);
+		quizLabel.setFont(font);
+		quizLabel.setBounds(frameWidth/2, frameHeight/2, frameWidth/2, frameHeight/8);
+		quizPanel.add(quizLabel);
+
 		qb1 = new JButton();
     	qb1.setBounds(frameWidth/6,2*frameHeight/3,frameWidth/5, frameHeight/10);
     	qb1.setActionCommand("b1");
@@ -384,15 +382,14 @@ public class View extends JPanel{
     	qb4.setActionCommand("b4");
     	
     	
-        card1.add(qb1);
-        card1.add(qb2);
-        card1.add(qb3);
-        card1.add(qb4);
-        
-        
-      
-        
-        frame2.getContentPane().add(cards);
+        quizPanel.add(qb1);
+        quizPanel.add(qb2);
+        quizPanel.add(qb3);
+        quizPanel.add(qb4);
+		quizPanel.setBounds(0, 0, frameWidth, frameHeight);
+		
+		frame2 = new JFrame();
+		frame2.getContentPane().add(quizPanel);
 		frame2.setBackground(Color.gray);
 		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame2.setSize(frameWidth, frameHeight);
@@ -400,55 +397,17 @@ public class View extends JPanel{
 		frame2.requestFocus();
 		frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		
+		
 		frame2.setUndecorated(true);
 		frame2.setVisible(true);
 		frame=frame2;
-        
 		
-//		frame2 = new JFrame();
-//		
-//		
-//		qb1 = new JButton();
-//    	qb1.setBounds(frameWidth/6,2*frameHeight/3,frameWidth/5, frameHeight/10);
-//    	qb1.setActionCommand("b1");
-//    	frame2.add(qb1);
-//    	qb2 = new JButton();
-//    	qb2.setBounds(2*frameWidth/3,2*frameHeight/3,frameWidth/5, frameHeight/10);
-//    	qb2.setActionCommand("b2");
-//    	frame2.add(qb2);
-//    	qb3 = new JButton();
-//    	qb3.setBounds(frameWidth/6,5*frameHeight/6,frameWidth/5, frameHeight/10);
-//    	qb3.setActionCommand("b3");
-//    	frame2.add(qb3);
-//    	qb4 = new JButton();
-//    	qb4.setBounds(2*frameWidth/3, 5*frameHeight/6,frameWidth/5, frameHeight/10);
-//    	qb4.setActionCommand("b4");
-//    	frame2.add(qb4);
-//    	
-//		quizLabel = new JLabel("Big", JLabel.CENTER);
-//		quizLabel.setOpaque(true);
-//		quizLabel.setFont(new Font("Calibri", Font.BOLD, 50));
-//		frame2.add(quizLabel);
-//		quizLabel2 = new JLabel("hey", JLabel.CENTER);
-//		quizLabel2.setOpaque(true);
-//		quizLabel2.setFont(new Font("Calibri", Font.BOLD, 25));
-//		frame2.add(quizLabel2);
-//		frame2.setBackground(Color.gray);
-//		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame2.setSize(frameWidth, frameHeight);
-//		frame2.setFocusable(true);
-//		frame2.requestFocus();
-//		frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-//		frame2.setUndecorated(true);
-//		frame2.setVisible(true);
-//		JFrame temp = frame;
-//		frame = frame2;
-//		temp.dispose();
+
 
 	}
 	
 	public void setText(int q) {
-		//quizLabel.setText(questArr[0][0]);
+		quizLabel.setText(questArr[q][0]);
 		qb1.setText(questArr[q][1]);
 		qb2.setText(questArr[q][2]);
 		qb3.setText(questArr[q][3]);
