@@ -197,10 +197,19 @@ public class Bird extends Character{
 	}
 	
 	public void setYVec(int y) {
-		if(checkTopBorder() && checkBottomBorder()|| y>0) 
-			yVector = y;
-		else {
-			yVector=0;
+		if(y>0)
+		{
+			if(checkBottomBorder())
+				yVector=y;
+			else
+				yVector=0;
+		}
+		else
+		{
+			if(checkTopBorder())
+				yVector=y;
+			else
+				yVector=0;
 		}
 
 	}

@@ -189,6 +189,16 @@ public class Model{
 		view.setText(question);
 	}
 	
+	public void switchGames()
+	{
+
+		player.updateHealth(Bird.maxHealth);
+		player.setMigrate(true);
+		game=true;
+		Model.charArr=new ArrayList<>();
+		Prey.preyCount=0;
+		Pollution.pCount=0;
+	}
 	
 }
 		

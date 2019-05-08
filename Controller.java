@@ -78,10 +78,7 @@ public class Controller implements ActionListener, KeyListener{
 							
 							view.update(model.getPlayer(), run);
 							count=1;	
-							model.getPlayer().updateHealth(Bird.maxHealth);
-							model.getPlayer().setMigrate(true);
-							model.game=true;
-							Model.charArr=new ArrayList<>();
+							model.switchGames();
 							view.lvl2startFrame();
 								
 						}
