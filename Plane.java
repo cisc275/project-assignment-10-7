@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Plane extends AutoCharacters implements Movers{
 	static int planeCount =0;
-	static int width = 200;
-	static int height = 75;
+	static int plwidth = 200;
+	static int plheight = 75;
 
 	Plane(int x, int y, int w, int h) {
 		
@@ -35,7 +35,7 @@ public class Plane extends AutoCharacters implements Movers{
 		
 		Random rand = new Random();
 		if (planeCount<10 && rand.nextInt(100)==5) {
-			Plane p = new Plane(View.frameWidth,rand.nextInt((2*View.frameHeight)/3), width, height);
+			Plane p = new Plane(View.frameWidth,rand.nextInt((2*View.frameHeight)/3), plwidth, plheight);
 			 p.setImgInd(View.PlaneImg);
 			Model.charArr.add(p);
 			planeCount++;
