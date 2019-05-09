@@ -36,17 +36,17 @@ import javax.swing.SwingConstants;
 
 public class View extends JPanel{
 	
-	int imageWidth = 75;
-	int imageHeight = 75;
-	int smallWidth = 50;
-	int smallHeight = 50;
-	int foxHeight = 45;
-	int foxWidth = 130;
 	int movebg = 0;
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	final static int frameWidth = screenSize.width;//original size was 500
 	final static int frameHeight = screenSize.height;//original size was 300
 	final static int frameCount = 8;
+	final static int defaultHeight = 800;
+	final static int defaultWidth = 1280;
+	final static double hRatio = (double)frameHeight/(double)defaultHeight;
+	final static double wRatio = (double)frameWidth/(double)defaultWidth;
+	
+	
 	int frameNum = 0;
 	Direction d;
 	BufferedImage[][] pics;
@@ -105,6 +105,7 @@ public class View extends JPanel{
 	 */
 
 	View(){
+		
     	pics = new BufferedImage[10][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
@@ -123,17 +124,18 @@ public class View extends JPanel{
     	grassImg = resize(grass, frameHeight, frameWidth);
     	BufferedImage trashImg = createImage("trash.png");
     	
+    	
     	for(int i = 0; i < frameCount; i++) {
-    		pics[NonMigFwd][i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
-    		pics[NonMigBck][i] = img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
-    		pics[MigFwd][i] = b2img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
-    		pics[MigBck][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
-    		pics[Mouse][i] = mouseImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
-    		pics[Fish][i] = fishImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
-    		pics[FoxFwd][i] = foxImg.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
-    		pics[FoxBck][i] = fox2Img.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
-    		pics[Trash][i] = trashImg;
-    		pics[PlaneImg][i] = planeImg;
+    		pics[NonMigFwd][i] = resizeImg(img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[NonMigBck][i] = resizeImg(img2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigFwd][i] = resizeImg(b2img.getSubimage(Bird.width*i, 0, Bird.width, Bird.height), Bird.width, Bird.height);
+    		pics[MigBck][i] = resizeImg(b2img2.getSubimage(Bird.width*i, 0, Bird.width, Bird.height), Bird.width, Bird.height);	
+    		pics[Mouse][i] = resizeImg(mouseImg.getSubimage(Prey.width*i, 0, Prey.width, Prey.height), Prey.width, Prey.height);
+    		pics[Fish][i] = resizeImg(fishImg.getSubimage(Prey.width*i, 0, Prey.width, Prey.height), Prey.width, Prey.height);
+    		pics[FoxFwd][i] = resizeImg(foxImg.getSubimage(Fox.width*i, 0, Fox.width, Fox.height), Fox.width, Fox.height);
+    		pics[FoxBck][i] = resizeImg(fox2Img.getSubimage(Fox.width*i, 0, Fox.width, Fox.height), Fox.width, Fox.height);
+    		pics[Trash][i] = resizeImg(trashImg, Pollution.width, Pollution.height);
+    		pics[PlaneImg][i] = resizeImg(planeImg, Plane.width, Plane.height);
     	}
     	
     	
@@ -163,6 +165,27 @@ public class View extends JPanel{
     	
 	}
 	
+	/**
+	 * Changes image height and width based on calculated ratios for image scaling based on screen size. 
+	 * @param img Buffered sub image 
+	 * @param width default image width
+	 * @param height default image height
+	 * @return resize call with new height and widths
+	 */
+	public static BufferedImage resizeImg(BufferedImage img, int width, int height) {
+		int newHeight = (int)((double)height*(double)hRatio);
+		int newWidth = (int)((newHeight * (double)width)/(double)height);
+		
+		return resize(img, newHeight, newWidth);
+	}
+	
+	/**
+	 * Creates new BufferedImage, scaled with new height and widths from resizeImg.
+	 * @param img Buffered sub image
+	 * @param height scaled height of image
+	 * @param width scaled width of image
+	 * @return new BufferedImage
+	 */
 	public static BufferedImage resize(BufferedImage img, int height, int width) {
         Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -171,6 +194,8 @@ public class View extends JPanel{
         g2d.dispose();
         return resized;
     }
+	
+	
 	
 	/**
 	 * This will update the frame of the image 
@@ -210,7 +235,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File(filename));
+    		bufferedImage = ImageIO.read(new File("src/"+filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -280,12 +305,6 @@ public class View extends JPanel{
 	public int getHeight() {
 		return frameHeight;
 	}
-	public int getImageWidth() {
-		return imageWidth;
-	}
-	public int getImageHeight() {
-		return imageHeight;
-	}	
 
 	
 	

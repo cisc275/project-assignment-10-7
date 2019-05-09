@@ -41,7 +41,7 @@ public class Model{
 		yBound = h-imgH;
 		colBound=imgW;
 		charArr=new ArrayList<>();
-		player = new Bird(100,0, imgW, imgH);		
+		player = new Bird(100,0);		
 	}
 	
 	/**

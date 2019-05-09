@@ -18,6 +18,8 @@ public class Bird extends Character{
 	int xIncr=3;
 	int xVector;
 	int yVector;
+	static int width = 75;
+	static int height = 75;
 	
 	
 	// Variables to help eat method 
@@ -27,8 +29,8 @@ public class Bird extends Character{
 		super();
 	}
 	
-	Bird(int x, int y, int w, int h) {
-		super(x, y, w, h);
+	Bird(int x, int y) {
+		super(x, y, width, height);
 		// TODO Auto-generated constructor stub
 		health=1000;
 		direction = Direction.EAST;
@@ -48,12 +50,12 @@ public class Bird extends Character{
 		switch(risefall) {
 		case 1:
 			//This will cause the bird to fall
-			setYVec(10);
+			setYVec(View.frameHeight/80);
 			//move(Direction.SOUTH);
 			break;
 		case 2:
 			//This will cause the bird to rise 
-			setYVec(-10);
+			setYVec(-(View.frameHeight/80));
 			break;
 //		case 3:
 //			// This will cause the bird to stay still (when hitting boundaries)
@@ -84,12 +86,12 @@ public class Bird extends Character{
 			setXVec(0);
 			break;
 		case 37:
-			setXVec(-10);
+			setXVec(-(View.frameWidth/128));
 			direction = Direction.WEST;
 			break;
 			
 		case 39:
-			setXVec(10);
+			setXVec(View.frameWidth/128);
 			direction = Direction.EAST;
 			break;
 		

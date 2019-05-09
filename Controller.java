@@ -47,7 +47,7 @@ public class Controller implements ActionListener, KeyListener{
 		
 		playerArr = new ArrayList<>();
 		view = new View();
-		model = new Model(view.getWidth(), view.getHeight(), view.imageHeight, view.imageWidth);
+		model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
 
 		
 		view.frame.addKeyListener(this);
