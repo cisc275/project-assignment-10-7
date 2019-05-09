@@ -14,6 +14,8 @@ public class Bird extends Character{
 	private int health;
 	private Direction direction;
 	private boolean migrate;
+	int yIncr=3;
+	int xIncr=3;
 	int xVector;
 	int yVector;
 	
@@ -33,8 +35,6 @@ public class Bird extends Character{
 		xVector=0;
 		yVector=0;
 		migrate = false;
-		width = 75;
-		height = 75;
 		
 	}
 
@@ -97,6 +97,7 @@ public class Bird extends Character{
 			break;
 		}
 	}
+	
 
 	/**
 	*This function updates the health of the bird based on what is passed

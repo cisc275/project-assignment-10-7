@@ -11,8 +11,8 @@ import java.io.Serializable;
 public class Character implements Serializable{
 	protected int xPos;
 	protected int yPos;
-	protected static int width;
-	protected static int height;
+	protected int width;
+	protected int height;
 	boolean touch;
 	
 	static final long serialVersionUID=12L;
