@@ -53,8 +53,8 @@ public class Fox extends AutoCharacters implements Movers{
 		
 	public static void addFox() {
 		Random rand = new Random();
-	     if(foxCount<5 && rand.nextInt(100)==5) {
-	    	 Fox f = new Fox(View.frameWidth,((2 * View.frameHeight)/3) - 50, width, height);
+	     if(foxCount<Model.foxLimit && rand.nextInt(100)==5) {
+	    	 Fox f = new Fox(View.frameWidth,rand.nextInt(View.frameHeight - (2 * View.frameHeight/3) + 1) + (2 * View.frameHeight/3), width, height);
 	 		Model.charArr.add(f);
 	 		foxCount++; 
 	     }

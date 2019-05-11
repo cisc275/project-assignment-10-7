@@ -15,6 +15,10 @@ public class Model{
 	static ArrayList<Movers> charArr;
 	int colBound;
 	Bird player;
+	static int score = 0;
+	static int foxLimit = 5;
+	static int preyLimit = 10;
+	static int pollLimit = 8;
 	
 	boolean game=false;;
 	
@@ -26,6 +30,8 @@ public class Model{
 	
 	int [] ansArr = {2,1,3};
 	int question=0;
+	
+	boolean answered = false;
 	
 	
 
@@ -74,6 +80,11 @@ public class Model{
 				{
 					i.remove();
 					Prey.preyCount--;
+					score++;
+					if(score % 5 == 0 && score != 0) {
+						foxLimit += 3;
+						preyLimit -= 1;
+					}
 				}
 			}
 			player.move();
@@ -81,7 +92,7 @@ public class Model{
 			if(eatFlag) 
 			{
 				player.eat();
-				if(player.yPos >= yBound-100 ) { //533 is where the prey are spawning
+				if(player.yPos >= View.frameHeight-(View.frameHeight-yBound)) { //533 is where the prey are spawning
 										// can't hit it for some reason 
 					bdReached = true; 
 					
@@ -93,6 +104,15 @@ public class Model{
 			player.updateHealth(-1);
 		
 		} 
+	}
+	
+	public void switchGame() {
+		player.updateHealth(Bird.maxHealth);
+		game = true;
+		Model.charArr = new ArrayList<>();
+		Prey.preyCount = 0;
+		Pollution.pCount = 0;
+		player.setMigrate(true);
 	}
 	
 	/**
@@ -174,6 +194,7 @@ public class Model{
 	
 	public boolean checkQuiz( int a) 
 	{
+		answered=true;
 		if (ansArr[question]==a)
 		{
 			return true;
@@ -184,9 +205,12 @@ public class Model{
 		}
 	}
 	
-	public void nextQuestion(View view) {
-		question ++;
-		view.setText(question);
+	public void nextQuestion() {
+		if(answered) {
+			question ++;
+			answered = false;
+		}
+		
 	}
 	
 	public void switchGames()

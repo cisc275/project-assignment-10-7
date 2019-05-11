@@ -33,7 +33,7 @@ public class Controller implements ActionListener, KeyListener{
 	
 	ArrayList<Bird> playerArr;
 	java.util.Timer gameTime;
-	int count = 0;
+	static int gameStage = 0;
 	
 	
 	/**
@@ -53,7 +53,7 @@ public class Controller implements ActionListener, KeyListener{
 		view.frame.addKeyListener(this);
 		view.b1.addActionListener(this);
 		view.b3.addActionListener(this);
-		
+
 		
 		drawAction = new AbstractAction()
 	    {
@@ -74,31 +74,31 @@ public class Controller implements ActionListener, KeyListener{
 						run=false;
 						
 
-						if(count == 0) {
+						if(gameStage == 0) {
 							
 							view.update(model.getPlayer(), run);
-							count=1;	
-							model.switchGames();
+							gameStage=1;	
+							model.switchGame();
 							view.lvl2startFrame();
 								
 						}
-						else if(count == 1) 
+						else if(gameStage == 1) 
 						{							
 							timerStop=true;
 							view.lvl2Frame();
-							count++;
+							gameStage++;
 						}
-						else if(count ==2)
+						else if(gameStage ==2)
 						{
 							view.endFrame();
-							count++;
+							gameStage++;
 						}
-						else if (count == 3)
+						else if (gameStage == 3)
 						{
 							view.quizView();
 							addQuizButton();
 							view.setText(0);
-							count++;
+							gameStage++;
 						}
 						
 						addKey();
@@ -187,12 +187,13 @@ public class Controller implements ActionListener, KeyListener{
 		dirKey=e.getKeyCode();
 		switch(e.getKeyCode()) {
 		case 10:
-			if (!run && count <=3) {
+			if (!run && gameStage <=3) {
 				start();
 				run = true;
 			}
-			else if(!run && count>3) {
-				model.nextQuestion(view);
+			else if(!run && gameStage>3) {
+				model.nextQuestion();
+				view.setText(model.question);
 				view.setAnswer();
 			}
 			break; 
@@ -279,7 +280,7 @@ public class Controller implements ActionListener, KeyListener{
 				t.start();
 				if (run) {
 					gameTime = new java.util.Timer();
-					gameTime.schedule(new RemindTask(), 10000);
+					gameTime.schedule(new RemindTask(), 30000);
 				}
 			}
 		});

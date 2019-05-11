@@ -16,15 +16,19 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 
 
@@ -124,12 +128,13 @@ public class View extends JPanel{
     		pics[MigBck][i] = b2img2.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);	
     		pics[Mouse][i] = mouseImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
     		pics[Fish][i] = fishImg.getSubimage(smallWidth*i, 0, smallWidth, smallHeight);
-    		pics[FoxFwd][i] = foxImg.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
+    		pics[FoxFwd][i] = foxImg.getSubimage(Fox.width*i, 0, foxWidth, foxHeight);
     		pics[FoxBck][i] = fox2Img.getSubimage(foxWidth*i, 0, foxWidth, foxHeight);
     		pics[Trash][i] = trashImg;
     		pics[PlaneImg][i] = planeImg;
     	}
     	
+ 
     	
     	b1 = new JButton("Deserialize");
     	b1.setBounds(frameWidth-200,frameHeight-100,100,50);
@@ -219,6 +224,14 @@ public class View extends JPanel{
 	 * @return nothing
 	 */
 	public void paint(Graphics g){
+
+		//Text Attributes for score
+				HashMap<TextAttribute, Object> attributes = new HashMap<>();
+				attributes.put(TextAttribute.FAMILY, "Calibri");
+				attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+				attributes.put(TextAttribute.SIZE, (int) (g.getFont().getSize() * (frameHeight/(frameWidth/5))));
+				Font myFont = Font.getFont(attributes);
+				g.setFont(myFont);
 		
 		// Given the graphic, this method will place the images on the user screen
 		if(frameSwitch) {
@@ -232,10 +245,11 @@ public class View extends JPanel{
 		// Given the graphic, this method will place the images on the user screen
 		else{
 			g.drawImage(grassImg, 0, 0, null, this);
+			
 		}
-		
+		g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 		g.setColor(Color.black);
-		g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), 0+frameHeight/10, frameWidth/5, frameHeight/30);
+		g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
 		
 		
 		if(run) {
@@ -351,19 +365,30 @@ public class View extends JPanel{
 	
 	public void quizView(){
 		
-		quizPanel = new JPanel();
+		quizPanel = new JPanel() {
+			@Override
+			  protected void paintComponent(Graphics g) {
+
+			    super.paintComponent(g);
+			        g.drawImage(marshImg, 0, 0, null);
+			}
+		};
 		quizPanel.setBackground(Color.gray);
 		quizPanel.setLayout(null);
+		//quizPanel.paintComponent(g);
 
 		quizLabel = new JLabel();
-		Font font = new Font("Verdana", Font.BOLD, frameHeight / 35);
+		Font font = new Font("Verdana", Font.BOLD, frameHeight / 25);
 		quizLabel.setFont(font);
-		quizLabel.setBounds(frameWidth/3, frameHeight/3, frameWidth/2, frameHeight/8);
+		quizLabel.setBounds(0, frameHeight/6, frameWidth, frameHeight/8);
+		quizLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		quizPanel.add(quizLabel);
 		
 		quizLabel2 = new JLabel();
 		quizLabel2.setFont(font);
-		quizLabel2.setBounds(frameWidth/3, frameHeight/2, frameWidth/2, frameHeight/8);
+		quizLabel2.setBounds(0, frameHeight/2, frameWidth, frameHeight/8);
+		quizLabel2.setHorizontalAlignment(SwingConstants.CENTER);
 		quizPanel.add(quizLabel2);
 
 		qb1 = new JButton();
@@ -398,7 +423,6 @@ public class View extends JPanel{
 		frame2.requestFocus();
 		frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		
-		
 		frame2.setUndecorated(true);
 		frame2.setVisible(true);
 		JFrame temp = frame;
@@ -408,6 +432,7 @@ public class View extends JPanel{
 
 
 	}
+	
 	
 	public void setText(int q) {
 		quizLabel.setText(questArr[q][0]);
@@ -427,6 +452,7 @@ public class View extends JPanel{
 		{
 			quizLabel2.setText("Incorrect");
 		}
+		frame.requestFocus();
 	}
 	
 	public void setAnswer()
