@@ -317,7 +317,7 @@ public class Controller implements ActionListener, KeyListener{
 	 {
 
 	        public void run() {
-	        	timerStop = false;
+	        	// timerStop = false;
 	            System.out.println("Time's up!");
 	            gameTime.cancel(); //Terminate the timer thread
 

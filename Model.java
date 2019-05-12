@@ -11,6 +11,7 @@ public class Model{
 	int yBound;
 	int yIncr=1;
 	int xIncr=1;
+	int scoreIncr = 1;
 	Direction direction;
 	static ArrayList<Movers> charArr;
 	int colBound;
@@ -19,6 +20,7 @@ public class Model{
 	static int foxLimit = 5;
 	static int preyLimit = 10;
 	static int pollLimit = 8;
+	static int woodLimit = 20;
 	
 	boolean game=false;;
 	
@@ -66,6 +68,7 @@ public class Model{
 			{
 				Prey.preyFactory(View.Mouse);
 				Fox.addFox();
+				Wood.wFactory();
 			}
 			Iterator <Movers> i = charArr.iterator();
 			
@@ -78,7 +81,6 @@ public class Model{
 				{
 					i.remove();
 					Prey.preyCount--;
-					score++;
 					if(score % 5 == 0 && score != 0) {
 						foxLimit += 3;
 						preyLimit -= 1;
@@ -160,6 +162,15 @@ public class Model{
 				if(c.getClass()==Prey.class)
 				{
 					player.updateHealth(100);
+					return true;
+				}
+				else if(c.getClass()==Wood.class) {
+					score+=scoreIncr;
+					return true; 
+				}
+				else if (c.getClass()==Pollution.class) {
+					score-=scoreIncr;
+					player.updateHealth(-50);
 					return true;
 				}
 				else
