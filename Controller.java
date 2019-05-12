@@ -204,12 +204,13 @@ public class Controller implements ActionListener, KeyListener{
 		
 		case 32:
 			model.eatFlag = true;
-			if(model.bdReached == false) {
-				model.getPlayer().risefall = 1;
-			}
-			else {
-				model.getPlayer().risefall = 2; 
-			}
+			model.getPlayer().risefall = 1;
+//			if(model.bdReached == false) {
+//				model.getPlayer().risefall = 1;
+//			}
+//			else {
+//				model.getPlayer().risefall = 2; 
+//			}
 			break;
 			
 		default:

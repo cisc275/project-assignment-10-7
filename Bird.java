@@ -57,10 +57,6 @@ public class Bird extends Character{
 			//This will cause the bird to rise 
 			setYVec(-(View.frameHeight/80));
 			break;
-//		case 3:
-//			// This will cause the bird to stay still (when hitting boundaries)
-//			yPos+=0;
-//			break;
 		
 		}
 

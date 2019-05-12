@@ -92,8 +92,7 @@ public class Model{
 			if(eatFlag) 
 			{
 				player.eat();
-				if(player.yPos >= yBound-100 ) { //533 is where the prey are spawning
-										// can't hit it for some reason 
+				if(player.yPos >= yBound-100 ) { 
 					bdReached = true; 
 					
 				}
