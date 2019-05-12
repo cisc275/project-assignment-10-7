@@ -13,7 +13,7 @@ public class Plane extends AutoCharacters implements Movers{
 	Plane(int x, int y, int w, int h) {
 		
 		super(x, y,  w, h);
-
+		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,8 +23,8 @@ public class Plane extends AutoCharacters implements Movers{
 	*@return nothing
 	*/
 	public void move(){
-		xPos -=10;
-		if (xPos<=0-200)
+		xPos -=(View.frameWidth/128);
+		if (xPos<=0-super.width)
 		{
 			xPos=View.frameWidth;
 		}

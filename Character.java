@@ -31,8 +31,8 @@ public class Character implements Serializable{
 		xPos = x;
 		yPos= y;
 		touch = false;
-		width = w;
-		height = h;
+		width = (int)((double)w*View.wRatio);
+		height = (int)((double)h*View.hRatio);
 
 	}
 	

@@ -15,13 +15,12 @@ public class Fox extends AutoCharacters implements Movers{
 
 	static int foxCount=0;
 	int flip =1;
-	private int imgInd = 7;
-	static int width = 150;
-	static int height = 50;
+	static int width = 130;
+	static int height = 45;
 	
 	Fox(int x, int y, int w, int h) {
 		super(x, y, w, h);
-		super.setImgInd(imgInd);
+		super.setImgInd(View.FoxFwd);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -41,12 +40,12 @@ public class Fox extends AutoCharacters implements Movers{
 		checkBorder();
 		switch(flip) {
 		case 1:
-			xPos -=15;
+			xPos -= View.frameWidth/85;
 			super.setImgInd(View.FoxFwd);
 			break;
 		case 2:
 			super.setImgInd(View.FoxBck);
-			xPos +=15;
+			xPos +=View.frameWidth/85;
 			break;
 		}
 	}
@@ -61,11 +60,11 @@ public class Fox extends AutoCharacters implements Movers{
 	}
 	
 	public void checkBorder() {
-		if (xPos <=10)
+		if (xPos <= 0+super.width/2)
 		{
 			flip=2;
 		}
-		if(xPos>=View.frameWidth-10)
+		if(xPos>=View.frameWidth-super.width)
 		{
 			flip=1;
 		}

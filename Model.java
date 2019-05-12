@@ -43,7 +43,7 @@ public class Model{
 		yBound = h-imgH;
 		colBound=imgW;
 		charArr=new ArrayList<>();
-		player = new Bird(100,0, imgW, imgH);		
+		player = new Bird(100,0);		
 	}
 	
 	/**
@@ -58,7 +58,6 @@ public class Model{
 	 */
 	public void updateLocationDirection(boolean run) {
 	
-		if(run) {
 			Pollution.pFactory();
 			if(game) {
 				Prey.preyFactory(View.Fish);
@@ -69,50 +68,55 @@ public class Model{
 				Prey.preyFactory(View.Mouse);
 				Fox.addFox();
 			}
-			Iterator <Movers> i = charArr.iterator();
-			
-			while(i.hasNext())
+			if(run) 
 			{
-				Movers c;
-				c = i.next();
-				c.move();
-				if (checkCollision((AutoCharacters)c))
+				Iterator <Movers> i = charArr.iterator();
+				
+				while(i.hasNext())
 				{
-					i.remove();
-					Prey.preyCount--;
-					score++;
-					if(score % 5 == 0 && score != 0) {
-						foxLimit += 3;
-						preyLimit -= 1;
+					Movers c;
+					c = i.next();
+					c.move();
+					if (checkCollision((AutoCharacters)c))
+					{
+						i.remove();
+						Prey.preyCount--;
+						score++;
+						if(score % 5 == 0 && score != 0) 
+						{
+							foxLimit += 3;
+							preyLimit -= 1;
+						}
 					}
 				}
 			}
+			
 			player.move();
 			
 			if(eatFlag) 
 			{
 				player.eat();
-				if(player.yPos >= View.frameHeight-(View.frameHeight-yBound)) { //533 is where the prey are spawning
-										// can't hit it for some reason 
-					bdReached = true; 
-					
-				}
-				if(player.yPos <= View.frameHeight/2) {
-					bdReached = false; 
-				}
 			}
-			player.updateHealth(-1);
-		
-		} 
+			player.updateHealth(-1);	
+	}
+	
+	public boolean animation()
+	{	player.setDirec(Direction.EAST);
+		player.moveAnimate(player.getHealth()==0);
+		if(player.getX()>(View.frameWidth+Bird.width) || player.getY()>(View.frameHeight+Bird.height))
+			return false;
+		return true;
 	}
 	
 	public void switchGame() {
-		player.updateHealth(Bird.maxHealth);
+		
+		player=new Bird(View.frameWidth/3, View.frameHeight/3);
+		player.setMigrate(true);
 		game = true;
 		Model.charArr = new ArrayList<>();
 		Prey.preyCount = 0;
 		Pollution.pCount = 0;
-		player.setMigrate(true);
+		
 	}
 	
 	/**

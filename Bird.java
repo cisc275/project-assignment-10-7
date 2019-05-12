@@ -18,6 +18,8 @@ public class Bird extends Character{
 	int xIncr=3;
 	int xVector;
 	int yVector;
+	static int width = 75;
+	static int height = 75;
 	
 	
 	// Variables to help eat method 
@@ -27,8 +29,8 @@ public class Bird extends Character{
 		super();
 	}
 	
-	Bird(int x, int y, int w, int h) {
-		super(x, y, w, h);
+	Bird(int x, int y) {
+		super(x, y, width, height);
 		// TODO Auto-generated constructor stub
 		health=1000;
 		direction = Direction.EAST;
@@ -84,12 +86,12 @@ public class Bird extends Character{
 			setXVec(0);
 			break;
 		case 37:
-			setXVec(-10);
+			setXVec(-(View.frameWidth/128));
 			direction = Direction.WEST;
 			break;
 			
 		case 39:
-			setXVec(10);
+			setXVec(View.frameWidth/128);
 			direction = Direction.EAST;
 			break;
 		
@@ -128,6 +130,9 @@ public class Bird extends Character{
 	
 	public Direction getDirec() {
 		return direction;
+	}
+	public void setDirec(Direction d) {
+		 direction=d;
 	}
 	
 	public void setMigrate(boolean m) {
@@ -213,6 +218,23 @@ public class Bird extends Character{
 				yVector=0;
 		}
 
+	}
+	
+	public void moveAnimate(boolean dead)
+	{
+		if(dead)
+		{
+			xVector=5;
+			yVector=View.frameHeight/100;
+		}
+		else
+		{
+			xVector=View.frameWidth/60;
+			yVector=-3;
+		}
+		checkImage();
+		xPos+=xVector;
+		yPos+=yVector;
 	}
 
 	

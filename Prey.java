@@ -39,8 +39,8 @@ public class Prey extends AutoCharacters implements Movers{
 	*@return nothing
 	*/
 	public void move(){
-		xPos -=10;
-		if (xPos<=0-200)
+		xPos -=(View.frameWidth/128);
+		if (xPos<=0 - super.width)
 		{
 			xPos=View.frameWidth;
 		}
