@@ -254,7 +254,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/"+filename));
+    		bufferedImage = ImageIO.read(new File(filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
