@@ -68,7 +68,7 @@ public class Controller implements ActionListener, KeyListener{
 					
 					if(model.getPlayer().getHealth()==0 || !timerStop)
 					{ 
-							if(animate)
+							if(animate) // animations after each level
 							{
 								start_stop=false;
 								animate=model.animation();
@@ -81,28 +81,34 @@ public class Controller implements ActionListener, KeyListener{
 								gameTime.cancel();
 								run=false;
 								
-								if(gameStage == 0) {
+								
+								if(gameStage == 0) { //level 1 finished, switch to level 2
 									
 									//view.update(model.getPlayer(), run);
-									gameStage=1;	
+									//gameStage=1;	
 									model.switchGame();
-									view.lvl2startFrame();
+									gameStage++;
+
+									View.lvlStart = true;
+									view.lvl2Frame(); 
+									//view.lvl2Frame();
 										
 								}
-								else if(gameStage == 1) 
-								{				
+								else if(gameStage == 1) //start level 2
+								{	
+									run = true;
+									View.lvlStart = false;
 									animate=true;
 									start_stop=true;
 									timerStop=true;
-									view.lvl2Frame(); 
 									gameStage++;
 								}
-								else if(gameStage ==2)
+								else if(gameStage ==2) //level 2 finished, switch to quiz
 								{
-									view.endFrame();
+									View.quiz = true;
 									gameStage++;
 								}
-								else if (gameStage == 3)
+								else if (gameStage == 3) //start quiz
 								{
 									view.quizView();
 									addQuizButton();
@@ -124,7 +130,7 @@ public class Controller implements ActionListener, KeyListener{
 					}
 					
 					
-	    		}//if(run)
+				}
 				
 				
 				if(deserial && arrInd<playerArr.size())
@@ -135,7 +141,7 @@ public class Controller implements ActionListener, KeyListener{
 					view.update(model.getPlayer(), true);
 					arrInd++;
 				}
-      		}//public void actionPerformed(ActionEvent e)	
+      		}
 	   	};
 
 	}
@@ -199,7 +205,13 @@ public class Controller implements ActionListener, KeyListener{
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
 		switch(e.getKeyCode()) {
-		case 10:
+		case 10: //enter
+			if(View.quiz) { // switch to quiz from quiz start screen
+				View.quiz = false;
+			}
+			if(gameStage != 1) {
+				View.lvlStart = !View.lvlStart;
+			}
 			if (!run && gameStage <=3) {
 				start();
 				run = true;
@@ -211,12 +223,12 @@ public class Controller implements ActionListener, KeyListener{
 			}
 			break; 
 			
-		case 27:
+		case 27: //esc
 			view.frame.dispose();
 			System.exit(0);
 			break;
 		
-		case 32:
+		case 32: //space
 			model.eatFlag = true;
 			model.getPlayer().risefall = 1;
 //			if(model.bdReached == false) {

@@ -133,6 +133,7 @@ public class Model{
 	public boolean animation()
 	{	player.setDirec(Direction.EAST);
 		player.moveAnimate(player.getHealth()==0);
+		
 		if(player.getX()>(View.frameWidth+Bird.width) || player.getY()>(View.frameHeight+Bird.height))
 			return false;
 		return true;

@@ -8,7 +8,7 @@ import java.util.Random;
 public class Prey extends AutoCharacters implements Movers{
 	static int preyCount=0;
 	static int width = 50;
-	static int height = 50;
+	static int height = 30;
 	static int preySpeed = 10;
 
 	/**
