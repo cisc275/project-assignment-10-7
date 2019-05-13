@@ -31,7 +31,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 
-
 public class View extends JPanel{
 	
 	int movebg = 0;
@@ -123,6 +122,7 @@ public class View extends JPanel{
     	grassImg = resize(grass, frameHeight, frameWidth);
     	BufferedImage trashImg = createImage("trash.png");
     	BufferedImage woodImg = createImage("wood_small.png");
+    	//minimap buffered image
     	
     	
     	for(int i = 0; i < frameCount; i++) {
@@ -245,6 +245,8 @@ public class View extends JPanel{
     	return null;
 	}
 	
+
+	
 	
 	/**
 	 * JPanel to cycle through the picture array and draw the image on the user screen
@@ -297,6 +299,7 @@ public class View extends JPanel{
 			g.drawImage(pics[player.imgArrNum][frameNum], player.xPos, player.yPos, null, this);
 
 		}
+		
 
 	}
 	
@@ -450,8 +453,7 @@ public class View extends JPanel{
 		JFrame temp = frame;
 		frame = frame2;
 		temp.dispose();
-		
-
+	
 
 	}
 	
