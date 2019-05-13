@@ -11,14 +11,15 @@ public class Model{
 	int yBound;
 	int yIncr=1;
 	int xIncr=1;
-	int scoreIncr = 1;
+	int scoreIncr = 100;
+	int scoreDncr = 25;
 	Direction direction;
 	static ArrayList<Movers> charArr;
 	int colBound;
 	Bird player;
 	static int score = 0;
-	static int foxLimit = 5;
-	static int preyLimit = 10;
+	static int foxLimit = 3;
+	static int preyLimit = 15;
 	static int pollLimit = 8;
 	static int woodLimit = 20;
 	
@@ -29,6 +30,7 @@ public class Model{
 	int storeY;
 	int bd; // the boundary 
 	boolean bdReached = false;
+	boolean helpFlag = false;
 	
 	int [] ansArr = {2,1,3};
 	int question=0;
@@ -81,11 +83,39 @@ public class Model{
 				{
 					i.remove();
 					Prey.preyCount--;
-					if(score % 5 == 0 && score != 0) {
-						foxLimit += 3;
-						preyLimit -= 1;
+				
 					}
 				}
+			
+			if(score % 300 == 0 && score != 0) {
+				System.out.println("Challenging Player");
+				foxLimit += 1;
+				// preyLimit -= 1;
+			}
+			
+			// If player health falls below half, Foxes' speed is reduced
+			if(player.getHealth() <= 500) {
+				helpFlag = true;
+				System.out.println("Helping Player");
+				Fox.setSpeed(8);
+				Prey.setSpeed(5);
+				preyLimit += 3;
+				woodLimit += 2;
+				}
+			else {
+				//Will reset the limits
+				if(helpFlag) {
+					preyLimit = 15;
+					woodLimit = 20;
+					helpFlag = false; 
+					System.out.println("Limits reset");
+				}
+				//Will reset the speed 
+				Fox.setSpeed(15);
+				Prey.setSpeed(10);
+				System.out.println("Speeds reset");
+			}
+			
 			}
 			player.move();
 			
@@ -103,7 +133,7 @@ public class Model{
 			player.updateHealth(-1);
 		
 		} 
-	}
+	
 	
 	public void switchGame() {
 		player.updateHealth(Bird.maxHealth);
@@ -168,7 +198,7 @@ public class Model{
 					return true; 
 				}
 				else if (c.getClass()==Pollution.class) {
-					score-=scoreIncr;
+					score-=scoreDncr;
 					player.updateHealth(-50);
 					return true;
 				}

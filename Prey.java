@@ -9,6 +9,7 @@ public class Prey extends AutoCharacters implements Movers{
 	static int preyCount=0;
 	static int width = 50;
 	static int height = 50;
+	static int preySpeed = 10;
 
 	/**
 	*This constructor sets the object to be either edible or not resembling food or pollution
@@ -39,12 +40,20 @@ public class Prey extends AutoCharacters implements Movers{
 	*@return nothing
 	*/
 	public void move(){
-		xPos -=10;
+		xPos -=preySpeed;
 		if (xPos<=0-200)
 		{
 			xPos=View.frameWidth;
 		}
 
+	}
+	
+	public static void setSpeed(int x) {
+		preySpeed = x;
+	}
+	
+	public static int getSpeed() {
+		return preySpeed;
 	}
 	
 }
