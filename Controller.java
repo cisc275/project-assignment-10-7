@@ -83,7 +83,7 @@ public class Controller implements ActionListener, KeyListener{
 								
 								if(gameStage == 0) {
 									
-									view.update(model.getPlayer(), run);
+									//view.update(model.getPlayer(), run);
 									gameStage=1;	
 									model.switchGame();
 									view.lvl2startFrame();
@@ -94,7 +94,7 @@ public class Controller implements ActionListener, KeyListener{
 									animate=true;
 									start_stop=true;
 									timerStop=true;
-									view.lvl2Frame();
+									view.lvl2Frame(); 
 									gameStage++;
 								}
 								else if(gameStage ==2)
@@ -218,12 +218,13 @@ public class Controller implements ActionListener, KeyListener{
 		
 		case 32:
 			model.eatFlag = true;
-			if(model.bdReached == false) {
-				model.getPlayer().risefall = 1;
-			}
-			else {
-				model.getPlayer().risefall = 2; 
-			}
+			model.getPlayer().risefall = 1;
+//			if(model.bdReached == false) {
+//				model.getPlayer().risefall = 1;
+//			}
+//			else {
+//				model.getPlayer().risefall = 2; 
+//			}
 			break;
 			
 		default:
@@ -331,7 +332,7 @@ public class Controller implements ActionListener, KeyListener{
 	 {
 
 	        public void run() {
-	        	timerStop = false;
+	        	 timerStop = false;
 	            System.out.println("Time's up!");
 	            gameTime.cancel(); //Terminate the timer thread
 

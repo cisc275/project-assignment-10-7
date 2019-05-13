@@ -59,6 +59,7 @@ public class View extends JPanel{
 	final static int FoxFwd=7;
 	final static int Trash = 8;
 	final static int FoxBck=9;
+	final static int Twig = 10;
 	
 	
 	Color sky = new Color(100,149,237);
@@ -104,7 +105,7 @@ public class View extends JPanel{
 
 	View(){
 		
-    	pics = new BufferedImage[10][frameCount];
+    	pics = new BufferedImage[11][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
     	BufferedImage b2img = createImage("bird2_forward_75.png");
@@ -121,6 +122,7 @@ public class View extends JPanel{
     	marshFlipImg = resize(marsh2, frameHeight, frameWidth);
     	grassImg = resize(grass, frameHeight, frameWidth);
     	BufferedImage trashImg = createImage("trash.png");
+    	BufferedImage woodImg = createImage("wood_small.png");
     	
     	
     	for(int i = 0; i < frameCount; i++) {
@@ -134,6 +136,7 @@ public class View extends JPanel{
     		pics[FoxBck][i] = resizeImg(fox2Img.getSubimage(Fox.width*i, 0, Fox.width, Fox.height), Fox.width, Fox.height);
     		pics[Trash][i] = resizeImg(trashImg, Pollution.width, Pollution.height);
     		pics[PlaneImg][i] = resizeImg(planeImg, Plane.width, Plane.height);
+    		pics[Twig][i] = resizeImg(woodImg, Wood.width, Wood.height);
     	}
     	
  
