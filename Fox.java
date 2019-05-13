@@ -15,8 +15,11 @@ public class Fox extends AutoCharacters implements Movers{
 
 	static int foxCount=0;
 	int flip =1;
+	private int imgInd = 7;
+	private static int foxSpeed = 15;
 	static int width = 130;
 	static int height = 45;
+	
 	
 	Fox(int x, int y, int w, int h) {
 		super(x, y, w, h);
@@ -40,12 +43,12 @@ public class Fox extends AutoCharacters implements Movers{
 		checkBorder();
 		switch(flip) {
 		case 1:
-			xPos -= View.frameWidth/85;
+			xPos -=foxSpeed;
 			super.setImgInd(View.FoxFwd);
 			break;
 		case 2:
 			super.setImgInd(View.FoxBck);
-			xPos +=View.frameWidth/85;
+			xPos +=foxSpeed;
 			break;
 		}
 	}
@@ -68,6 +71,14 @@ public class Fox extends AutoCharacters implements Movers{
 		{
 			flip=1;
 		}
+	}
+	
+	public static void setSpeed(int x) {
+		foxSpeed = x;
+	}
+	
+	public static int getSpeed() {
+		return foxSpeed;
 	}
 			
 }

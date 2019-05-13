@@ -75,6 +75,7 @@ public class Bird extends Character{
 		yPos+=yVector;
 	}
 	
+	
 	public void keyToDirec(int d) {
 		switch(d)
 		{
