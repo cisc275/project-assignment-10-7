@@ -33,7 +33,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 
-
 public class View extends JPanel{
 	
 	int movebg = 0; //position of background image in lvl 2
@@ -139,6 +138,8 @@ public class View extends JPanel{
     	lvl2Img = resize(lvl2, frameHeight, frameWidth);
     	BufferedImage q = createImage("quiz_start.png");
     	quizImg = resize(q, frameHeight, frameWidth);
+    	
+    	//minimap buffered image
     	
     	
     	for(int i = 0; i < frameCount; i++) {
@@ -261,6 +262,8 @@ public class View extends JPanel{
     	return null;
 	}
 	
+
+	
 	
 	/**
 	 * JPanel to cycle through the picture array and draw the image on the user screen
@@ -331,6 +334,7 @@ public class View extends JPanel{
 			g.drawImage(pics[player.imgArrNum][frameNum], player.xPos, player.yPos, null, this);
 
 		}
+		
 
 	}
 	
@@ -443,7 +447,6 @@ public class View extends JPanel{
 			frame2.setFocusable(true);
 			frame2.requestFocus();
 			frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		
 			frame2.setUndecorated(true);
 			frame2.setVisible(true);
 			JFrame temp = frame;
@@ -451,6 +454,7 @@ public class View extends JPanel{
 			temp.dispose();
 		}
 		
+
 
 
 	}
