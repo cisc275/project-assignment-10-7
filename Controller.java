@@ -209,7 +209,7 @@ public class Controller implements ActionListener, KeyListener{
 			if(View.quiz) { // switch to quiz from quiz start screen
 				View.quiz = false;
 			}
-			if(gameStage != 1) {
+			if(gameStage != 1 && View.lvlStart == true) {
 				View.lvlStart = !View.lvlStart;
 			}
 			if (!run && gameStage <=3) {
