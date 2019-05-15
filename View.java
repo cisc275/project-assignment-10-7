@@ -36,6 +36,7 @@ import javax.swing.SwingConstants;
 public class View extends JPanel{
 	
 	int movebg = 0; //position of background image in lvl 2
+	int movebg2 = frameWidth; //position of mirrored background in lvl 2
 	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	final static int frameWidth = screenSize.width;//original size was 500
 	final static int frameHeight = screenSize.height;//original size was 300
@@ -279,13 +280,19 @@ public class View extends JPanel{
 			}
 			else {
 				movebg-=2;
-				if (movebg % frameWidth == 0) {
-					movebg = 0;
+				movebg2-=2;
+				if (movebg  <= -frameWidth) { //resets background image position to loop 
+					movebg = frameWidth-2;
 				}
-				g.drawImage(marshImg, (movebg % frameWidth), 0, null);
-				g.drawImage(marshFlipImg, ((movebg % frameWidth)+frameWidth), 0, null);
+				if(movebg2 <= -frameWidth) { //resets mirrored background image position to loop 
+					movebg2 = frameWidth -2;
+				}
+				g.drawImage(marshImg, movebg, 0, null);
+				g.drawImage(marshFlipImg, movebg2, 0, null);
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
+				System.out.println("pic: " + movebg%frameWidth);
+				System.out.println("pic2: " + (movebg+frameWidth)%frameWidth);
 			}
 		}
 		// Given the graphic, this method will place the images on the user screen
