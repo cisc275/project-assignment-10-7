@@ -83,13 +83,17 @@ public class Bird extends Character{
 			setXVec(0);
 			break;
 		case 37:
+			if(!migrate) {
 			setXVec(-(View.frameWidth/128));
 			direction = Direction.WEST;
+			}
 			break;
 			
 		case 39:
+			if(!migrate) {
 			setXVec(View.frameWidth/128);
 			direction = Direction.EAST;
+			}
 			break;
 		
 		default:

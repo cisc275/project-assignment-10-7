@@ -84,7 +84,7 @@ public class Model{
 				}
 			
 			if(score % 300 == 0 && score != 0) {
-				System.out.println("Challenging Player");
+				//System.out.println("Challenging Player");
 				foxLimit += 1;
 				// preyLimit -= 1;
 			}
@@ -92,7 +92,7 @@ public class Model{
 			// If player health falls below half, Foxes' speed is reduced
 			if(player.getHealth() <= 500) {
 				helpFlag = true;
-				System.out.println("Helping Player");
+				//System.out.println("Helping Player");
 				Fox.setSpeed(8);
 				Prey.setSpeed(5);
 				preyLimit += 3;
@@ -104,12 +104,12 @@ public class Model{
 					preyLimit = 15;
 					woodLimit = 20;
 					helpFlag = false; 
-					System.out.println("Limits reset");
+					//System.out.println("Limits reset");
 				}
 				//Will reset the speed 
 				Fox.setSpeed(15);
 				Prey.setSpeed(10);
-				System.out.println("Speeds reset");
+				//System.out.println("Speeds reset");
 			}
 			
 			}
@@ -118,13 +118,6 @@ public class Model{
 			if(eatFlag) 
 			{
 				player.eat();
-				if(player.yPos >= yBound-100 ) { 
-					bdReached = true; 
-					
-				}
-				if(player.yPos <= View.frameHeight/2) {
-					bdReached = false; 
-				}
 			}
 			player.updateHealth(-1);
 		}
@@ -143,6 +136,8 @@ public class Model{
 		
 		player=new Bird(View.frameWidth/3, View.frameHeight/3);
 		player.setMigrate(true);
+		eatFlag = false;
+		player.risefall=2;
 		game = true;
 		Model.charArr = new ArrayList<>();
 		Prey.preyCount = 0;
@@ -215,16 +210,16 @@ public class Model{
 		
 	}
 	
-	public void switchGames()
-	{
-
-		player.updateHealth(Bird.maxHealth);
-		player.setMigrate(true);
-		game=true;
-		Model.charArr=new ArrayList<>();
-		Prey.preyCount=0;
-		Pollution.pCount=0;
-	}
+//	public void switchGames()
+//	{
+//
+//		player.updateHealth(Bird.maxHealth);
+//		player.setMigrate(true);
+//		game=true;
+//		Model.charArr=new ArrayList<>();
+//		Prey.preyCount=0;
+//		Pollution.pCount=0;
+//	}
 	
 }
 		
