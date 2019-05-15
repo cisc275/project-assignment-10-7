@@ -291,8 +291,6 @@ public class View extends JPanel{
 				g.drawImage(marshFlipImg, movebg2, 0, null);
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
-				System.out.println("pic: " + movebg%frameWidth);
-				System.out.println("pic2: " + (movebg+frameWidth)%frameWidth);
 			}
 		}
 		// Given the graphic, this method will place the images on the user screen

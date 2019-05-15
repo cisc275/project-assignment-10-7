@@ -215,6 +215,13 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32: //space
+			if(gameStage > 3) {
+				playerArr = new ArrayList<>();
+				view = new View();
+				model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
+				gameStage = 0;
+				view.frame.addKeyListener(this);
+			}
 			model.eatFlag = true;
 			model.getPlayer().risefall = 1;
 			break;
