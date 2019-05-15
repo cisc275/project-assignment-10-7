@@ -30,10 +30,12 @@ public class Controller implements ActionListener, KeyListener{
 	boolean run = false;
 	boolean serial = false;
 	boolean animate=true;
+	boolean tutorial;
 	int arrInd=0;
 	
 	ArrayList<Bird> playerArr;
 	java.util.Timer gameTime;
+	java.util.Timer drawTime;
 	static int gameStage = 0;
 	
 	
@@ -49,7 +51,8 @@ public class Controller implements ActionListener, KeyListener{
 		playerArr = new ArrayList<>();
 		view = new View();
 		model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
-
+		
+		tutorial = true;
 		
 		view.frame.addKeyListener(this);
 
@@ -58,27 +61,27 @@ public class Controller implements ActionListener, KeyListener{
 	    {
 			public void actionPerformed(ActionEvent e)
 			{
-				if (run) {
+				if (run) 
+				{
 					//increment the x and y coordinates, alter direction if necessary
 					model.updateLocationDirection(start_stop);			
 	    			//update the view
 					view.update(model.getPlayer(), run);
 					if(model.getPlayer().getHealth()==0 || !timerStop)
 					{ 
-							if(animate) // animations after each level
-							{
-								start_stop=false;
-								animate=model.animation();
-							}
-							else 
-							{
-								t.stop();
-								serialize();
-								gameTime.cancel();
-								run=false;	
-								System.out.println(gameStage);
-								switchStates();
-							}	
+						if(animate) // animations after each level
+						{
+							start_stop=false;
+							animate=model.animation();
+						}
+						else 
+						{
+							t.stop();
+							serialize();
+							gameTime.cancel();
+							run=false;	
+							switchStates();
+						}	
 					}
 					
 					if(serial) 
@@ -87,9 +90,7 @@ public class Controller implements ActionListener, KeyListener{
 						splayer.xPos=model.getPlayer().xPos;
 						splayer.yPos=model.getPlayer().yPos;
 						playerArr.add(splayer);
-					}
-					
-					
+					}	
 				}
 				
 				
@@ -154,7 +155,7 @@ public class Controller implements ActionListener, KeyListener{
 		dirKey=e.getKeyCode();
 		switch(e.getKeyCode()) {
 		case 10: //enter
-			
+			System.out.println("gs "+ gameStage);
 			if (!run) {
 				switch(gameStage) {
 				case 0:
@@ -165,10 +166,14 @@ public class Controller implements ActionListener, KeyListener{
 				case 1:
 					switchStates();
 					start();
+					drawTime = new java.util.Timer();
+					drawTime.schedule(new ViewDrawTask(), 0,500);
 					break;
 				case 3:
 					switchStates();
 					break;
+				case 4:
+					restart();
 				default:
 					switchStates();
 					break;
@@ -264,7 +269,7 @@ public class Controller implements ActionListener, KeyListener{
 				if (run) {
 					System.out.println("started timer");
 					gameTime = new java.util.Timer();
-					gameTime.schedule(new RemindTask(), 5000);
+					gameTime.schedule(new GameTask(), 30000);
 				}
 			}
 		});
@@ -304,7 +309,8 @@ public class Controller implements ActionListener, KeyListener{
 			
 			model.switchGame();
 			View.lvlStart = true;
-			view.lvl2Frame(); 
+			view.frameSwitch=true;
+			gameStage++;
 				
 		}
 		else if (gameStage ==1)
@@ -314,10 +320,12 @@ public class Controller implements ActionListener, KeyListener{
 			start_stop=true;
 			timerStop=true;
 			animate=true;
+			gameStage++;
 		}
 		else if(gameStage == 2) //level 2 finished, switch to quiz
 		{
 			View.quiz = true;
+			gameStage++;
 		}
 		else if (gameStage == 3) //start quiz
 		{
@@ -325,19 +333,39 @@ public class Controller implements ActionListener, KeyListener{
 			view.quizView();
 			addQuizButton();
 			view.setText(0);
+			gameStage++;
 		}
 		else {
+//			view=new View();
+//			model=new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
+//			run = false;
+//			gameStage=0;
+			
 			model.nextQuestion();
 			view.setText(model.question);
 			view.setAnswer();
+			gameStage++;
 		}
+	
 		
-		gameStage++;
 		addKey();
 		
 	}
 	
-	 class RemindTask extends TimerTask 
+	public void restart() {
+	  run = false;
+	  gameStage = 0;
+	  start_stop = true;
+	  animate = true;
+	  View.lvlStart=true;
+	  View.quiz=false;
+	  //view=new View();
+	  //model=new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
+	 
+	  
+	}
+
+	 class GameTask extends TimerTask 
 	 {
 
 	        public void run() {
@@ -346,6 +374,16 @@ public class Controller implements ActionListener, KeyListener{
 	            gameTime.cancel(); //Terminate the timer thread
 
 	        }
-	    }
+	 }
+	 
+	 class ViewDrawTask extends TimerTask 
+	 {
+
+	        public void run() {
+	        	if(view.cropAmount!=0)
+	        		view.cropAmount--;
+
+	        }
+	 }
 	
 }

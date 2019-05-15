@@ -75,11 +75,11 @@ public class View extends JPanel{
 	BufferedImage lvl1Img;
 	BufferedImage lvl2Img;
 	BufferedImage quizImg;
+	BufferedImage mapImg;
+	BufferedImage pathImg;
 	
 	JFrame frame;
-	JFrame frameEnd;
 	JFrame frame2;
-	JFrame frame3;
 	JPanel panel;
 	boolean frameSwitch; //flag for switching to level 2
 	boolean run=false;
@@ -95,6 +95,7 @@ public class View extends JPanel{
 	JLabel quizLabel;
 	JLabel quizLabel2;
 	JPanel quizPanel;
+	int cropAmount;
 	
 
 	
@@ -112,6 +113,7 @@ public class View extends JPanel{
 
 	View(){
 		lvlStart = true;
+		cropAmount =150;
 		
     	pics = new BufferedImage[11][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
@@ -137,6 +139,8 @@ public class View extends JPanel{
     	lvl2Img = resize(lvl2, frameHeight, frameWidth);
     	BufferedImage q = createImage("quiz_start.png");
     	quizImg = resize(q, frameHeight, frameWidth);
+    	mapImg = resize(createImage("OspreyMiniMap.png"), 196, 250);
+    	pathImg = resize(createImage("path.png"), 196, 250);
     	
     	//minimap buffered image
     	
@@ -289,10 +293,14 @@ public class View extends JPanel{
 				}
 				g.drawImage(marshImg, movebg, 0, null);
 				g.drawImage(marshFlipImg, movebg2, 0, null);
+				g.drawImage(mapImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
+				g.setClip(frameWidth-(frameWidth/4), (frameHeight/10+frameHeight/30)+cropAmount, 250, 196);
+				g.drawImage(pathImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
+				g.setClip(0,0, frameWidth, frameHeight);
 				g.setColor(Color.black);
-				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
-				System.out.println("pic: " + movebg%frameWidth);
-				System.out.println("pic2: " + (movebg+frameWidth)%frameWidth);
+				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
+//				System.out.println("pic: " + movebg%frameWidth);
+//				System.out.println("pic2: " + (movebg+frameWidth)%frameWidth);
 			}
 		}
 		// Given the graphic, this method will place the images on the user screen
@@ -311,6 +319,7 @@ public class View extends JPanel{
 		
 		if(quiz) {
 			g.drawImage(quizImg, 0, 0, null, this);
+			
 		}
 		
 		if(run && !quiz && !lvlStart) {
@@ -353,29 +362,6 @@ public class View extends JPanel{
 	}
 
 	
-	/**
-	 * Creates new frame and sets frame logic for level 2.
-	 * @param Nothing
-	 * @return Nothing
-	 */
-	public void lvl2Frame() {
-		frameNum=0;
-		frameSwitch = true;
-		frame2 = new JFrame();
-		
-		frame2.setBackground(Color.gray);
-    	frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame2.setSize(frameWidth, frameHeight);
-    	frame2.setFocusable(true);
-    	frame2.requestFocus();
-    	frame2.getContentPane().add(this);
-    	frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-    	frame2.setUndecorated(true);
-		frame2.setVisible(true);
-		JFrame temp = frame;
-		frame = frame2;
-		temp.dispose();
-	}
 	
 	/**
 	 * Creates new frame and sets frame logic for end of game quiz.
