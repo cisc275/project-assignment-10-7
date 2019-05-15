@@ -179,8 +179,6 @@ public class Controller implements ActionListener, KeyListener{
 				case 3:
 					switchStates();
 					break;
-				case 4:
-					restart();
 				default:
 					switchStates();
 					break;
@@ -203,6 +201,7 @@ public class Controller implements ActionListener, KeyListener{
 				run = false;
 				gameStage = -1;
 				start_stop=true;
+				view.cropAmount=196;
 				model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
 				view.frame.addKeyListener(this);
 			}
@@ -289,7 +288,7 @@ public class Controller implements ActionListener, KeyListener{
 				if (run) {
 					System.out.println("started timer");
 					gameTime = new java.util.Timer();
-					gameTime.schedule(new GameTask(), 30000);
+					gameTime.schedule(new GameTask(), 5000);
 				}
 			}
 		});
@@ -328,7 +327,7 @@ public class Controller implements ActionListener, KeyListener{
 			model.switchGame();
 			View.lvlStart = true;
 			view.frameSwitch=true;
-			gameStage++;
+			
 				
 		}
 		else if (gameStage ==1)
@@ -338,12 +337,10 @@ public class Controller implements ActionListener, KeyListener{
 			start_stop=true;
 			timerStop=true;
 			animate=true;
-			gameStage++;
 		}
 		else if(gameStage == 2) //level 2 finished, switch to quiz
 		{
 			View.quiz = true;
-			gameStage++;
 		}
 		else if (gameStage == 3) //start quiz
 		{
@@ -351,37 +348,20 @@ public class Controller implements ActionListener, KeyListener{
 			view.quizView();
 			addQuizButton();
 			view.setText(0);
-			gameStage++;
 		}
 		else {
-//			view=new View();
-//			model=new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
-//			run = false;
-//			gameStage=0;
+
 			
 			model.nextQuestion();
 			view.setText(model.question);
 			view.setAnswer();
-			gameStage++;
 		}
 	
-		
+		gameStage++;
 		addKey();
 		
 	}
 	
-	public void restart() {
-	  run = false;
-	  gameStage = 0;
-	  start_stop = true;
-	  animate = true;
-	  View.lvlStart=true;
-	  View.quiz=false;
-	  //view=new View();
-	  //model=new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
-	 
-	  
-	}
 
 	 class GameTask extends TimerTask 
 	 {
