@@ -65,10 +65,6 @@ public class View extends JPanel{
 	final static int FoxBck=9;
 	final static int Twig = 10;
 	
-	
-	Color sky = new Color(100,149,237);
-	Color grass = new Color(76,153, 0);
-	
 	BufferedImage grassImg;
 	BufferedImage marshImg;
 	BufferedImage marshFlipImg;
@@ -77,9 +73,7 @@ public class View extends JPanel{
 	BufferedImage quizImg;
 	
 	JFrame frame;
-	JFrame frameEnd;
 	JFrame frame2;
-	JFrame frame3;
 	JPanel panel;
 	boolean frameSwitch; //flag for switching to level 2
 	boolean run=false;
@@ -349,31 +343,6 @@ public class View extends JPanel{
 	public int getHeight() {
 		return frameHeight;
 	}
-
-	
-	/**
-	 * Creates new frame and sets frame logic for level 2.
-	 * @param Nothing
-	 * @return Nothing
-	 */
-	public void lvl2Frame() {
-		frameNum=0;
-		frameSwitch = true;
-		frame2 = new JFrame();
-		
-		frame2.setBackground(Color.gray);
-    	frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame2.setSize(frameWidth, frameHeight);
-    	frame2.setFocusable(true);
-    	frame2.requestFocus();
-    	frame2.getContentPane().add(this);
-    	frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-    	frame2.setUndecorated(true);
-		frame2.setVisible(true);
-		JFrame temp = frame;
-		frame = frame2;
-		temp.dispose();
-	}
 	
 	/**
 	 * Creates new frame and sets frame logic for end of game quiz.
@@ -391,7 +360,8 @@ public class View extends JPanel{
 			    
 			}
 		};
-		if(!quiz) { // quiz=false after pressing enter on quiz transition frame
+		// quiz=false after pressing enter on quiz transition frame
+		if(!quiz) {
 			quizPanel.setBackground(Color.gray);
 			quizPanel.setLayout(null);
 			//quizPanel.paintComponent(g);
@@ -435,6 +405,8 @@ public class View extends JPanel{
 		
 			frame2 = new JFrame();
 			frame2.getContentPane().add(quizPanel);
+			frame2.add(quizPanel);
+			
 			frame2.setBackground(Color.gray);
 			frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame2.setSize(frameWidth, frameHeight);
@@ -446,9 +418,9 @@ public class View extends JPanel{
 			JFrame temp = frame;
 			frame = frame2;
 			temp.dispose();
-		}
 		
-
+		
+		}
 
 
 	}
@@ -466,11 +438,12 @@ public class View extends JPanel{
 	public void setAnswer(int q, boolean ans)
 	{
 		if(ans) {
-			quizLabel2.setText("Correct");
+			//quizLabel2.setForeground(Color.red);
+			quizLabel2.setText("Correct! Press enter to continue.");
 		}
 		else
 		{
-			quizLabel2.setText("Incorrect");
+			quizLabel2.setText("Incorrect! Try again.");
 		}
 		frame.requestFocus();
 	}

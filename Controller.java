@@ -321,7 +321,7 @@ public class Controller implements ActionListener, KeyListener{
 		if(gameStage == 0) { //level 1 finished, switch to level 2
 			model.switchGame();
 			View.lvlStart = true;
-			view.lvl2Frame();
+			view.frameSwitch = true;
 		}
 		else if (gameStage ==1)
 		{
