@@ -34,7 +34,7 @@ public class Plane extends AutoCharacters implements Movers{
 	public static void planeFactory() {
 		
 		Random rand = new Random();
-		if (planeCount<10 && rand.nextInt(100)==5) {
+		if (planeCount<8 && rand.nextInt(100)==5) {
 			Plane p = new Plane(View.frameWidth,rand.nextInt((2*View.frameHeight)/3), width, height);
 			 p.setImgInd(View.PlaneImg);
 			Model.charArr.add(p);

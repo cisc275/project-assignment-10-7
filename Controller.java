@@ -52,8 +52,6 @@ public class Controller implements ActionListener, KeyListener{
 
 		
 		view.frame.addKeyListener(this);
-		view.b1.addActionListener(this);
-		view.b3.addActionListener(this);
 
 		
 		drawAction = new AbstractAction()
@@ -155,19 +153,7 @@ public class Controller implements ActionListener, KeyListener{
 	 */
 
 	public void actionPerformed(ActionEvent a) {
-		if(a.getActionCommand().equals("Run")) {
-			run=true;
-			view.frame.requestFocus();
-		}
-		else if(a.getActionCommand().equals("Deserialize")) {
-			deserialize();
-			deserial=true;
-		}
-		else if(a.getActionCommand().contentEquals("Serialize"))
-		{
-			serial=true;
-		}
-		else if(a.getActionCommand().equals("b1"))
+		if(a.getActionCommand().equals("b1"))
 		{
 			view.setAnswer(model.question, model.checkQuiz(1));
 		}
@@ -231,12 +217,15 @@ public class Controller implements ActionListener, KeyListener{
 		case 32: //space
 			model.eatFlag = true;
 			model.getPlayer().risefall = 1;
-//			if(model.bdReached == false) {
-//				model.getPlayer().risefall = 1;
-//			}
-//			else {
-//				model.getPlayer().risefall = 2; 
-//			}
+			break;
+			
+		case 68://D
+			deserialize();
+			deserial=true;
+			break;
+		
+		case 83://s
+			serial=true;
 			break;
 			
 		default:
