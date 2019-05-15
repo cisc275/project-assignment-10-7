@@ -55,7 +55,6 @@ public class Controller implements ActionListener, KeyListener{
 		tutorial = true;
 		
 		view.frame.addKeyListener(this);
-
 		
 		drawAction = new AbstractAction()
 	    {
@@ -154,14 +153,22 @@ public class Controller implements ActionListener, KeyListener{
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
 		switch(e.getKeyCode()) {
+		
 		case 10: //enter
-			System.out.println("gs "+ gameStage);
+			System.out.println("gs: " + gameStage);
 			if (!run) {
 				switch(gameStage) {
+				case -1: //start level 1 when restarting game from space input
+					View.lvlStart = !View.lvlStart;
+					run = true;
+					timerStop=true;
+					start();
+					gameStage++;
+					break;
 				case 0:
 					run = true;
 					start();
-					View.lvlStart = !View.lvlStart;
+					View.lvlStart = false;
 					break;
 				case 1:
 					switchStates();
@@ -188,8 +195,21 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32: //space
-			model.eatFlag = true;
-			model.getPlayer().risefall = 1;
+			System.out.println("space gs: " + gameStage);
+			if(gameStage > 3) {
+				playerArr = new ArrayList<>();
+				view = new View();
+				view.frameSwitch = false;
+				run = false;
+				gameStage = -1;
+				start_stop=true;
+				model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
+				view.frame.addKeyListener(this);
+			}
+			else{
+				model.eatFlag = true;
+				model.getPlayer().risefall = 1;
+			}
 			break;
 			
 		case 68://D
@@ -304,9 +324,7 @@ public class Controller implements ActionListener, KeyListener{
 	}
 	
 	public void switchStates() {
-		
 		if(gameStage == 0) { //level 1 finished, switch to level 2
-			
 			model.switchGame();
 			View.lvlStart = true;
 			view.frameSwitch=true;
