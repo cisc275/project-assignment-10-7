@@ -50,9 +50,7 @@ public class Controller implements ActionListener, KeyListener{
 		view = new View();
 		model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
 
-		
 		view.frame.addKeyListener(this);
-
 		
 		drawAction = new AbstractAction()
 	    {
@@ -63,7 +61,6 @@ public class Controller implements ActionListener, KeyListener{
 					model.updateLocationDirection(start_stop);			
 	    			//update the view
 					view.update(model.getPlayer(), run);
-					
 					if(model.getPlayer().getHealth()==0 || !timerStop)
 					{ 
 							if(animate) // animations after each level
@@ -75,52 +72,15 @@ public class Controller implements ActionListener, KeyListener{
 							{
 								t.stop();
 								serialize();
-								timerStop=false;
 								gameTime.cancel();
-								run=false;
-								
-								
-								if(gameStage == 0) { //level 1 finished, switch to level 2
-									
-									//view.update(model.getPlayer(), run);
-									//gameStage=1;	
-									model.switchGame();
-									gameStage++;
-
-									View.lvlStart = true;
-									view.lvl2Frame(); 
-									//view.lvl2Frame();
-										
-								}
-								else if(gameStage == 1) //start level 2
-								{	
-									run = true;
-									View.lvlStart = false;
-									animate=true;
-									start_stop=true;
-									timerStop=true;
-									gameStage++;
-								}
-								else if(gameStage ==2) //level 2 finished, switch to quiz
-								{
-									View.quiz = true;
-									gameStage++;
-								}
-								else if (gameStage == 3) //start quiz
-								{
-									view.quizView();
-									addQuizButton();
-									view.setText(0);
-									gameStage++;
-								}
-								
-								addKey();
-							}
-								
-							}
+								run=false;	
+								System.out.println(gameStage);
+								switchStates();
+							}	
+					}
 					
-					
-					if(serial) {
+					if(serial) 
+					{
 						Bird splayer= new Bird();
 						splayer.xPos=model.getPlayer().xPos;
 						splayer.yPos=model.getPlayer().yPos;
@@ -191,21 +151,35 @@ public class Controller implements ActionListener, KeyListener{
 		//System.out.println(e.getKeyCode());
 		dirKey=e.getKeyCode();
 		switch(e.getKeyCode()) {
+		
 		case 10: //enter
-			if(View.quiz) { // switch to quiz from quiz start screen
-				View.quiz = false;
-			}
-			if(gameStage != 1 && View.lvlStart == true) {
-				View.lvlStart = !View.lvlStart;
-			}
-			if (!run && gameStage <=3) {
-				start();
-				run = true;
-			}
-			else if(!run && gameStage>3) {
-				model.nextQuestion();
-				view.setText(model.question);
-				view.setAnswer();
+			System.out.println("gs: " + gameStage);
+			if (!run) {
+				switch(gameStage) {
+				case -1: //start level 1 when restarting game from space input
+					View.lvlStart = !View.lvlStart;
+					run = true;
+					timerStop=true;
+					start();
+					gameStage++;
+					break;
+				case 0:
+					run = true;
+					start();
+					View.lvlStart = false;
+					break;
+				case 1:
+					switchStates();
+					start();
+					break;
+				case 3:
+					switchStates();
+					break;
+				default:
+					switchStates();
+					break;
+					
+				}
 			}
 			break; 
 			
@@ -215,15 +189,21 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32: //space
+			System.out.println("space gs: " + gameStage);
 			if(gameStage > 3) {
 				playerArr = new ArrayList<>();
 				view = new View();
+				view.frameSwitch = false;
+				run = false;
+				gameStage = -1;
+				start_stop=true;
 				model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
-				gameStage = 0;
 				view.frame.addKeyListener(this);
 			}
-			model.eatFlag = true;
-			model.getPlayer().risefall = 1;
+			else{
+				model.eatFlag = true;
+				model.getPlayer().risefall = 1;
+			}
 			break;
 			
 		case 68://D
@@ -301,8 +281,9 @@ public class Controller implements ActionListener, KeyListener{
 				t = new Timer(drawDelay, drawAction);
 				t.start();
 				if (run) {
+					System.out.println("started timer");
 					gameTime = new java.util.Timer();
-					gameTime.schedule(new RemindTask(), 20000);
+					gameTime.schedule(new RemindTask(), 5000);
 				}
 			}
 		});
@@ -333,6 +314,42 @@ public class Controller implements ActionListener, KeyListener{
 		{
 			System.out.println(e);
 		}
+		
+	}
+	
+	public void switchStates() {
+		if(gameStage == 0) { //level 1 finished, switch to level 2
+			model.switchGame();
+			View.lvlStart = true;
+			view.lvl2Frame();
+		}
+		else if (gameStage ==1)
+		{
+			run = true;
+			View.lvlStart = false;
+			start_stop=true;
+			timerStop=true;
+			animate=true;
+		}
+		else if(gameStage == 2) //level 2 finished, switch to quiz
+		{
+			View.quiz = true;
+		}
+		else if (gameStage == 3) //start quiz
+		{
+			View.quiz = false;
+			view.quizView();
+			addQuizButton();
+			view.setText(0);
+		}
+		else {
+			model.nextQuestion();
+			view.setText(model.question);
+			view.setAnswer();
+		}
+		
+		gameStage++;
+		addKey();
 		
 	}
 	

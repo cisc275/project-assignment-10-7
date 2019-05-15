@@ -134,7 +134,7 @@ public class Model{
 	
 	public void switchGame() {
 		
-		player=new Bird(View.frameWidth/3, View.frameHeight/3);
+		player=new Bird(View.frameWidth/4, View.frameHeight/3);
 		player.setMigrate(true);
 		eatFlag = false;
 		player.risefall=2;
