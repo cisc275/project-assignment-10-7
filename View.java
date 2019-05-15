@@ -71,6 +71,8 @@ public class View extends JPanel{
 	BufferedImage lvl1Img;
 	BufferedImage lvl2Img;
 	BufferedImage quizImg;
+	BufferedImage mapImg;
+	BufferedImage pathImg;
 	
 	JFrame frame;
 	JFrame frame2;
@@ -89,6 +91,7 @@ public class View extends JPanel{
 	JLabel quizLabel;
 	JLabel quizLabel2;
 	JPanel quizPanel;
+	int cropAmount;
 	
 
 	
@@ -106,6 +109,7 @@ public class View extends JPanel{
 
 	View(){
 		lvlStart = true;
+		cropAmount =150;
 		
     	pics = new BufferedImage[11][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
@@ -131,6 +135,8 @@ public class View extends JPanel{
     	lvl2Img = resize(lvl2, frameHeight, frameWidth);
     	BufferedImage q = createImage("quiz_start.png");
     	quizImg = resize(q, frameHeight, frameWidth);
+    	mapImg = resize(createImage("OspreyMiniMap.png"), 196, 250);
+    	pathImg = resize(createImage("path.png"), 196, 250);
     	
     	//minimap buffered image
     	
@@ -283,8 +289,14 @@ public class View extends JPanel{
 				}
 				g.drawImage(marshImg, movebg, 0, null);
 				g.drawImage(marshFlipImg, movebg2, 0, null);
+				g.drawImage(mapImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
+				g.setClip(frameWidth-(frameWidth/4), (frameHeight/10+frameHeight/30)+cropAmount, 250, 196);
+				g.drawImage(pathImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
+				g.setClip(0,0, frameWidth, frameHeight);
 				g.setColor(Color.black);
-				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
+				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
+//				System.out.println("pic: " + movebg%frameWidth);
+//				System.out.println("pic2: " + (movebg+frameWidth)%frameWidth);
 			}
 		}
 		// Given the graphic, this method will place the images on the user screen
@@ -303,6 +315,7 @@ public class View extends JPanel{
 		
 		if(quiz) {
 			g.drawImage(quizImg, 0, 0, null, this);
+			
 		}
 		
 		if(run && !quiz && !lvlStart) {
@@ -343,6 +356,7 @@ public class View extends JPanel{
 	public int getHeight() {
 		return frameHeight;
 	}
+
 	
 	/**
 	 * Creates new frame and sets frame logic for end of game quiz.

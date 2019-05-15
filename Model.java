@@ -19,11 +19,10 @@ public class Model{
 	static int pollLimit = 8;
 	static int woodLimit = 20;
 	
-	boolean game=false;;
+	boolean game=false;
 	
 	//Variables for Eat
 	boolean eatFlag = false;
-	boolean bdReached = false;
 	boolean helpFlag = false;
 	
 	int [] ansArr = {2,1,3};
