@@ -157,6 +157,9 @@ public class Model{
 			{
 				if(c.getClass()==Prey.class)
 				{
+					if(player.hurt == 0) {
+						player.hurt = -20;//switch to red images
+					}
 					player.updateHealth(100);
 					return true;
 				}
@@ -171,6 +174,9 @@ public class Model{
 				}
 				else
 				{
+					if(player.hurt == 0) {
+						player.hurt = 20;//switch to red images
+					}
 					player.updateHealth(-100);
 				}
 				c.touch=true;

@@ -64,6 +64,14 @@ public class View extends JPanel{
 	final static int Trash = 8;
 	final static int FoxBck=9;
 	final static int Twig = 10;
+	final static int NonMigFwdRed = 11;
+	final static int NonMigBckRed = 12;
+	final static int MigFwdRed = 13;
+	final static int MigBckRed = 14;
+	final static int NonMigFwdGreen = 15;
+	final static int NonMigBckGreen = 16;
+	final static int MigFwdGreen = 17;
+	final static int MigBckGreen = 18;
 	
 	BufferedImage grassImg;
 	BufferedImage marshImg;
@@ -111,11 +119,19 @@ public class View extends JPanel{
 		lvlStart = true;
 		cropAmount =150;
 		
-    	pics = new BufferedImage[11][frameCount];
+    	pics = new BufferedImage[19][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
+    	BufferedImage redimg = createImage("bird_forward_red.png");
+    	BufferedImage redimg2 = createImage("bird_backward_red.png");
+    	BufferedImage greenimg = createImage("bird_forward_green.png");
+    	BufferedImage greenimg2 = createImage("bird_backward_green.png");
     	BufferedImage b2img = createImage("bird2_forward_75.png");
     	BufferedImage b2img2 = createImage("bird2_backward_75.png");
+    	BufferedImage redb2img = createImage("bird2_forward_red.png");
+    	BufferedImage redb2img2 = createImage("bird2_backward_red.png");
+    	BufferedImage greenb2img = createImage("bird2_forward_green.png");
+    	BufferedImage greenb2img2 = createImage("bird2_backward_green.png");
     	BufferedImage planeImg = createImage("plane.png");
     	BufferedImage mouseImg = createImage("mouse.png");
     	BufferedImage fishImg = createImage("fish.png");
@@ -151,6 +167,14 @@ public class View extends JPanel{
     		pics[Trash][i] = resizeImg(trashImg, Pollution.width, Pollution.height);
     		pics[PlaneImg][i] = resizeImg(planeImg, Plane.width, Plane.height);
     		pics[Twig][i] = resizeImg(woodImg, Wood.width, Wood.height);
+    		pics[NonMigFwdRed][i] = resizeImg(redimg.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[NonMigBckRed][i] = resizeImg(redimg2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigFwdRed][i] = resizeImg(redb2img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigBckRed][i] = resizeImg(redb2img2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[NonMigFwdGreen][i] = resizeImg(greenimg.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[NonMigBckGreen][i] = resizeImg(greenimg2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigFwdGreen][i] = resizeImg(greenb2img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigBckGreen][i] = resizeImg(greenb2img2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
     	}
     	
 		
