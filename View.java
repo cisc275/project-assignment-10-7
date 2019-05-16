@@ -138,8 +138,6 @@ public class View extends JPanel{
     	mapImg = resize(createImage("OspreyMiniMap.png"), 196, 250);
     	pathImg = resize(createImage("path.png"), 196, 250);
     	
-    	//minimap buffered image
-    	
     	
     	for(int i = 0; i < frameCount; i++) {
     		pics[NonMigFwd][i] = resizeImg(img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
@@ -228,7 +226,7 @@ public class View extends JPanel{
 			sleepTime=30;
 		
 		try {
-			Thread.sleep(sleepTime);//changed to 0 for smooth frames
+			Thread.sleep(sleepTime);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -264,21 +262,25 @@ public class View extends JPanel{
 
 		
 		//Text Attributes for score
-				HashMap<TextAttribute, Object> attributes = new HashMap<>();
-				attributes.put(TextAttribute.FAMILY, "Calibri");
-				attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-				attributes.put(TextAttribute.SIZE, (int) (g.getFont().getSize() * (wRatio*(frameHeight/(frameWidth/5)))));
-				Font myFont = Font.getFont(attributes);
-				g.setFont(myFont);
+		HashMap<TextAttribute, Object> attributes = new HashMap<>();
+		attributes.put(TextAttribute.FAMILY, "Calibri");
+		attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+		attributes.put(TextAttribute.SIZE, (int) (g.getFont().getSize() * (wRatio*(frameHeight/(frameWidth/5)))));
+		Font myFont = Font.getFont(attributes);
+		g.setFont(myFont);
 		
 				
 		
-		// Given the graphic, this method will place the images on the user screen
+		// Drawing images in level 2
 		if(frameSwitch) {
+			//drawing level start image
 			if(lvlStart) {
 				g.drawImage(lvl2Img, 0, 0, null, this);
 			}
+			//drawing gameplay images
 			else {
+				
+				//draw moving backgrounds
 				movebg-=2;
 				movebg2-=2;
 				if (movebg  <= -frameWidth) { //resets background image position to loop 
@@ -289,50 +291,62 @@ public class View extends JPanel{
 				}
 				g.drawImage(marshImg, movebg, 0, null);
 				g.drawImage(marshFlipImg, movebg2, 0, null);
+				
+				//drawing mini-map
 				g.drawImage(mapImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
 				g.setClip(frameWidth-(frameWidth/4), (frameHeight/10+frameHeight/30)+cropAmount, 250, 196);
 				g.drawImage(pathImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
 				g.setClip(0,0, frameWidth, frameHeight);
+				
+				//drawing health bar
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
-//				System.out.println("pic: " + movebg%frameWidth);
-//				System.out.println("pic2: " + (movebg+frameWidth)%frameWidth);
 			}
 		}
-		// Given the graphic, this method will place the images on the user screen
+		// Drawing images in level 1
 		else{
+			//drawing level start image
 			if(lvlStart) {
 				g.drawImage(lvl1Img, 0, 0, null, this);
 			}
+			//drawing gameplay images
 			else {
+				//stationary background
 				g.drawImage(grassImg, 0, 0, null, this);
+
 				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
+				
+				//drawing health bar
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
 			}
 			
 		}
 		
+		//quiz start image
 		if(quiz) {
 			g.drawImage(quizImg, 0, 0, null, this);
 			
 		}
 		
+		//drawing characters & objects
 		if(run && !quiz && !lvlStart) {
 			frameNum = (frameNum + 1) % frameCount;
 			for(Movers c: Model.charArr)
 			{	
 				Character curChar=(Character)c;
 				g.drawImage(pics[curChar.imgArrNum][frameNum], curChar.xPos, curChar.yPos, null, this);
-				g.drawRect(curChar.getX(), curChar.getY(), curChar.width, curChar.height);
+				//g.drawRect(curChar.getX(), curChar.getY(), curChar.width, curChar.height);
 			}	
 
-			
+			//health bar
 	    	g.setColor(Color.red);
 			g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
 					((frameWidth/5-1)*(player.getHealth()))/1000, frameHeight/30-1);
 			
+			//bird player
 			g.drawImage(pics[player.imgArrNum][frameNum], player.xPos, player.yPos, null, this);
+			//g.drawRect(player.getX(), player.getY(), Bird.width, Bird.height);
 
 		}
 		

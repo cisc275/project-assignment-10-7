@@ -132,6 +132,7 @@ public class Bird extends Character{
 	public Direction getDirec() {
 		return direction;
 	}
+	
 	public void setDirec(Direction d) {
 		 direction=d;
 	}

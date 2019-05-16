@@ -155,7 +155,6 @@ public class Controller implements ActionListener, KeyListener{
 		switch(e.getKeyCode()) {
 		
 		case 10: //enter
-			System.out.println("gs: " + gameStage);
 			if (!run) {
 				switch(gameStage) {
 				case -1: //start level 1 when restarting game from space input
@@ -193,7 +192,6 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32: //space
-			System.out.println("space gs: " + gameStage);
 			if(gameStage > 3) {
 				playerArr = new ArrayList<>();
 				view = new View();
@@ -288,7 +286,7 @@ public class Controller implements ActionListener, KeyListener{
 				if (run) {
 					System.out.println("started timer");
 					gameTime = new java.util.Timer();
-					gameTime.schedule(new GameTask(), 5000);
+					gameTime.schedule(new GameTask(), 30000);
 				}
 			}
 		});
