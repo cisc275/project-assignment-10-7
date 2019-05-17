@@ -107,7 +107,11 @@ public class View extends JPanel{
 	
 	String[][] questArr = {{"What is the bird in the first game?", "Osprey", "Northern Harrier", "Eagle", "Hawk"},
 			{"What is the bird in the second game?", "Osprey", "Northern Harrier", "Eagle", "Hawk"},
-			{"What is the food of the Osprey?", "Mice", "Seeds", "Fish", "Bread"}
+			{"What is the food of the Northern Harrier?", "Worms", "Fish", "Nuts", "Mice"},
+			{"What is the food of the Osprey?", "Mice", "Seeds", "Fish", "Bread"},
+			{"What is the predator of the Northern Harrier?", "Mice", "Fox", "Fish", "Eagles"},
+			{"What is the obstacle of the Osprey?", "Planes", "Fox", "Fish", "Eagles"},
+			{"Where was the Osprey heading to migrate?", "Venezuela", "Florida", "Delaware", "Mexico"}
 	};
 	
 	/**
@@ -491,13 +495,42 @@ public class View extends JPanel{
 	
 	public void setAnswer(int q, boolean ans)
 	{
+		quizLabel2.setForeground(Color.black);
 		if(ans) {
-			//quizLabel2.setForeground(Color.red);
+			
 			quizLabel2.setText("Correct! Press enter to continue.");
 		}
 		else
 		{
-			quizLabel2.setText("Incorrect! Try again.");
+			switch(q) {
+			case 0:
+				quizLabel2.setText("Incorrect! The Northern Harrier is the non-migratory bird. Try again!");
+				break;
+			case 1:
+				quizLabel2.setText("Incorrect! The Osprey is the migratory bird. Try again!");
+				break;
+			case 2:
+				quizLabel2.setText("Incorrect! Northern Harriers hunt small rodents. Try again!");
+				break;
+			case 3:
+				quizLabel2.setText("Incorrect! Ospreys like seafood. Try again!");
+				break;
+			case 4:
+				quizLabel2.setText("Incorrect! Fast-moving land mammals hunt Northern Harriers. Try again!");
+				break;
+			case 5:
+				quizLabel2.setText("Incorrect! Ospreys have to avoid flying objects in the air. Try again!");
+				break;
+			case 6:
+				quizLabel2.setText("Incorrect! Ospreys head north on their migration path. Try again!");
+				break;
+			default:
+				quizLabel2.setText("Incorrect! Try again.");
+				break;
+				
+			}
+					
+			
 		}
 		frame.requestFocus();
 	}
@@ -530,6 +563,12 @@ public class View extends JPanel{
 			break;
 		}
 	}
+	
+	public void setEnd() {
+		quizLabel2.setForeground(Color.blue);
+		quizLabel2.setText("Press space to play again!");
+	}
+	
 
 	
 }
