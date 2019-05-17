@@ -212,7 +212,10 @@ public class Bird extends Character{
 		else {
 			if (migrate)
 			{
-				imgInd=View.MigFwd;
+				if(direction.equals(Direction.EAST))
+					imgInd=View.MigFwd;
+				else
+					imgInd=View.MigBck;
 			}
 			else {
 				if(direction.equals(Direction.EAST))
