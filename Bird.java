@@ -19,7 +19,9 @@ public class Bird extends Character{
 	int xVector;
 	int yVector;
 	static int width = 75;
-	static int height = 75;
+	static int height = 66;
+	int hurt;
+	int powerup;
 	
 	
 	// Variables to help eat method 
@@ -37,7 +39,8 @@ public class Bird extends Character{
 		xVector=0;
 		yVector=0;
 		migrate = false;
-		
+		hurt = 0;
+		powerup = 0;
 	}
 
 	/** 
@@ -134,6 +137,7 @@ public class Bird extends Character{
 	public Direction getDirec() {
 		return direction;
 	}
+	
 	public void setDirec(Direction d) {
 		 direction=d;
 	}
@@ -172,18 +176,53 @@ public class Bird extends Character{
 	
 	public void checkImage() {
 		int imgInd=0;
-		if (migrate)
-		{
-			if(direction.equals(Direction.EAST))
-				imgInd=View.MigFwd;
-			else
-				imgInd=View.MigBck;
+		if(hurt > 0) {
+			if (migrate) {
+				if(direction.equals(Direction.EAST)) {
+					imgInd=View.MigFwdRed;
+				}
+				else {
+					imgInd=View.MigBckRed;
+				}
+			}
+			else {
+				if(direction.equals(Direction.EAST))
+					imgInd=View.NonMigFwdRed;
+				else
+					imgInd=View.NonMigBckRed;
+			}
+			hurt--;
 		}
+		else if(hurt < 0) {
+			if (migrate) {
+				if(direction.equals(Direction.EAST)) {
+					imgInd=View.MigFwdGreen;
+				}
+				else {
+					imgInd=View.MigBckGreen;
+				}
+			}
+			else {
+				if(direction.equals(Direction.EAST))
+					imgInd=View.NonMigFwdGreen;
+				else
+					imgInd=View.NonMigBckGreen;
+			}
+			hurt++;
+		}
+		
 		else {
-			if(direction.equals(Direction.EAST))
-				imgInd=View.NonMigFwd;
-			else
-				imgInd=View.NonMigBck;
+			if (migrate)
+			{
+				imgInd=View.MigFwd;
+			}
+			else {
+				if(direction.equals(Direction.EAST))
+					imgInd=View.NonMigFwd;
+				else
+					imgInd=View.NonMigBck;
+			}
+			
 		}
 		super.setImgInd(imgInd);
 	}

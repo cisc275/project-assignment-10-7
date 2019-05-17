@@ -64,10 +64,14 @@ public class View extends JPanel{
 	final static int Trash = 8;
 	final static int FoxBck=9;
 	final static int Twig = 10;
-	
-	
-	Color sky = new Color(100,149,237);
-	Color grass = new Color(76,153, 0);
+	final static int NonMigFwdRed = 11;
+	final static int NonMigBckRed = 12;
+	final static int MigFwdRed = 13;
+	final static int MigBckRed = 14;
+	final static int NonMigFwdGreen = 15;
+	final static int NonMigBckGreen = 16;
+	final static int MigFwdGreen = 17;
+	final static int MigBckGreen = 18;
 	
 	BufferedImage grassImg;
 	BufferedImage marshImg;
@@ -118,11 +122,19 @@ public class View extends JPanel{
 		cropAmount =150;
 		tutStr="";
 		
-    	pics = new BufferedImage[11][frameCount];
+    	pics = new BufferedImage[19][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
     	BufferedImage img2 = createImage("bird_backward_75.png");
+    	BufferedImage redimg = createImage("bird_forward_red.png");
+    	BufferedImage redimg2 = createImage("bird_backward_red.png");
+    	BufferedImage greenimg = createImage("bird_forward_green.png");
+    	BufferedImage greenimg2 = createImage("bird_backward_green.png");
     	BufferedImage b2img = createImage("bird2_forward_75.png");
     	BufferedImage b2img2 = createImage("bird2_backward_75.png");
+    	BufferedImage redb2img = createImage("bird2_forward_red.png");
+    	BufferedImage redb2img2 = createImage("bird2_backward_red.png");
+    	BufferedImage greenb2img = createImage("bird2_forward_green.png");
+    	BufferedImage greenb2img2 = createImage("bird2_backward_green.png");
     	BufferedImage planeImg = createImage("plane.png");
     	BufferedImage mouseImg = createImage("mouse.png");
     	BufferedImage fishImg = createImage("fish.png");
@@ -145,8 +157,6 @@ public class View extends JPanel{
     	mapImg = resize(createImage("OspreyMiniMap.png"), 196, 250);
     	pathImg = resize(createImage("path.png"), 196, 250);
     	
-    	//minimap buffered image
-    	
     	
     	for(int i = 0; i < frameCount; i++) {
     		pics[NonMigFwd][i] = resizeImg(img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
@@ -160,6 +170,14 @@ public class View extends JPanel{
     		pics[Trash][i] = resizeImg(trashImg, Pollution.width, Pollution.height);
     		pics[PlaneImg][i] = resizeImg(planeImg, Plane.width, Plane.height);
     		pics[Twig][i] = resizeImg(woodImg, Wood.width, Wood.height);
+    		pics[NonMigFwdRed][i] = resizeImg(redimg.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[NonMigBckRed][i] = resizeImg(redimg2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigFwdRed][i] = resizeImg(redb2img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigBckRed][i] = resizeImg(redb2img2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[NonMigFwdGreen][i] = resizeImg(greenimg.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[NonMigBckGreen][i] = resizeImg(greenimg2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigFwdGreen][i] = resizeImg(greenb2img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
+    		pics[MigBckGreen][i] = resizeImg(greenb2img2.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
     	}
     	
 		
@@ -235,7 +253,7 @@ public class View extends JPanel{
 			sleepTime=30;
 		
 		try {
-			Thread.sleep(sleepTime);//changed to 0 for smooth frames
+			Thread.sleep(sleepTime);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -271,21 +289,25 @@ public class View extends JPanel{
 
 		
 		//Text Attributes for score
-				HashMap<TextAttribute, Object> attributes = new HashMap<>();
-				attributes.put(TextAttribute.FAMILY, "Calibri");
-				attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-				attributes.put(TextAttribute.SIZE, (int) (g.getFont().getSize() * (wRatio*(frameHeight/(frameWidth/5)))));
-				Font myFont = Font.getFont(attributes);
-				g.setFont(myFont);
+		HashMap<TextAttribute, Object> attributes = new HashMap<>();
+		attributes.put(TextAttribute.FAMILY, "Calibri");
+		attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+		attributes.put(TextAttribute.SIZE, (int) (g.getFont().getSize() * (wRatio*(frameHeight/(frameWidth/5)))));
+		Font myFont = Font.getFont(attributes);
+		g.setFont(myFont);
 		
 				
 		
-		// Given the graphic, this method will place the images on the user screen
+		// Drawing images in level 2
 		if(frameSwitch) {
+			//drawing level start image
 			if(lvlStart) {
 				g.drawImage(lvl2Img, 0, 0, null, this);
 			}
+			//drawing gameplay images
 			else {
+				
+				//draw moving backgrounds
 				movebg-=2;
 				movebg2-=2;
 				if (movebg  <= -frameWidth) { //resets background image position to loop 
@@ -296,21 +318,29 @@ public class View extends JPanel{
 				}
 				g.drawImage(marshImg, movebg, 0, null);
 				g.drawImage(marshFlipImg, movebg2, 0, null);
+				
+				//drawing mini-map
 				g.drawImage(mapImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
 				g.setClip(frameWidth-(frameWidth/4), (frameHeight/10+frameHeight/30)+cropAmount, 250, 196);
 				g.drawImage(pathImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
 				g.setClip(0,0, frameWidth, frameHeight);
+				
+				//drawing health bar
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
 			}
 		}
-		// Given the graphic, this method will place the images on the user screen
+		// Drawing images in level 1
 		else{
+			//drawing level start image
 			if(lvlStart) {
 				g.drawImage(lvl1Img, 0, 0, null, this);
 			}
+			//drawing gameplay images
 			else {
+				//stationary background
 				g.drawImage(grassImg, 0, 0, null, this);
+
 				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 				g.drawString(tutStr, frameWidth/4, frameHeight/3);
 				g.setColor(Color.black);
@@ -319,27 +349,30 @@ public class View extends JPanel{
 			
 		}
 		
+		//quiz start image
 		if(quiz) {
 			g.drawImage(quizImg, 0, 0, null, this);
 			
 		}
 		
+		//drawing characters & objects
 		if(run && !quiz && !lvlStart) {
 			frameNum = (frameNum + 1) % frameCount;
 			for(Movers c: Model.charArr)
 			{	
 				Character curChar=(Character)c;
 				g.drawImage(pics[curChar.imgArrNum][frameNum], curChar.xPos, curChar.yPos, null, this);
-				g.drawRect(curChar.getX(), curChar.getY(), curChar.width, curChar.height);
+				//g.drawRect(curChar.getX(), curChar.getY(), curChar.width, curChar.height);
 			}	
 
-			
+			//health bar
 	    	g.setColor(Color.red);
 			g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
 					((frameWidth/5-1)*(player.getHealth()))/1000, frameHeight/30-1);
 			
+			//bird player
 			g.drawImage(pics[player.imgArrNum][frameNum], player.xPos, player.yPos, null, this);
-			g.drawRect(player.xPos, player.yPos, Bird.width, Bird.height);
+			//g.drawRect(player.getX(), player.getY(), Bird.width, Bird.height);
 
 		}
 		
@@ -365,7 +398,6 @@ public class View extends JPanel{
 	}
 
 	
-	
 	/**
 	 * Creates new frame and sets frame logic for end of game quiz.
 	 * @param Nothing
@@ -382,7 +414,8 @@ public class View extends JPanel{
 			    
 			}
 		};
-		if(!quiz) { // quiz=false after pressing enter on quiz transition frame
+		// quiz=false after pressing enter on quiz transition frame
+		if(!quiz) {
 			quizPanel.setBackground(Color.gray);
 			quizPanel.setLayout(null);
 			//quizPanel.paintComponent(g);
@@ -426,6 +459,8 @@ public class View extends JPanel{
 		
 			frame2 = new JFrame();
 			frame2.getContentPane().add(quizPanel);
+			frame2.add(quizPanel);
+			
 			frame2.setBackground(Color.gray);
 			frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame2.setSize(frameWidth, frameHeight);
@@ -437,9 +472,9 @@ public class View extends JPanel{
 			JFrame temp = frame;
 			frame = frame2;
 			temp.dispose();
-		}
 		
-
+		
+		}
 
 
 	}
@@ -457,11 +492,12 @@ public class View extends JPanel{
 	public void setAnswer(int q, boolean ans)
 	{
 		if(ans) {
-			quizLabel2.setText("Correct");
+			//quizLabel2.setForeground(Color.red);
+			quizLabel2.setText("Correct! Press enter to continue.");
 		}
 		else
 		{
-			quizLabel2.setText("Incorrect");
+			quizLabel2.setText("Incorrect! Try again.");
 		}
 		frame.requestFocus();
 	}

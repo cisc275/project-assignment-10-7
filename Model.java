@@ -219,6 +219,9 @@ public class Model{
 			{
 				if(c.getClass()==Prey.class)
 				{
+					if(player.hurt == 0) {
+						player.hurt = -20;//switch to red images
+					}
 					player.updateHealth(100);
 					return true;
 				}
@@ -233,6 +236,9 @@ public class Model{
 				}
 				else
 				{
+					if(player.hurt == 0) {
+						player.hurt = 20;//switch to red images
+					}
 					player.updateHealth(-100);
 				}
 				c.touch=true;
@@ -271,16 +277,6 @@ public class Model{
 		
 	}
 	
-//	public void switchGames()
-//	{
-//
-//		player.updateHealth(Bird.maxHealth);
-//		player.setMigrate(true);
-//		game=true;
-//		Model.charArr=new ArrayList<>();
-//		Prey.preyCount=0;
-//		Pollution.pCount=0;
-//	}
 	
 }
 		

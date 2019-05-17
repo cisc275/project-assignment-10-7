@@ -178,7 +178,6 @@ public class Controller implements ActionListener, KeyListener{
 		switch(e.getKeyCode()) {
 		
 		case 10: //enter
-			System.out.println("gs: " + gameStage);
 			if (!run) {
 				switch(gameStage) {
 				case -1: //start level 1 when restarting game from space input
@@ -216,7 +215,6 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32: //space
-			System.out.println("space gs: " + gameStage);
 			if(gameStage > 3) {
 				playerArr = new ArrayList<>();
 				JFrame temp = view.frame;
@@ -364,9 +362,8 @@ public class Controller implements ActionListener, KeyListener{
 		if(gameStage == 0) { //level 1 finished, switch to level 2
 			model.switchGame();
 			View.lvlStart = true;
-			view.frameSwitch=true;
-			
-				
+			view.frameSwitch = true;
+
 		}
 		else if (gameStage ==1)
 		{
@@ -388,8 +385,6 @@ public class Controller implements ActionListener, KeyListener{
 			view.setText(0);
 		}
 		else {
-
-			
 			model.nextQuestion();
 			view.setText(model.question);
 			view.setAnswer();
