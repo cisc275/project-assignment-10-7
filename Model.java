@@ -25,7 +25,7 @@ public class Model{
 	boolean eatFlag = false;
 	boolean helpFlag = false;
 	
-	int [] ansArr = {2,1,3};
+	int [] ansArr = {2,1,4,3,2,1,3};
 	int question=0;
 	
 	boolean answered = false;
@@ -158,16 +158,22 @@ public class Model{
 				if(c.getClass()==Prey.class)
 				{
 					if(player.hurt == 0) {
-						player.hurt = -20;//switch to red images
+						player.hurt = -20;//switch to green images
 					}
 					player.updateHealth(100);
 					return true;
 				}
 				else if(c.getClass()==Wood.class) {
+					if(player.hurt == 0) {
+						player.hurt = -20;//switch to green images
+					}
 					score+=scoreIncr;
 					return true; 
 				}
 				else if (c.getClass()==Pollution.class) {
+					if(player.hurt == 0) {
+						player.hurt = 20;//switch to red images
+					}
 					score-=scoreDncr;
 					player.updateHealth(-50);
 					return true;
@@ -194,7 +200,7 @@ public class Model{
 		return player;
 	}
 	
-	public boolean checkQuiz( int a) 
+	public boolean checkQuiz(int a) 
 	{
 		answered=true;
 		if (ansArr[question]==a)
@@ -214,17 +220,7 @@ public class Model{
 		}
 		
 	}
-	
-//	public void switchGames()
-//	{
-//
-//		player.updateHealth(Bird.maxHealth);
-//		player.setMigrate(true);
-//		game=true;
-//		Model.charArr=new ArrayList<>();
-//		Prey.preyCount=0;
-//		Pollution.pCount=0;
-//	}
+
 	
 }
 		

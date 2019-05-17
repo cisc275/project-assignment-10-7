@@ -192,7 +192,7 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32: //space
-			if(gameStage > 3) {
+			if(gameStage > 3 && model.question == 6) {
 				playerArr = new ArrayList<>();
 				view = new View();
 				view.frameSwitch = false;
@@ -347,11 +347,15 @@ public class Controller implements ActionListener, KeyListener{
 			view.setText(0);
 		}
 		else {
-
+			if(model.question == 6 && model.answered) {
+				view.setEnd();
+			}
+			else if(model.question <= 6) {
+				model.nextQuestion();
+				view.setText(model.question);
+				view.setAnswer();
+			}
 			
-			model.nextQuestion();
-			view.setText(model.question);
-			view.setAnswer();
 		}
 	
 		gameStage++;
