@@ -120,6 +120,68 @@ public class Model{
 			}
 			player.updateHealth(-1);
 		}
+	
+	int pause = 0;
+	public boolean updateTutorial(boolean run, int moduleStage) {
+
+		boolean check = false;
+		if (run)
+		{
+			switch(moduleStage) {
+			case 2:
+				Prey p = new Prey(View.frameWidth/2, 2*View.frameHeight/3, Prey.width, Prey.height);
+				p.setImgInd(View.Mouse);
+				charArr.add(p);
+				Prey.preyCount++;
+				break;
+			case 3:
+				Wood w =new Wood(View.frameWidth/2, 2*View.frameHeight/3, Wood.width, Wood.height);
+				w.setImgInd(View.Twig);
+				charArr.add(w);
+				Wood.wCount++;
+				break;
+			case 4:
+				Fox f = new Fox(View.frameWidth/4, 2*View.frameHeight/3, Fox.width, Fox.height);
+				f.setImgInd(View.FoxFwd);
+				charArr.add(f);
+				Pollution pol = new Pollution(2*View.frameWidth/3, 2*View.frameHeight/3, Pollution.width, Pollution.height);
+				pol.setImgInd(View.Trash);
+				charArr.add(pol);
+				Pollution.pCount++;
+				break;
+			}
+			
+		}
+		
+		Iterator<Movers> i = charArr.iterator();
+		while(i.hasNext())
+		{
+			Movers c;
+			c = i.next();
+			//c.move();
+			if(pause>50)
+			{
+				if (checkCollision((AutoCharacters)c))
+				{
+					i.remove();
+					Prey.preyCount--;
+					check = true;
+					pause = 0;
+				}
+			}
+		}
+		
+		player.move();
+		
+		if(eatFlag) 
+		{
+			player.eat();
+		}
+		pause++;
+
+		return check;
+		
+	}
 
 	
 	public boolean animation()

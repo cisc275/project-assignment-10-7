@@ -71,7 +71,13 @@ public class Bird extends Character{
 	public void move()
 	{
 		checkImage();
-		xPos+=xVector;
+		if(!checkRightBorder() && xVector>0 )
+			xPos=xPos;
+		else if(!checkLeftBorder() && xVector<0)
+			xPos=xPos;
+		else
+			xPos+=xVector;
+		
 		yPos+=yVector;
 	}
 	
@@ -83,17 +89,13 @@ public class Bird extends Character{
 			setXVec(0);
 			break;
 		case 37:
-			if(!migrate) {
 			setXVec(-(View.frameWidth/128));
 			direction = Direction.WEST;
-			}
 			break;
 			
 		case 39:
-			if(!migrate) {
 			setXVec(View.frameWidth/128);
 			direction = Direction.EAST;
-			}
 			break;
 		
 		default:
@@ -148,7 +150,7 @@ public class Bird extends Character{
 	}
 	
 	public boolean checkRightBorder() {
-		if(xPos >= View.frameWidth - 100)
+		if(xPos  >= View.frameWidth - width)
 			return false;
 		else
 			return true;
@@ -187,20 +189,21 @@ public class Bird extends Character{
 	}
 	
 	public void setXVec(int x) {
-		if(x>0)
-		{
-			if(checkRightBorder())
-				xVector=x;
-			else
-				xVector=0;
-		}
-		else
-		{
-			if(checkLeftBorder())
-				xVector=x;
-			else
-				xVector=0;
-		}
+		xVector=x;
+		//		if(x>0)
+//		{
+//			if(checkRightBorder())
+//				xVector=x;
+//			else
+//				xVector=0;
+//		}
+//		else
+//		{
+//			if(checkLeftBorder())
+//				xVector=x;
+//			else
+//				xVector=0;
+//		}
 	}
 	
 	public void setYVec(int y) {

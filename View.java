@@ -97,6 +97,8 @@ public class View extends JPanel{
 	JPanel quizPanel;
 	int cropAmount;
 	
+	String tutStr;
+	
 
 	
 	String[][] questArr = {{"What is the bird in the first game?", "Osprey", "Northern Harrier", "Eagle", "Hawk"},
@@ -114,6 +116,7 @@ public class View extends JPanel{
 	View(){
 		lvlStart = true;
 		cropAmount =150;
+		tutStr="";
 		
     	pics = new BufferedImage[11][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
@@ -299,8 +302,6 @@ public class View extends JPanel{
 				g.setClip(0,0, frameWidth, frameHeight);
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
-//				System.out.println("pic: " + movebg%frameWidth);
-//				System.out.println("pic2: " + (movebg+frameWidth)%frameWidth);
 			}
 		}
 		// Given the graphic, this method will place the images on the user screen
@@ -311,6 +312,7 @@ public class View extends JPanel{
 			else {
 				g.drawImage(grassImg, 0, 0, null, this);
 				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
+				g.drawString(tutStr, frameWidth/4, frameHeight/3);
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
 			}
@@ -337,6 +339,7 @@ public class View extends JPanel{
 					((frameWidth/5-1)*(player.getHealth()))/1000, frameHeight/30-1);
 			
 			g.drawImage(pics[player.imgArrNum][frameNum], player.xPos, player.yPos, null, this);
+			g.drawRect(player.xPos, player.yPos, Bird.width, Bird.height);
 
 		}
 		
@@ -466,6 +469,30 @@ public class View extends JPanel{
 	public void setAnswer()
 	{
 		quizLabel2.setText("");
+	}
+	
+	public void setTutorial(int stage) {
+		switch(stage)
+		{
+		case 0:
+			tutStr="Press space to swoop down";
+			break;
+		case 1:
+			tutStr="Use arrows to move left and right";
+			break;
+		case 2:
+			tutStr="Collect prey to gain energy!";
+			break;
+		case 3:
+			tutStr="Collect sticks for points!";
+			break;
+		case 4:
+			tutStr="Avoid predators and pollution!";
+			break;
+		case 5:
+			tutStr="";
+			break;
+		}
 	}
 
 	
