@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 import java.util.*;
 import java.io.*;
@@ -30,7 +31,7 @@ public class Controller implements ActionListener, KeyListener{
 	boolean run = false;
 	boolean serial = false;
 	boolean animate=true;
-	boolean tutorial;
+	int tutorial;
 	int arrInd=0;
 	
 	ArrayList<Bird> playerArr;
@@ -52,7 +53,8 @@ public class Controller implements ActionListener, KeyListener{
 		view = new View();
 		model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
 		
-		tutorial = true;
+		
+		tutorial = 0;
 		
 		view.frame.addKeyListener(this);
 		
@@ -60,12 +62,33 @@ public class Controller implements ActionListener, KeyListener{
 	    {
 			public void actionPerformed(ActionEvent e)
 			{
+				if (tutorial>=0)
+				{
+					run = false;
+					start_stop =model.updateTutorial(start_stop, tutorial);
+					if (start_stop)
+						tutorial++;
+					view.setTutorial(tutorial);
+					view.update(model.getPlayer(), true);
+					if(tutorial == 5)
+					{
+						run = true;
+						tutorial=-1;
+						Model.charArr=new ArrayList<>();
+						model.getPlayer().updateHealth(Bird.maxHealth);
+						startTimer();
+						Model.score=0;
+					}
+					
+					
+				}
 				if (run) 
 				{
 					//increment the x and y coordinates, alter direction if necessary
 					model.updateLocationDirection(start_stop);			
 	    			//update the view
 					view.update(model.getPlayer(), run);
+					
 					if(model.getPlayer().getHealth()==0 || !timerStop)
 					{ 
 						if(animate) // animations after each level
@@ -90,7 +113,7 @@ public class Controller implements ActionListener, KeyListener{
 						splayer.yPos=model.getPlayer().yPos;
 						playerArr.add(splayer);
 					}	
-				}
+				}//if(run)
 				
 				
 				if(deserial && arrInd<playerArr.size())
@@ -194,7 +217,9 @@ public class Controller implements ActionListener, KeyListener{
 		case 32: //space
 			if(gameStage > 3 && model.question == 6) {
 				playerArr = new ArrayList<>();
+				JFrame temp = view.frame;
 				view = new View();
+				temp.dispose();
 				view.frameSwitch = false;
 				run = false;
 				gameStage = -1;
@@ -204,6 +229,10 @@ public class Controller implements ActionListener, KeyListener{
 				view.frame.addKeyListener(this);
 			}
 			else{
+				if(tutorial == 0)
+				{
+					tutorial++;
+				}
 				model.eatFlag = true;
 				model.getPlayer().risefall = 1;
 			}
@@ -220,6 +249,11 @@ public class Controller implements ActionListener, KeyListener{
 			
 		default:
 			model.getPlayer().keyToDirec(e.getKeyCode());
+			if(tutorial ==1)
+			{
+				tutorial++;
+				start_stop=true;
+			}
 			break;
 			
 		}
@@ -283,13 +317,17 @@ public class Controller implements ActionListener, KeyListener{
 				System.out.println("Started");
 				t = new Timer(drawDelay, drawAction);
 				t.start();
-				if (run) {
+				if (run & tutorial==-1) {
 					System.out.println("started timer");
-					gameTime = new java.util.Timer();
-					gameTime.schedule(new GameTask(), 30000);
+					startTimer();
 				}
 			}
 		});
+	}
+	
+	public void startTimer() {
+		gameTime = new java.util.Timer();
+		gameTime.schedule(new GameTask(), 30000);
 	}
 	
 
