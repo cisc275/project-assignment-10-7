@@ -322,7 +322,7 @@ public class View extends JPanel{
 				}
 				g.drawImage(marshImg, movebg, 0, null);
 				g.drawImage(marshFlipImg, movebg2, 0, null);
-				
+				// g.drawLine(0, ((2*View.frameHeight)/5), frameWidth,((2*View.frameHeight)/5));
 				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 				
 				//drawing mini-map
