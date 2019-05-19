@@ -349,7 +349,6 @@ public class View extends JPanel{
 				//stationary background
 				g.drawImage(grassImg, 0, 0, null, this);
 
-				//g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 				g.drawString(tutStr, frameWidth/4, frameHeight/3);
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
@@ -422,6 +421,7 @@ public class View extends JPanel{
 		        g.setFont(myFont);
 		        g.setColor(Color.black);
 				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
+
 			    
 			}
 		};
@@ -504,13 +504,15 @@ public class View extends JPanel{
 	{
 		quizLabel2.setForeground(Color.black);
 		if(ans) {
-			Model.score += 100;
-			System.out.println(Model.score);
+			//Model.score += 100;
+			Model.correctQuiz = true;
+			Model.updateQuizScore();
 			quizLabel2.setText("Correct! Press enter to continue.");
+			
 		}
 		else
 		{
-			Model.score -= 25;
+			//Model.score -= 25;
 			
 			switch(q) {
 			case 0:

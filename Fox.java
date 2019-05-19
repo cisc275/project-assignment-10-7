@@ -56,7 +56,7 @@ public class Fox extends AutoCharacters implements Movers{
 	public static void addFox() {
 		Random rand = new Random();
 	     if(foxCount<Model.foxLimit && rand.nextInt(100)==5) {
-	    	 Fox f = new Fox(View.frameWidth,rand.nextInt(View.frameHeight - (2 * View.frameHeight/3) + 1) + (2 * View.frameHeight/3) - height, width, height);
+	    	 Fox f = new Fox(View.frameWidth,rand.nextInt((View.frameHeight - View.frameHeight/10) - (2 * View.frameHeight/3) + 1) + (2 * View.frameHeight/3) - height, width, height) ;
 	 		Model.charArr.add(f);
 	 		foxCount++; 
 	     }

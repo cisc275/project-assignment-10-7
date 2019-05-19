@@ -9,6 +9,7 @@ public class Model{
 	int yBound;
 	int scoreIncr = 100;
 	int scoreDncr = 25;
+	static boolean correctQuiz =  false;
 	Direction direction;
 	static ArrayList<Movers> charArr;
 	int colBound;
@@ -282,6 +283,13 @@ public class Model{
 			answered = false;
 		}
 		
+	}
+	
+	public static void updateQuizScore() {
+		if(correctQuiz) {
+		score+=200;
+		}
+		correctQuiz = false; 
 	}
 
 	

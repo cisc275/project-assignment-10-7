@@ -19,7 +19,8 @@ public class Wood extends AutoCharacters implements Movers{
 	public static void wFactory() {
 		Random rand = new Random();
 	     if(wCount<Model.woodLimit && rand.nextInt(100)==5) {
-	    	 Wood w = new Wood(rand.nextInt(View.frameWidth), rand.nextInt(View.frameHeight - (2 * View.frameHeight/3) + 1) + (2 * View.frameHeight/3), width, height);
+	
+	    	 Wood w = new Wood(rand.nextInt(View.frameWidth),rand.nextInt((View.frameHeight - View.frameHeight/10) - (2 * View.frameHeight/3) + 1) + (2 * View.frameHeight/3) - height, width, height);
 	    	 w.setImgInd(View.Twig);
 	 		Model.charArr.add(w);
 	 		wCount++; 
