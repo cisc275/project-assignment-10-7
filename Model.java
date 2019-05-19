@@ -10,12 +10,13 @@ public class Model{
 	int scoreIncr = 100;
 	int scoreDncr = 25;
 	static boolean correctQuiz =  false;
+	int foxMax = 4;
 	Direction direction;
 	static ArrayList<Movers> charArr;
 	int colBound;
 	Bird player;
 	static int score = 0;
-	static int foxLimit = 3;
+	static int foxLimit = 2;
 	static int preyLimit = 15;
 	static int pollLimit = 8;
 	static int woodLimit = 20;
@@ -84,10 +85,15 @@ public class Model{
 					}
 				}
 			
-			if(score % 300 == 0 && score != 0) {
-				//System.out.println("Challenging Player");
-				foxLimit += 1;
-				// preyLimit -= 1;
+			if(score % 400 == 0 && score != 0) {
+				//Will increase foxes up to the max; 
+				if(foxLimit != foxMax) {
+					// System.out.println("1 Fox was added");
+					foxLimit++;
+				}
+				else {
+					// System.out.println("Maximum foxes reached");
+				}
 			}
 			
 			// If player health falls below half, Foxes' speed is reduced

@@ -325,8 +325,6 @@ public class View extends JPanel{
 				g.drawImage(marshImg, movebg, 0, null);
 				g.drawImage(marshFlipImg, movebg2, 0, null);
 				
-				
-				
 				//drawing mini-map
 				g.drawImage(mapImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
 				g.setClip(frameWidth-(frameWidth/4), (frameHeight/10+frameHeight/30)+cropAmount, 250, 196);
