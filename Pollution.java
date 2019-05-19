@@ -20,7 +20,7 @@ public class Pollution extends AutoCharacters implements Movers{
 	public static void pFactory() {
 		Random rand = new Random();
 	     if(pCount<Model.pollLimit && rand.nextInt(100)==5) {
-	    	 Pollution p = new Pollution(View.frameWidth, rand.nextInt(View.frameHeight - (2 * View.frameHeight/3) + 1) + (2 * View.frameHeight/3) - height, width, height);
+	    	 Pollution p = new Pollution(View.frameWidth, rand.nextInt((View.frameHeight - View.frameHeight/10) - (2 * View.frameHeight/3) + 1) + (2 * View.frameHeight/3) - height, width, height);
 	    	 p.setImgInd(View.Trash);
 	 		Model.charArr.add(p);
 	 		pCount++; 
