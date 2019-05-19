@@ -53,7 +53,7 @@ public class Controller implements ActionListener, KeyListener{
 		playerArr = new ArrayList<>();
 		view = new View();
 		model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
-		
+		readScores();
 		
 		tutorial = 0;
 		
@@ -155,6 +155,10 @@ public class Controller implements ActionListener, KeyListener{
 		{
 			view.setAnswer(model.question, model.checkQuiz(4));
 		}
+		else if(a.getActionCommand().equals("Submit"))
+		{
+			writeScore(view.submitScore());
+		}
 
 		
 	}
@@ -202,6 +206,11 @@ public class Controller implements ActionListener, KeyListener{
 				case 3:
 					switchStates();
 					break;
+				case 4:
+					switchStates();
+					break;
+				case 5:
+					break;
 				default:
 					switchStates();
 					break;
@@ -222,11 +231,14 @@ public class Controller implements ActionListener, KeyListener{
 				JFrame temp = view.frame;
 				view = new View();
 				temp.dispose();
+				readScores();
+				Model.restart();
 				view.frameSwitch = false;
 				run = false;
 				gameStage = -1;
 				start_stop=true;
 				view.cropAmount=196;
+				animate=true;
 				model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
 				view.frame.addKeyListener(this);
 				drawTime = new java.util.Timer();
@@ -332,7 +344,7 @@ public class Controller implements ActionListener, KeyListener{
 	
 	public void startTimer() {
 		gameTime = new java.util.Timer();
-		gameTime.schedule(new GameTask(), 30000);
+		gameTime.schedule(new GameTask(), 10000);
 	}
 	
 
@@ -368,6 +380,7 @@ public class Controller implements ActionListener, KeyListener{
 			model.switchGame();
 			View.lvlStart = true;
 			view.frameSwitch = true;
+			gameStage++;
 
 		}
 		else if (gameStage ==1)
@@ -377,10 +390,12 @@ public class Controller implements ActionListener, KeyListener{
 			start_stop=true;
 			timerStop=true;
 			animate=true;
+			gameStage++;
 		}
 		else if(gameStage == 2) //level 2 finished, switch to quiz
 		{
 			View.quiz = true;
+			gameStage++;
 		}
 		else if (gameStage == 3) //start quiz
 		{
@@ -388,22 +403,51 @@ public class Controller implements ActionListener, KeyListener{
 			view.quizView();
 			addQuizButton();
 			view.setText(0);
+			gameStage++;
 		}
 		else {
 			if(model.question == 6 && model.answered) {
 				view.setEnd();
+				view.submit.addActionListener(this);
+				gameStage++;
 			}
-			else if(model.question <= 6) {
+			else if(model.question < 6) {
 				model.nextQuestion();
 				view.setText(model.question);
 				view.setAnswer();
 			}
 			
 		}
-	
-		gameStage++;
 		addKey();
 		
+	}
+	
+	public void writeScore(String [][] hsArr) {
+		try {
+            FileOutputStream fos = new FileOutputStream("highScores.txt");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(hsArr);
+            oos.close();
+		}
+        catch (Exception e)
+        {}
+	}
+	
+	public void readScores()
+	{
+		try {
+			FileInputStream fis = new FileInputStream("highScores.txt");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        System.out.println("here");
+	        
+	        String[] []arr = (String [] []) ois.readObject();
+	        view.setScores(arr);
+	        ois.close();        
+	        //new File("bird.ser").delete();
+			}catch (Exception e)
+			{
+				System.out.println(e);
+			}
 	}
 	
 

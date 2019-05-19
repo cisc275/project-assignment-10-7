@@ -4,6 +4,7 @@
  *   Osprey: https://www.shutterstock.com/image-vector/vector-illustration-cartoon-flying-house-sparrow-1136982263?src=xRdlkBFtay_XNEfQPLy4CA-1-16
  *   Mouse: https://www.freepik.com/free-vector/cartoon-mice-collection_1588305.htm
  *   Fish: Own illustration
+ *   Pollution:
  *   Pollution: 
  *   Marsh background: https://www.vecteezy.com/vector-art/175365-seagrass-marsh-illustration
  *   Grass background: https://www.shutterstock.com/video/clip-12615866-animated-green-grass-blue-sky-clouds
@@ -23,13 +24,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 
@@ -84,7 +88,7 @@ public class View extends JPanel{
 	
 	JFrame frame;
 	JFrame frame2;
-	JPanel panel;
+	
 	boolean frameSwitch; //flag for switching to level 2
 	boolean run=false;
 	static boolean lvlStart; //true when switching between games, used to show transition scenes
@@ -102,6 +106,14 @@ public class View extends JPanel{
 	boolean quizView=false;
 	int cropAmount;
 	
+	
+	JPanel highScorePanel;
+	JTextField textfield;
+	JButton submit;
+	ArrayList<String> names;
+	ArrayList<Integer> scores;
+	String [][] hsArr;
+	JLabel endLabel;
 	String tutStr;
 	HashMap<TextAttribute, Object> attributes;
 	Font myFont;
@@ -127,6 +139,9 @@ public class View extends JPanel{
 		lvlStart = true;
 		cropAmount =150;
 		tutStr="";
+		hsArr=new String [5][2];
+		names=new ArrayList<>(List.of("1", "2","3","4","5"));
+		scores = new ArrayList<>(List.of(0,0,0,0,0));
 		
     	pics = new BufferedImage[19][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
@@ -328,8 +343,7 @@ public class View extends JPanel{
 				//drawing mini-map
 				g.drawImage(mapImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
 				g.setClip(frameWidth-(frameWidth/4), (frameHeight/10+frameHeight/30)+cropAmount, 250, 196);
-				System.out.println((frameHeight/10+frameHeight/30)+cropAmount);
-				System.out.println("cr: " + cropAmount);
+
 				if(Controller.restart) {
 					cropAmount = 150;
 					Controller.restart = false;
@@ -508,15 +522,12 @@ public class View extends JPanel{
 	{
 		quizLabel2.setForeground(Color.black);
 		if(ans) {
-			//Model.score += 100;
 			Model.correctQuiz = true;
-			Model.updateQuizScore();
 			quizLabel2.setText("Correct! Press enter to continue.");
 			
 		}
 		else
 		{
-			//Model.score -= 25;
 			
 			switch(q) {
 			case 0:
@@ -532,7 +543,7 @@ public class View extends JPanel{
 				quizLabel2.setText("Incorrect! Ospreys like seafood. Try again!");
 				break;
 			case 4:
-				quizLabel2.setText("Incorrect! Fast-moving land mammals hunt Northern Harriers. Try again!");
+				quizLabel2.setText("Incorrect! Fast-moving mammals hunt Northern Harriers. Try again!");
 				break;
 			case 5:
 				quizLabel2.setText("Incorrect! Ospreys have to avoid flying objects in the air. Try again!");
@@ -582,8 +593,117 @@ public class View extends JPanel{
 	}
 	
 	public void setEnd() {
-		quizLabel2.setForeground(Color.blue);
-		quizLabel2.setText("Press space to play again!");
+		highScorePanel = new JPanel() {
+			@Override
+			  protected void paintComponent(Graphics g) {
+
+			    super.paintComponent(g);
+			        g.drawImage(marshImg, 0, 0, null);
+			    
+			}
+		};
+		highScorePanel.setLayout(null);
+		textfield= new JTextField();
+		textfield.setBounds(frameWidth/3, frameHeight/3, frameWidth/3, frameHeight/16);
+		highScorePanel.add(textfield);
+		
+		JLabel title = new JLabel("High Scores");
+		title.setFont(new Font("Verdana", Font.BOLD, frameHeight / 15));
+		title.setBounds(0, frameHeight/6, frameWidth, frameHeight/8);
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		submit = new JButton ("Submit");
+		submit.setBounds(5*frameWidth/12, 5*frameHeight/12, frameWidth/6, frameHeight/16);
+		submit.setActionCommand("Submit");
+		
+		highScorePanel.add(submit);
+		highScorePanel.add(title);
+		
+		JLabel highscore1 = new JLabel("1");
+		JLabel highscore2 = new JLabel("2");
+		JLabel highscore3 = new JLabel("3");
+		JLabel highscore4 = new JLabel("4");
+		JLabel highscore5 = new JLabel("5");
+		
+		setLabels(highscore1, 1);
+		setLabels(highscore2, 2);
+		setLabels(highscore3, 3);
+		setLabels(highscore4, 4);
+		setLabels(highscore5, 5);
+		
+		highScorePanel.add(highscore1);
+		highScorePanel.add(highscore2);
+		highScorePanel.add(highscore3);
+		highScorePanel.add(highscore4);
+		highScorePanel.add(highscore5);
+		
+		endLabel = new JLabel("");
+		endLabel.setFont(new Font("Verdana", Font.BOLD, frameHeight / 15));
+		endLabel.setBounds(0, frameHeight/2, frameWidth, frameHeight/8);
+		endLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		highScorePanel.add(endLabel);
+
+
+		frame2 = new JFrame();
+		frame2.setBackground(Color.gray);
+		frame2.getContentPane().add(highScorePanel);
+		frame2.add(highScorePanel);
+		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame2.setSize(frameWidth, frameHeight);
+		frame2.setFocusable(true);
+		frame2.requestFocus();
+		frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame2.setUndecorated(true);
+		frame2.setVisible(true);
+		JFrame temp = frame;
+		frame = frame2;
+		
+		temp.dispose();
+
+	}
+	
+	public String[][] submitScore() {
+		
+		scores.add(Model.score);
+		Collections.sort(scores, (a,b)->b.compareTo(a));
+		scores.remove(scores.size()-1);
+		
+		int i = 0;
+		for (Integer curSc : scores)
+		{ 
+			if(curSc == Model.score)
+			{
+				hsArr[i][0]=textfield.getText();
+			}
+			else {
+				hsArr[i][0]=names.get(i);
+			}
+			hsArr[i][1]=String.valueOf(curSc);
+			i++;
+			
+		}
+		frame.requestFocus();
+		endLabel.setText("Press space to restart!");
+		
+		return hsArr;
+	}
+	
+	public void setScores(String [] [] arr) {
+		int i=0;
+		for (String [] s : arr)
+		{
+			names.set(i, s[0]);
+			scores.set(i, Integer.valueOf(s[1]));
+			i++;
+		}
+	}
+	
+	public void setLabels(JLabel l, int i) {
+		Font font = new Font("Verdana", Font.BOLD, frameHeight / 25);
+		l.setFont(font);
+		l.setBounds(0, (15+i)*frameHeight/25, frameWidth, frameHeight/8);
+		l.setHorizontalAlignment(SwingConstants.CENTER);
+		l.setText(names.get(i-1)+": "+scores.get(i-1));
 	}
 	
 
