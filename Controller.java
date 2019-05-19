@@ -200,7 +200,7 @@ public class Controller implements ActionListener, KeyListener{
 					switchStates();
 					start();
 					drawTime = new java.util.Timer();
-					drawTime.schedule(new ViewDrawTask(), 0,500);
+					drawTime.schedule(new ViewDrawTask(), 0,250);
 					break;
 				case 3:
 					switchStates();
@@ -225,6 +225,7 @@ public class Controller implements ActionListener, KeyListener{
 		
 		case 32: //space
 			if(gameStage > 3 && model.question == 6) {
+				Model.score = 0;
 				playerArr = new ArrayList<>();
 				JFrame temp = view.frame;
 				view = new View();

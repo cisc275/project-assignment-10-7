@@ -10,6 +10,7 @@ public class Model{
 	int scoreIncr = 100;
 	int scoreDncr = 25;
 	static boolean correctQuiz =  false;
+	int foxMax = 4;
 	Direction direction;
 	static ArrayList<Movers> charArr;
 	int colBound;
@@ -42,6 +43,7 @@ public class Model{
 		colBound=imgW;
 		charArr=new ArrayList<>();
 		player = new Bird(100,0);		
+		score = 0;
 	}
 	
 	/**
@@ -83,10 +85,15 @@ public class Model{
 					}
 				}
 			
-			if(score % 300 == 0 && score != 0) {
-				//System.out.println("Challenging Player");
-				foxLimit += 1;
-				// preyLimit -= 1;
+			if(score % 400 == 0 && score != 0) {
+				//Will increase foxes up to the max; 
+				if(foxLimit != foxMax) {
+					// System.out.println("1 Fox was added");
+					foxLimit++;
+				}
+				else {
+					// System.out.println("Maximum foxes reached");
+				}
 			}
 			
 			// If player health falls below half, Foxes' speed is reduced
@@ -269,7 +276,7 @@ public class Model{
 		answered=true;
 		if (ansArr[question]==a)
 		{
-			score+=100;
+			score+=400;
 			return true;
 		}
 		else
@@ -287,12 +294,6 @@ public class Model{
 		
 	}
 	
-	public static void updateQuizScore() {
-		if(correctQuiz) {
-		score+=200;
-		}
-		correctQuiz = false; 
-	}
 	
 	public static void restart()
 	{
