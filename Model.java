@@ -41,6 +41,7 @@ public class Model{
 		colBound=imgW;
 		charArr=new ArrayList<>();
 		player = new Bird(100,0);		
+		score = 0;
 	}
 	
 	/**

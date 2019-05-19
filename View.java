@@ -4,7 +4,7 @@
  *   Osprey: https://www.shutterstock.com/image-vector/vector-illustration-cartoon-flying-house-sparrow-1136982263?src=xRdlkBFtay_XNEfQPLy4CA-1-16
  *   Mouse: https://www.freepik.com/free-vector/cartoon-mice-collection_1588305.htm
  *   Fish: Own illustration
- *   Pollution:
+ *   Pollution: 
  *   Marsh background: https://www.vecteezy.com/vector-art/175365-seagrass-marsh-illustration
  *   Grass background: https://www.shutterstock.com/video/clip-12615866-animated-green-grass-blue-sky-clouds
  *   Start/end Northern Harrier: https://www.sciencephoto.com/media/381814/view/northern-harrier-at-nest-with-young, https://birdsna.org/Species-Account/bna/species/norhar/introduction
@@ -99,10 +99,12 @@ public class View extends JPanel{
 	JLabel quizLabel;
 	JLabel quizLabel2;
 	JPanel quizPanel;
+	boolean quizView=false;
 	int cropAmount;
 	
 	String tutStr;
-	
+	HashMap<TextAttribute, Object> attributes;
+	Font myFont;
 
 	
 	String[][] questArr = {{"What is the bird in the first game?", "Osprey", "Northern Harrier", "Eagle", "Hawk"},
@@ -293,11 +295,11 @@ public class View extends JPanel{
 
 		
 		//Text Attributes for score
-		HashMap<TextAttribute, Object> attributes = new HashMap<>();
+		attributes = new HashMap<>();
 		attributes.put(TextAttribute.FAMILY, "Calibri");
 		attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 		attributes.put(TextAttribute.SIZE, (int) (g.getFont().getSize() * (wRatio*(frameHeight/(frameWidth/5)))));
-		Font myFont = Font.getFont(attributes);
+		myFont = Font.getFont(attributes);
 		g.setFont(myFont);
 		
 				
@@ -323,7 +325,7 @@ public class View extends JPanel{
 				g.drawImage(marshImg, movebg, 0, null);
 				g.drawImage(marshFlipImg, movebg2, 0, null);
 				
-				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
+				
 				
 				//drawing mini-map
 				g.drawImage(mapImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
@@ -347,7 +349,7 @@ public class View extends JPanel{
 				//stationary background
 				g.drawImage(grassImg, 0, 0, null, this);
 
-				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
+				//g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 				g.drawString(tutStr, frameWidth/4, frameHeight/3);
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
@@ -379,10 +381,10 @@ public class View extends JPanel{
 			//bird player
 			g.drawImage(pics[player.imgArrNum][frameNum], player.xPos, player.yPos, null, this);
 			//g.drawRect(player.getX(), player.getY(), Bird.width, Bird.height);
-
+			
 		}
-		
-
+		g.setColor(Color.black);
+		g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 	}
 	
 	/**
@@ -413,10 +415,13 @@ public class View extends JPanel{
 		
 		quizPanel = new JPanel() {
 			@Override
-			  protected void paintComponent(Graphics g) {
+			protected void paintComponent(Graphics g) {
 
 			    super.paintComponent(g);
-			        g.drawImage(marshImg, 0, 0, null);
+			    g.drawImage(marshImg, 0, 0, null);
+		        g.setFont(myFont);
+		        g.setColor(Color.black);
+				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 			    
 			}
 		};
@@ -499,11 +504,14 @@ public class View extends JPanel{
 	{
 		quizLabel2.setForeground(Color.black);
 		if(ans) {
-			
+			Model.score += 100;
+			System.out.println(Model.score);
 			quizLabel2.setText("Correct! Press enter to continue.");
 		}
 		else
 		{
+			Model.score -= 25;
+			
 			switch(q) {
 			case 0:
 				quizLabel2.setText("Incorrect! The Northern Harrier is the non-migratory bird. Try again!");
@@ -534,6 +542,7 @@ public class View extends JPanel{
 					
 			
 		}
+		quizPanel.repaint();
 		frame.requestFocus();
 	}
 	
