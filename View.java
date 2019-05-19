@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 
@@ -84,7 +85,7 @@ public class View extends JPanel{
 	
 	JFrame frame;
 	JFrame frame2;
-	JPanel panel;
+	
 	boolean frameSwitch; //flag for switching to level 2
 	boolean run=false;
 	static boolean lvlStart; //true when switching between games, used to show transition scenes
@@ -99,6 +100,8 @@ public class View extends JPanel{
 	JLabel quizLabel;
 	JLabel quizLabel2;
 	JPanel quizPanel;
+	
+	JPanel highScorePanel;
 	int cropAmount;
 	
 	String tutStr;
@@ -358,6 +361,7 @@ public class View extends JPanel{
 		//quiz start image
 		if(quiz) {
 			g.drawImage(quizImg, 0, 0, null, this);
+			g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 			
 		}
 		
@@ -567,8 +571,36 @@ public class View extends JPanel{
 	}
 	
 	public void setEnd() {
-		quizLabel2.setForeground(Color.blue);
-		quizLabel2.setText("Press space to play again!");
+		highScorePanel = new JPanel() {
+			@Override
+			  protected void paintComponent(Graphics g) {
+
+			    super.paintComponent(g);
+			        g.drawImage(marshImg, 0, 0, null);
+			    
+			}
+		};
+		highScorePanel.setLayout(null);
+		JTextField textfield= new JTextField();
+		textfield.setBounds(110, 50, 130, 30);
+		highScorePanel.add(textfield);
+					//add to frame
+		frame2 = new JFrame();
+		frame2.setBackground(Color.gray);
+		frame2.getContentPane().add(highScorePanel);
+		frame2.add(highScorePanel);
+		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame2.setSize(frameWidth, frameHeight);
+		frame2.setFocusable(true);
+		frame2.requestFocus();
+		frame2.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame2.setUndecorated(true);
+		frame2.setVisible(true);
+		JFrame temp = frame;
+		frame = frame2;
+		temp.dispose();
+//		quizLabel2.setForeground(Color.blue);
+//		quizLabel2.setText("Press space to play again!");
 	}
 	
 

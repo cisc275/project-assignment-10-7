@@ -14,9 +14,9 @@ public class Model{
 	int colBound;
 	Bird player;
 	static int score = 0;
-	static int foxLimit = 3;
+	static int foxLimit = 1;
 	static int preyLimit = 15;
-	static int pollLimit = 8;
+	static int pollLimit = 5;
 	static int woodLimit = 20;
 	
 	boolean game=false;
@@ -203,6 +203,7 @@ public class Model{
 		Model.charArr = new ArrayList<>();
 		Prey.preyCount = 0;
 		Pollution.pCount = 0;
+		pollLimit = 15;
 		
 	}
 
@@ -267,10 +268,12 @@ public class Model{
 		answered=true;
 		if (ansArr[question]==a)
 		{
+			score+=100;
 			return true;
 		}
 		else
 		{
+			score-=100;
 			return false;
 		}
 	}

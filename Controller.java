@@ -225,6 +225,7 @@ public class Controller implements ActionListener, KeyListener{
 				gameStage = -1;
 				start_stop=true;
 				view.cropAmount=196;
+				animate=true;
 				model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
 				view.frame.addKeyListener(this);
 			}
@@ -327,7 +328,7 @@ public class Controller implements ActionListener, KeyListener{
 	
 	public void startTimer() {
 		gameTime = new java.util.Timer();
-		gameTime.schedule(new GameTask(), 30000);
+		gameTime.schedule(new GameTask(), 1000);
 	}
 	
 
@@ -387,8 +388,9 @@ public class Controller implements ActionListener, KeyListener{
 		else {
 			if(model.question == 6 && model.answered) {
 				view.setEnd();
+				model.question++;
 			}
-			else if(model.question <= 6) {
+			else if(model.question < 6) {
 				model.nextQuestion();
 				view.setText(model.question);
 				view.setAnswer();
