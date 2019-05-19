@@ -273,7 +273,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/"+filename));
+    		bufferedImage = ImageIO.read(new File(filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -346,7 +346,7 @@ public class View extends JPanel{
 			else {
 				//stationary background
 				g.drawImage(grassImg, 0, 0, null, this);
-
+				
 				g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 				g.drawString(tutStr, frameWidth/4, frameHeight/3);
 				g.setColor(Color.black);
@@ -417,6 +417,7 @@ public class View extends JPanel{
 
 			    super.paintComponent(g);
 			        g.drawImage(marshImg, 0, 0, null);
+			        g.drawString("SCORE: " + Model.score, 0, frameHeight/8);
 			    
 			}
 		};
@@ -499,8 +500,9 @@ public class View extends JPanel{
 	{
 		quizLabel2.setForeground(Color.black);
 		if(ans) {
-			
+			Model.correctQuiz = true;
 			quizLabel2.setText("Correct! Press enter to continue.");
+			
 		}
 		else
 		{
