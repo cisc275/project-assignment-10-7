@@ -293,7 +293,15 @@ public class Model{
 		}
 		correctQuiz = false; 
 	}
-
+	
+	public static void restart()
+	{
+		Model.score=0;
+		foxLimit = 1;
+		preyLimit = 15;
+		pollLimit = 5;
+		woodLimit = 20;
+	}
 	
 }
 		

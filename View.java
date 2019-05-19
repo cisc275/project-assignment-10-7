@@ -23,7 +23,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -102,7 +104,15 @@ public class View extends JPanel{
 	JPanel quizPanel;
 	
 	JPanel highScorePanel;
+	JTextField textfield;
+	JButton submit;
+	ArrayList<String> names;
+	ArrayList<Integer> scores;
+	String [][] hsArr;
+	JLabel endLabel;
+	
 	int cropAmount;
+	
 	
 	String tutStr;
 	
@@ -128,6 +138,9 @@ public class View extends JPanel{
 		lvlStart = true;
 		cropAmount =150;
 		tutStr="";
+		hsArr=new String [5][2];
+		names=new ArrayList<>(List.of("1", "2","3","4","5"));
+		scores = new ArrayList<>(List.of(0,0,0,0,0));
 		
     	pics = new BufferedImage[19][frameCount];
     	BufferedImage img = createImage("bird_forward_75.png");
@@ -276,7 +289,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File(filename));
+    		bufferedImage = ImageIO.read(new File("src/"+filename));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -583,10 +596,47 @@ public class View extends JPanel{
 			}
 		};
 		highScorePanel.setLayout(null);
-		JTextField textfield= new JTextField();
-		textfield.setBounds(110, 50, 130, 30);
+		textfield= new JTextField();
+		textfield.setBounds(frameWidth/3, frameHeight/3, frameWidth/3, frameHeight/16);
 		highScorePanel.add(textfield);
-					//add to frame
+		
+		JLabel title = new JLabel("High Scores");
+		title.setFont(new Font("Verdana", Font.BOLD, frameHeight / 15));
+		title.setBounds(0, frameHeight/6, frameWidth, frameHeight/8);
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		submit = new JButton ("Submit");
+		submit.setBounds(5*frameWidth/12, 5*frameHeight/12, frameWidth/6, frameHeight/16);
+		submit.setActionCommand("Submit");
+		
+		highScorePanel.add(submit);
+		highScorePanel.add(title);
+		
+		JLabel highscore1 = new JLabel("1");
+		JLabel highscore2 = new JLabel("2");
+		JLabel highscore3 = new JLabel("3");
+		JLabel highscore4 = new JLabel("4");
+		JLabel highscore5 = new JLabel("5");
+		
+		setLabels(highscore1, 1);
+		setLabels(highscore2, 2);
+		setLabels(highscore3, 3);
+		setLabels(highscore4, 4);
+		setLabels(highscore5, 5);
+		
+		highScorePanel.add(highscore1);
+		highScorePanel.add(highscore2);
+		highScorePanel.add(highscore3);
+		highScorePanel.add(highscore4);
+		highScorePanel.add(highscore5);
+		
+		endLabel = new JLabel("");
+		endLabel.setFont(new Font("Verdana", Font.BOLD, frameHeight / 15));
+		endLabel.setBounds(0, frameHeight/2, frameWidth, frameHeight/8);
+		endLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		highScorePanel.add(endLabel);
+
+
 		frame2 = new JFrame();
 		frame2.setBackground(Color.gray);
 		frame2.getContentPane().add(highScorePanel);
@@ -600,9 +650,53 @@ public class View extends JPanel{
 		frame2.setVisible(true);
 		JFrame temp = frame;
 		frame = frame2;
+		
 		temp.dispose();
-//		quizLabel2.setForeground(Color.blue);
-//		quizLabel2.setText("Press space to play again!");
+
+	}
+	
+	public String[][] submitScore() {
+		
+		scores.add(Model.score);
+		Collections.sort(scores, (a,b)->b.compareTo(a));
+		scores.remove(scores.size()-1);
+		
+		int i = 0;
+		for (Integer curSc : scores)
+		{ 
+			if(curSc == Model.score)
+			{
+				hsArr[i][0]=textfield.getText();
+			}
+			else {
+				hsArr[i][0]=names.get(i);
+			}
+			hsArr[i][1]=String.valueOf(curSc);
+			i++;
+			
+		}
+		frame.requestFocus();
+		endLabel.setText("Press space to restart!");
+		
+		return hsArr;
+	}
+	
+	public void setScores(String [] [] arr) {
+		int i=0;
+		for (String [] s : arr)
+		{
+			names.set(i, s[0]);
+			scores.set(i, Integer.valueOf(s[1]));
+			i++;
+		}
+	}
+	
+	public void setLabels(JLabel l, int i) {
+		Font font = new Font("Verdana", Font.BOLD, frameHeight / 25);
+		l.setFont(font);
+		l.setBounds(0, (15+i)*frameHeight/25, frameWidth, frameHeight/8);
+		l.setHorizontalAlignment(SwingConstants.CENTER);
+		l.setText(names.get(i-1)+": "+scores.get(i-1));
 	}
 	
 

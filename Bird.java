@@ -161,7 +161,7 @@ public class Bird extends Character{
 	}
 	
 	public boolean checkBottomBorder() {
-		if(yPos >= View.frameHeight - height)
+		if(yPos >= 7*View.frameHeight/8 - height)
 			return false;
 		else
 			return true;
