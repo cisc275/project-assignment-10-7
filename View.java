@@ -328,6 +328,12 @@ public class View extends JPanel{
 				//drawing mini-map
 				g.drawImage(mapImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
 				g.setClip(frameWidth-(frameWidth/4), (frameHeight/10+frameHeight/30)+cropAmount, 250, 196);
+				System.out.println((frameHeight/10+frameHeight/30)+cropAmount);
+				System.out.println("cr: " + cropAmount);
+				if(Controller.restart) {
+					cropAmount = 150;
+					Controller.restart = false;
+				}
 				g.drawImage(pathImg, frameWidth-(frameWidth/4), frameHeight/10+frameHeight/30, null);
 				g.setClip(0,0, frameWidth, frameHeight);
 				

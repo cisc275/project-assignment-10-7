@@ -33,6 +33,7 @@ public class Controller implements ActionListener, KeyListener{
 	boolean animate=true;
 	int tutorial;
 	int arrInd=0;
+	static boolean restart = false;
 	
 	ArrayList<Bird> playerArr;
 	java.util.Timer gameTime;
@@ -228,6 +229,9 @@ public class Controller implements ActionListener, KeyListener{
 				view.cropAmount=196;
 				model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
 				view.frame.addKeyListener(this);
+				drawTime = new java.util.Timer();
+				restart = true;
+				view.cropAmount = 150;
 			}
 			else{
 				if(tutorial == 0)
@@ -416,7 +420,6 @@ public class Controller implements ActionListener, KeyListener{
 	 
 	 class ViewDrawTask extends TimerTask 
 	 {
-
 	        public void run() {
 	        	if(view.cropAmount!=0)
 	        		view.cropAmount--;
