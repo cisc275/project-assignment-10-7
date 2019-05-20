@@ -295,7 +295,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File(filename));
+    		bufferedImage = ImageIO.read(new File("src/"+filename));
     		
     		return bufferedImage;
     	} catch (IOException e) {
@@ -400,7 +400,6 @@ public class View extends JPanel{
 //	    	g.setColor(Color.red);
 //			g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
 //					((frameWidth/5-1)*(player.getHealth()))/1000, frameHeight/30-1);
-//			System.out.println(((frameWidth/4) * (player.getHealth()))/1000);
 			BufferedImage healthVisual = birdHealth.getSubimage(0, 0, (birdHealthEmpty.getWidth() * (player.getHealth()))/1000 , birdHealth.getHeight());
 			g.drawImage(birdHealthEmpty, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight() , null, this);
 			g.drawImage(healthVisual, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight(), null, this);
