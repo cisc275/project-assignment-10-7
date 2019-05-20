@@ -61,8 +61,10 @@ public class Model{
 		{
 			Pollution.pFactory();
 			if(game) {
+				pollLimit = 10;
 				Prey.preyFactory(View.Fish);
 				Plane.planeFactory();
+				Pollution.pFactory();
 			}
 			else
 			{
@@ -81,6 +83,7 @@ public class Model{
 				{
 					i.remove();
 					Prey.preyCount--;
+					Pollution.pCount--;
 				
 					}
 				}
