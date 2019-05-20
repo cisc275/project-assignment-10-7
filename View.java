@@ -368,7 +368,7 @@ public class View extends JPanel{
 				//stationary background
 				g.drawImage(grassImg, 0, 0, null, this);
 
-				g.drawString(tutStr, frameWidth/4, frameHeight/3);
+				g.drawString(tutStr, frameWidth/5, frameHeight/3);
 				g.setColor(Color.black);
 				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
 			}
@@ -530,7 +530,8 @@ public class View extends JPanel{
 		else
 		{
 			
-			switch(q) {
+			switch(q) 
+			{
 			case 0:
 				quizLabel2.setText("Incorrect! The Northern Harrier is the non-migratory bird. Try again!");
 				break;
@@ -544,10 +545,10 @@ public class View extends JPanel{
 				quizLabel2.setText("Incorrect! Ospreys like seafood. Try again!");
 				break;
 			case 4:
-				quizLabel2.setText("Incorrect! Fast-moving mammals hunt Northern Harriers. Try again!");
+				quizLabel2.setText("Incorrect! Fast predators hunt Northern Harriers. Try again!");
 				break;
 			case 5:
-				quizLabel2.setText("Incorrect! Ospreys have to avoid flying objects in the air. Try again!");
+				quizLabel2.setText("Incorrect! Ospreys avoid flying objects in the air. Try again!");
 				break;
 			case 6:
 				quizLabel2.setText("Incorrect! Ospreys head north on their migration path. Try again!");
@@ -573,7 +574,7 @@ public class View extends JPanel{
 		switch(stage)
 		{
 		case 0:
-			tutStr="Press space to swoop down";
+			tutStr="Press and hold space to swoop down";
 			break;
 		case 1:
 			tutStr="Use arrows to move left and right";
@@ -585,7 +586,7 @@ public class View extends JPanel{
 			tutStr="Collect sticks for points!";
 			break;
 		case 4:
-			tutStr="Avoid predators and pollution!";
+			tutStr="Avoid predators and pollution! Touch to start!";
 			break;
 		case 5:
 			tutStr="";

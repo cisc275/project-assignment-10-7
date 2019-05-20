@@ -279,7 +279,7 @@ public class Model{
 		answered=true;
 		if (ansArr[question]==a)
 		{
-			score+=400;
+			score+=100;
 			return true;
 		}
 		else
