@@ -86,6 +86,9 @@ public class View extends JPanel{
 	BufferedImage mapImg;
 	BufferedImage pathImg;
 	
+	BufferedImage birdHealth;
+	BufferedImage birdHealthEmpty;
+	
 	JFrame frame;
 	JFrame frame2;
 	
@@ -178,6 +181,8 @@ public class View extends JPanel{
     	mapImg = resize(createImage("OspreyMiniMap.png"), 196, 250);
     	pathImg = resize(createImage("path.png"), 196, 250);
     	
+    	birdHealth = createImage("bird_health.png");
+    	birdHealthEmpty = createImage("bird_health_empty.png");
     	
     	for(int i = 0; i < frameCount; i++) {
     		pics[NonMigFwd][i] = resizeImg(img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
@@ -290,7 +295,7 @@ public class View extends JPanel{
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("src/"+filename));
+    		bufferedImage = ImageIO.read(new File(filename));
     		
     		return bufferedImage;
     	} catch (IOException e) {
@@ -353,8 +358,8 @@ public class View extends JPanel{
 				g.setClip(0,0, frameWidth, frameHeight);
 				
 				//drawing health bar
-				g.setColor(Color.black);
-				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
+//				g.setColor(Color.black);
+//				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
 			}
 		}
 		// Drawing images in level 1
@@ -369,8 +374,8 @@ public class View extends JPanel{
 				g.drawImage(grassImg, 0, 0, null, this);
 
 				g.drawString(tutStr, frameWidth/4, frameHeight/3);
-				g.setColor(Color.black);
-				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
+//				g.setColor(Color.black);
+//				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
 			}
 			
 		}
@@ -392,9 +397,13 @@ public class View extends JPanel{
 			}	
 
 			//health bar
-	    	g.setColor(Color.red);
-			g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
-					((frameWidth/5-1)*(player.getHealth()))/1000, frameHeight/30-1);
+//	    	g.setColor(Color.red);
+//			g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
+//					((frameWidth/5-1)*(player.getHealth()))/1000, frameHeight/30-1);
+//			System.out.println(((frameWidth/4) * (player.getHealth()))/1000);
+			BufferedImage healthVisual = birdHealth.getSubimage(0, 0, (birdHealthEmpty.getWidth() * (player.getHealth()))/1000 , birdHealth.getHeight());
+			g.drawImage(birdHealthEmpty, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight() , null, this);
+			g.drawImage(healthVisual, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight(), null, this);
 			
 			//bird player
 			g.drawImage(pics[player.imgArrNum][frameNum], player.xPos, player.yPos, null, this);
@@ -409,7 +418,7 @@ public class View extends JPanel{
 	 * Returns frameWidth
 	 * @param Nothing
 	 * @return int frameWidth
-	 */
+	 */ 
 	public int getWidth() {
 		return frameWidth;
 	}
