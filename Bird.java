@@ -22,6 +22,7 @@ public class Bird extends Character{
 	static int height = 66;
 	int hurt;
 	int powerup;
+	int imgInd;
 	
 	
 	// Variables to help eat method 
@@ -74,12 +75,9 @@ public class Bird extends Character{
 	public void move()
 	{
 		checkImage();
-		if(!checkRightBorder() && xVector>0 )
-			xPos=xPos;
-		else if(!checkLeftBorder() && xVector<0)
-			xPos=xPos;
-		else
+		if(!((!checkRightBorder() && xVector>0) || (!checkLeftBorder() && xVector<0))) {
 			xPos+=xVector;
+		}
 		
 		yPos+=yVector;
 	}
@@ -102,7 +100,7 @@ public class Bird extends Character{
 			break;
 		
 		default:
-			break;
+			break; 
 		}
 	}
 	
@@ -146,6 +144,10 @@ public class Bird extends Character{
 		migrate=m;
 	}
 	
+	public boolean getMigrate() {
+		return migrate;
+	}
+	
 	public boolean checkLeftBorder() {
 		if(xPos <= 0)
 			return false;
@@ -175,7 +177,7 @@ public class Bird extends Character{
 	}
 	
 	public void checkImage() {
-		int imgInd=0;
+		imgInd=0;
 		if(hurt > 0) {
 			if (migrate) {
 				if(direction.equals(Direction.EAST)) {
@@ -232,20 +234,6 @@ public class Bird extends Character{
 	
 	public void setXVec(int x) {
 		xVector=x;
-		//		if(x>0)
-//		{
-//			if(checkRightBorder())
-//				xVector=x;
-//			else
-//				xVector=0;
-//		}
-//		else
-//		{
-//			if(checkLeftBorder())
-//				xVector=x;
-//			else
-//				xVector=0;
-//		}
 	}
 	
 	public void setYVec(int y) {

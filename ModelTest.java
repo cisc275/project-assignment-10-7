@@ -1,4 +1,4 @@
-/**import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,13 +23,12 @@ class ModelTest {
 	
 	@Test
 	void setDirTest() {
-		mod.setX(0);//sets bird position to collide with edge of screen
-		mod.setY(0);
-		mod.setDirection();//should push the bird off of the edge (at least by 1 pixel)
-		assertEquals(true, mod.getX() != 0);//player bird's x position should not be on edge
-		assertEquals(true, mod.getY() != 0);//player bird's y position should not be on edge
+		//mod.setX(0);//sets bird position to collide with edge of screen
+		//mod.setY(0);
+		//mod.setDirection();//should push the bird off of the edge (at least by 1 pixel)
+		//assertEquals(true, mod.getX() != 0);//player bird's x position should not be on edge
+		//assertEquals(true, mod.getY() != 0);//player bird's y position should not be on edge
 	}
 
 }
 
-**/

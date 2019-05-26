@@ -79,7 +79,7 @@ public class Model{
 				Movers c;
 				c = i.next();
 				c.move();
-				if (checkCollision((AutoCharacters)c))
+				if (checkCollision((Character)c))
 				{
 					i.remove();
 					Prey.preyCount--;
@@ -172,7 +172,7 @@ public class Model{
 			//c.move();
 			if(pause>50)
 			{
-				if (checkCollision((AutoCharacters)c))
+				if (checkCollision((Character)c))
 				{
 					i.remove();
 					Prey.preyCount--;
@@ -223,7 +223,7 @@ public class Model{
 	 * @param none
 	 * @return boolean -- will return true if there is collision, false otherwise
 	 */
-	public boolean checkCollision(AutoCharacters c) 
+	public boolean checkCollision(Character c) 
 	{
 		if (c.getBounds().intersects(player.getBounds()))
 		{
@@ -279,7 +279,7 @@ public class Model{
 		answered=true;
 		if (ansArr[question]==a)
 		{
-			score+=400;
+			score+=100;
 			return true;
 		}
 		else

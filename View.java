@@ -180,7 +180,6 @@ public class View extends JPanel{
     	quizImg = resize(q, frameHeight, frameWidth);
     	mapImg = resize(createImage("OspreyMiniMap.png"), 196, 250);
     	pathImg = resize(createImage("path.png"), 196, 250);
-    	
     	birdHealth = createImage("bird_health.png");
     	birdHealthEmpty = createImage("bird_health_empty.png");
     	
@@ -226,7 +225,8 @@ public class View extends JPanel{
 	}
 	
 	/**
-	 * Changes image height and width based on calculated ratios for image scaling based on screen size. 
+	 * Calculates new image height and width based on calculated ratios for image scaling based on screen size,
+	 *  calls resize function to create new images with new dimensions. 
 	 * @param img Buffered sub image 
 	 * @param width default image width
 	 * @param height default image height
@@ -258,10 +258,8 @@ public class View extends JPanel{
 	
 	
 	/**
-	 * This will update the frame of the image 
-	 * @param x position of the image to be animated 
-	 * @param y position of the image to be animated
-	 * @param d string of the direction
+	 * Handles image paint rate and movement for on-screen motions. 
+	 * @param p current Bird player
 	 * @param flag changed to true/false based on 
 	 *        the key/button press
 	 * @return nothing
@@ -288,9 +286,9 @@ public class View extends JPanel{
 	}
 	
 	/**
-	 * This will read the filename and return a buffered image for animation
+	 * Reads the filename and returns a buffered image for animation.
 	 * @param filename of the image to be accessed 
-	 * @return a buffered image when implemented
+	 * @return BufferedImage
 	 */
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
@@ -308,8 +306,8 @@ public class View extends JPanel{
 	
 	
 	/**
-	 * JPanel to cycle through the picture array and draw the image on the user screen
-	 * @param g graphic 
+	 * Handles drawing of all images and text for levels and level start frames.
+	 * @param g Graphics used to draw on screen
 	 * @return nothing
 	 */
 	public void paint(Graphics g){
@@ -452,7 +450,8 @@ public class View extends JPanel{
 			    
 			}
 		};
-		// quiz=false after pressing enter on quiz transition frame
+		// Boolean quiz is false after pressing enter on quiz transition frame, 
+		// this sets panel logic, buttons, and labels for quiz. 
 		if(!quiz) {
 			quizPanel.setBackground(Color.gray);
 			quizPanel.setLayout(null);
@@ -517,7 +516,11 @@ public class View extends JPanel{
 
 	}
 	
-	
+	/**
+	 * Sets the answer labels on the quiz buttons based on current quiz question. 
+	 * @param q The current question in the quiz
+	 * @return Nothing
+	 */
 	public void setText(int q) {
 		quizLabel.setText(questArr[q][0]);
 		qb1.setText(questArr[q][1]);
@@ -527,6 +530,12 @@ public class View extends JPanel{
 		
 	}
 	
+	/**
+	 * Sets text above buttons to alert the player what to do next &
+	 * their success in answering questions. Also repaints quiz frame to update score. 
+	 * @param q The current question in the quiz
+	 * @param ans True if the user got the question corrent, false otherwise. 
+	 */
 	public void setAnswer(int q, boolean ans)
 	{
 		quizLabel2.setForeground(Color.black);
@@ -537,7 +546,7 @@ public class View extends JPanel{
 		}
 		else
 		{
-			
+			//sets text to help user with false answers
 			switch(q) {
 			case 0:
 				quizLabel2.setText("Incorrect! The Northern Harrier is the non-migratory bird. Try again!");
@@ -572,11 +581,22 @@ public class View extends JPanel{
 		frame.requestFocus();
 	}
 	
+	/**
+	 * Sets default text for quiz. Used when user hasn't 
+	 * yet selcted an answer and the text is blank. 
+	 * @param Nothing
+	 * @return Nothing
+	 */
 	public void setAnswer()
 	{
 		quizLabel2.setText("");
 	}
 	
+	/**
+	 * Sets instruction text for tutorial.
+	 * @param stage Current stage of the tutorial
+	 * @return Nothing
+	 */
 	public void setTutorial(int stage) {
 		switch(stage)
 		{
@@ -593,7 +613,7 @@ public class View extends JPanel{
 			tutStr="Collect sticks for points!";
 			break;
 		case 4:
-			tutStr="Avoid predators and pollution!";
+			tutStr="Avoid predators and pollution. Touch to start!";
 			break;
 		case 5:
 			tutStr="";
@@ -601,6 +621,12 @@ public class View extends JPanel{
 		}
 	}
 	
+	/** 
+	 * Handles all logic, painting, & frame creation for high score 
+	 * page after quiz has ended. 
+	 * @param Nothing
+	 * @return Nothing
+	 */
 	public void setEnd() {
 		highScorePanel = new JPanel() {
 			@Override
@@ -671,6 +697,12 @@ public class View extends JPanel{
 
 	}
 	
+	/**
+	 * Adds new submitted score to high score array,
+	 * sorts array to have highest score at the top. 
+	 * @param Nothing 
+	 * @return hsArr High Score  Stringarray
+	 */
 	public String[][] submitScore() {
 		
 		scores.add(Model.score);
@@ -697,6 +729,11 @@ public class View extends JPanel{
 		return hsArr;
 	}
 	
+	/**
+	 * 
+	 * @param arr High Score String array
+	 * @return Nothing
+	 */
 	public void setScores(String [] [] arr) {
 		int i=0;
 		for (String [] s : arr)
@@ -707,6 +744,11 @@ public class View extends JPanel{
 		}
 	}
 	
+	/**
+	 * Sets font & size for labels of high score names in score board. 
+	 * @param l JLabel being edited. 
+	 * @param i Index of current high score
+	 */
 	public void setLabels(JLabel l, int i) {
 		Font font = new Font("Verdana", Font.BOLD, frameHeight / 25);
 		l.setFont(font);

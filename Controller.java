@@ -201,7 +201,7 @@ public class Controller implements ActionListener, KeyListener{
 					switchStates();
 					start();
 					drawTime = new java.util.Timer();
-					drawTime.schedule(new ViewDrawTask(), 0,250);
+					drawTime.schedule(new ViewDrawTask(), 0,400);
 					break;
 				case 3:
 					switchStates();
@@ -344,7 +344,7 @@ public class Controller implements ActionListener, KeyListener{
 	
 	public void startTimer() {
 		gameTime = new java.util.Timer();
-		gameTime.schedule(new GameTask(), 10000);
+		gameTime.schedule(new GameTask(), 60000);
 	}
 	
 

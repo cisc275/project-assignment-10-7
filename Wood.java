@@ -1,7 +1,7 @@
 
 import java.util.Random;
 
-public class Wood extends AutoCharacters implements Movers{
+public class Wood extends Character implements Movers{
 	
 	static int wCount=0;
 	static int width = 88;
@@ -10,7 +10,6 @@ public class Wood extends AutoCharacters implements Movers{
 	Wood(int x, int y, int w, int h) {
 		
 		super(x, y,  w, h);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void move() {
