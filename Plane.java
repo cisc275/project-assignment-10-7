@@ -5,7 +5,7 @@ import java.util.Random;
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
  */
 
-public class Plane extends AutoCharacters implements Movers{
+public class Plane extends Character implements Movers{
 	static int planeCount =0;
 	static int width = 200;
 	static int height = 75;

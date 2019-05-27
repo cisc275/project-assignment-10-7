@@ -5,7 +5,7 @@ import java.util.Random;
  * @author Yasser Abdelaal, Kate Bagshaw, Evan DeAngelis, David Olaoye, Jessica Schwartz
  */
 
-public class Prey extends AutoCharacters implements Movers{
+public class Prey extends Character implements Movers{
 	static int preyCount=0;
 	static int width = 50;
 	static int height = 30;

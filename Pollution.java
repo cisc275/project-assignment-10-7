@@ -2,7 +2,7 @@
 import java.awt.Color;
 import java.util.Random;
 
-public class Pollution extends AutoCharacters implements Movers{
+public class Pollution extends Character implements Movers{
 	
 	static int pCount=0;
 	static int width = 25;

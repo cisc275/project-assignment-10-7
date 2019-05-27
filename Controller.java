@@ -18,7 +18,7 @@ import java.io.*;
  */
 public class Controller implements ActionListener, KeyListener{
 	
-	Model model; 
+	Model model;
 	View view;
 	boolean start_stop=true;
 	Action drawAction;
@@ -52,7 +52,7 @@ public class Controller implements ActionListener, KeyListener{
 		
 		playerArr = new ArrayList<>(); //arraylist for serialize
 		view = new View();
-		model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
+		model = new Model(view.getWidth(), view.getHeight());
 		readScores(); //updates the scoreboard at the start of the game
 		
 		tutorial = 0; //sets tutorial to start
@@ -200,8 +200,8 @@ public class Controller implements ActionListener, KeyListener{
 				case 1: //2nd level
 					switchStates();
 					start();
-					drawTime = new java.util.Timer(); //timer for mini map
-					drawTime.schedule(new ViewDrawTask(), 0, 500);
+					drawTime = new java.util.Timer();
+					drawTime.schedule(new ViewDrawTask(), 0,400);
 					break;
 				case 3:
 					switchStates();
@@ -239,7 +239,7 @@ public class Controller implements ActionListener, KeyListener{
 				start_stop=true;
 				view.cropAmount=196;
 				animate=true;
-				model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
+				model = new Model(view.getWidth(), view.getHeight());
 				view.frame.addKeyListener(this);
 				drawTime = new java.util.Timer();
 				restart = true;

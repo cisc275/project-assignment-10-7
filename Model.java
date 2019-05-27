@@ -5,27 +5,25 @@ import java.util.Iterator;
 
 public class Model{
 
-	int xBound;
-	int yBound;
-	int scoreIncr = 100;
-	int scoreDncr = 25;
-	static boolean correctQuiz =  false;
-	int foxMax = 4;
+
+	int SCOREINC = 100; //amount to increase score
+	int SCOREDCR = 25; //amount to decrease score
+	static boolean correctQuiz =  false; //lets view know if answer is right
+	int foxMax = 4; //max amount of foxes on screen
 	Direction direction;
 	static ArrayList<Movers> charArr;
-	int colBound;
-	Bird player;
-	static int score = 0;
-	static int foxLimit = 1;
-	static int preyLimit = 15;
-	static int pollLimit = 5;
-	static int woodLimit = 20;
+	Bird player; 
+	static int score = 0; //score for the game
+	static int foxLimit = 1; //current limit for foxes
+	static int preyLimit = 15; //current limit for preys
+	static int pollLimit = 5; //current limit for poll
+	static int woodLimit = 20; //current limit for woodlimit
 	
-	boolean game=false;
+	boolean game=false; //whether first game or second
 	
 	//Variables for Eat
-	boolean eatFlag = false;
-	boolean helpFlag = false;
+	boolean eatFlag = false; //whether bird is going down
+	boolean helpFlag = false; //increase amount of prey 
 	
 	int [] ansArr = {2,1,4,3,2,1,3};
 	int question=0;
@@ -36,11 +34,8 @@ public class Model{
 
 	
 	
-	public Model(int w, int h, int imgW, int imgH) {
+	public Model(int w, int h) {
 		//creates model
-		xBound = w-imgW;
-		yBound = h-imgH;
-		colBound=imgW;
 		charArr=new ArrayList<>();
 		player = new Bird(100,0);		
 		score = 0;
@@ -59,36 +54,36 @@ public class Model{
 	public void updateLocationDirection(boolean run) {
 		if(run)
 		{
-			Pollution.pFactory();
-			if(game) {
+			Pollution.pFactory(); //create pollution
+			if(game) { //set the prey and predators in the second game
 				pollLimit = 10;
 				Prey.preyFactory(View.Fish);
 				Plane.planeFactory();
 				Pollution.pFactory();
 			}
 			else
-			{
+			{ //set the prey and predators in the first game
 				Prey.preyFactory(View.Mouse);
 				Fox.addFox();
 				Wood.wFactory();
 			}
 			 
-			Iterator<Movers> i = charArr.iterator();
+			Iterator<Movers> i = charArr.iterator(); //go through auto characters
 			while(i.hasNext())
 			{
 				Movers c;
 				c = i.next();
 				c.move();
-				if (checkCollision((AutoCharacters)c))
-				{
-					i.remove();
+				if (checkCollision((Character)c)) //check to see if they hit the bird
+				{ 
+					i.remove(); //make the prey disappear
 					Prey.preyCount--;
 					Pollution.pCount--;
 				
 					}
 				}
 			
-			if(score % 400 == 0 && score != 0) {
+			if(score % 400 == 0 && score != 0) { //if the player is doing well
 				//Will increase foxes up to the max; 
 				if(foxLimit != foxMax) {
 					// System.out.println("1 Fox was added");
@@ -123,9 +118,9 @@ public class Model{
 			}
 			
 			}
-			player.move();
+			player.move(); //move the bird
 			
-			if(eatFlag) 
+			if(eatFlag)  //move the bird down
 			{
 				player.eat();
 			}
@@ -133,25 +128,36 @@ public class Model{
 		}
 	
 	int pause = 0;
+	
+	/**
+	 * will determine if the user is in a menu or in a moment of gameplay
+	 *  During gameplay, this will change increment of the player model speed
+	 *   using switch cases based on the direction enumeration. When in a menu, this 
+	 *   will stop updating the player model
+	 *   
+	 * @param boolean -- true if in gameplay, false if in menu, int for which part of the tutorial its on
+	 * @return boolean to tell whether they've completed the section
+	 * 
+	 **/
 	public boolean updateTutorial(boolean run, int moduleStage) {
 
-		boolean check = false;
+		boolean check = false; //whether they have complete the section
 		if (run)
 		{
 			switch(moduleStage) {
-			case 2:
+			case 2: //have to hit a prey to continue
 				Prey p = new Prey(View.frameWidth/2, 2*View.frameHeight/3, Prey.width, Prey.height);
 				p.setImgInd(View.Mouse);
 				charArr.add(p);
 				Prey.preyCount++;
 				break;
-			case 3:
+			case 3: //have to hit wood to continue
 				Wood w =new Wood(View.frameWidth/2, 2*View.frameHeight/3, Wood.width, Wood.height);
 				w.setImgInd(View.Twig);
 				charArr.add(w);
 				Wood.wCount++;
 				break;
-			case 4:
+			case 4: //have to hit the pollution to continue
 				Fox f = new Fox(View.frameWidth/4, 2*View.frameHeight/3, Fox.width, Fox.height);
 				f.setImgInd(View.FoxFwd);
 				charArr.add(f);
@@ -172,7 +178,7 @@ public class Model{
 			//c.move();
 			if(pause>50)
 			{
-				if (checkCollision((AutoCharacters)c))
+				if (checkCollision((Character)c))
 				{
 					i.remove();
 					Prey.preyCount--;
@@ -194,25 +200,35 @@ public class Model{
 		
 	}
 
-	
+	/**
+	 * handles the movement of the bird at the end of the game
+	 * @param - nothing
+	 * @return - boolean whether it has finished the animation or not
+	 */
 	public boolean animation()
 	{	player.setDirec(Direction.EAST);
-		player.moveAnimate(player.getHealth()==0);
+		player.moveAnimate(player.getHealth()==0); //call the move function for the bird
 		
+		//check whether it is off screen to end the animation
 		if(player.getX()>(View.frameWidth+Bird.width) || player.getY()>(View.frameHeight+Bird.height))
 			return false;
 		return true;
 	}
 	
+	/**
+	 * this function resets the fields needed to start the second game
+	 * @param - nothing
+	 * @return - nothing
+	 */
 	public void switchGame() {
 		
-		player=new Bird(View.frameWidth/4, View.frameHeight/3);
-		player.setMigrate(true);
-		eatFlag = false;
-		player.risefall=2;
-		game = true;
-		Model.charArr = new ArrayList<>();
-		Prey.preyCount = 0;
+		player=new Bird(View.frameWidth/4, View.frameHeight/3);//new player
+		player.setMigrate(true); //switch the bird style
+		eatFlag = false;//turn off eating
+		player.risefall=2; //reset to up motion
+		game = true; //turn to second game 
+		Model.charArr = new ArrayList<>(); //clear all auto characters
+		Prey.preyCount = 0; //reset the prey and pollution
 		Pollution.pCount = 0;
 		pollLimit = 15;
 		
@@ -223,11 +239,11 @@ public class Model{
 	 * @param none
 	 * @return boolean -- will return true if there is collision, false otherwise
 	 */
-	public boolean checkCollision(AutoCharacters c) 
+	public boolean checkCollision(Character c) 
 	{
-		if (c.getBounds().intersects(player.getBounds()))
+		if (c.getBounds().intersects(player.getBounds())) //check for interection
 		{
-			if (!c.touch)
+			if (!c.touch) //make sure they weren't already touching
 			{
 				if(c.getClass()==Prey.class)
 				{
@@ -235,60 +251,75 @@ public class Model{
 						player.hurt = -20;//switch to green images
 					}
 					player.updateHealth(100);
-					return true;
+					return true; //returns that there was a collision
 				}
 				else if(c.getClass()==Wood.class) {
 					if(player.hurt == 0) {
 						player.hurt = -20;//switch to green images
 					}
-					score+=scoreIncr;
+					score+=SCOREINC;
 					return true; 
 				}
 				else if (c.getClass()==Pollution.class) {
 					if(player.hurt == 0) {
 						player.hurt = 20;//switch to red images
 					}
-					score-=scoreDncr;
+					score-=SCOREDCR;
 					player.updateHealth(-50);
 					return true;
 				}
-				else
+				else //for predators
 				{
 					if(player.hurt == 0) {
 						player.hurt = 20;//switch to red images
 					}
 					player.updateHealth(-100);
 				}
-				c.touch=true;
+				c.touch=true; 
 			}
 		}
 		else 
 		{
-			c.touch=false;
+			c.touch=false; //set that they have stopped touching
 		}
-		return false;
+		return false; //no collision
 	}
 	
 	
+	/**
+	 * this function returns the bird object that represents the player
+	 * @param - nothing
+	 * @return - Bird player
+	 */
 	public Bird getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * This function checks the user input to the answer of the quiz
+	 * @param a
+	 * @return
+	 */
 	public boolean checkQuiz(int a) 
 	{
-		answered=true;
-		if (ansArr[question]==a)
+		answered=true; //allow to move to next question 
+		if (ansArr[question]==a) //check the answer
 		{
-			score+=100;
+			score+=100; //add points for getting it right
 			return true;
 		}
 		else
 		{
-			score-=100;
+			score-=100; //take away points for getting it wrong
 			return false;
 		}
 	}
 	
+	/**
+	 * This function progresses the next question
+	 * @param - nothing
+	 * @return = nothing
+	 */
 	public void nextQuestion() {
 		if(answered) {
 			question ++;
@@ -297,7 +328,11 @@ public class Model{
 		
 	}
 	
-	
+	/**
+	 * this function resets the fields for a new game play
+	 * @param - nothing
+	 * @return - nothing
+	 */
 	public static void restart()
 	{
 		Model.score=0;
