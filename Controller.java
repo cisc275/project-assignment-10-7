@@ -18,7 +18,7 @@ import java.io.*;
  */
 public class Controller implements ActionListener, KeyListener{
 	
-	Model model;
+	Model model; 
 	View view;
 	boolean start_stop=true;
 	Action drawAction;
@@ -50,12 +50,12 @@ public class Controller implements ActionListener, KeyListener{
 	 */
 	public Controller() {
 		
-		playerArr = new ArrayList<>();
+		playerArr = new ArrayList<>(); //arraylist for serialize
 		view = new View();
 		model = new Model(view.getWidth(), view.getHeight(), Bird.height, Bird.width);
-		readScores();
+		readScores(); //updates the scoreboard at the start of the game
 		
-		tutorial = 0;
+		tutorial = 0; //sets tutorial to start
 		
 		view.frame.addKeyListener(this);
 		
@@ -63,15 +63,15 @@ public class Controller implements ActionListener, KeyListener{
 	    {
 			public void actionPerformed(ActionEvent e)
 			{
-				if (tutorial>=0)
+				if (tutorial>=0) //runs the tutorial
 				{
-					run = false;
-					start_stop =model.updateTutorial(start_stop, tutorial);
-					if (start_stop)
+					run = false; //keeps normal game from running
+					start_stop =model.updateTutorial(start_stop, tutorial); //updates movement 
+					if (start_stop) //moves to the next stage of the tutorial
 						tutorial++;
-					view.setTutorial(tutorial);
+					view.setTutorial(tutorial); //sets the string that the tutorial displays
 					view.update(model.getPlayer(), true);
-					if(tutorial == 5)
+					if(tutorial == 5) //starts the game
 					{
 						run = true;
 						tutorial=-1;
@@ -83,14 +83,14 @@ public class Controller implements ActionListener, KeyListener{
 					
 					
 				}
-				if (run) 
+				if (run) //normal game run
 				{
 					//increment the x and y coordinates, alter direction if necessary
 					model.updateLocationDirection(start_stop);			
 	    			//update the view
 					view.update(model.getPlayer(), run);
 					
-					if(model.getPlayer().getHealth()==0 || !timerStop)
+					if(model.getPlayer().getHealth()==0 || !timerStop) //when the timer is up or health is gone
 					{ 
 						if(animate) // animations after each level
 						{
@@ -99,15 +99,15 @@ public class Controller implements ActionListener, KeyListener{
 						}
 						else 
 						{
-							t.stop();
-							serialize();
-							gameTime.cancel();
+							t.stop(); //stop game
+							serialize(); //serializes player
+							gameTime.cancel(); //cancels game timer
 							run=false;	
-							switchStates();
+							switchStates(); //updates screen for next game
 						}	
 					}
 					
-					if(serial) 
+					if(serial) //adds current bird state to arraylist
 					{
 						Bird splayer= new Bird();
 						splayer.xPos=model.getPlayer().xPos;
@@ -117,7 +117,7 @@ public class Controller implements ActionListener, KeyListener{
 				}//if(run)
 				
 				
-				if(deserial && arrInd<playerArr.size())
+				if(deserial && arrInd<playerArr.size()) //when deserialize is chosen
 				{
 					model.getPlayer().xPos=playerArr.get(arrInd).xPos;
 					model.getPlayer().yPos=playerArr.get(arrInd).yPos;
@@ -139,23 +139,23 @@ public class Controller implements ActionListener, KeyListener{
 	 */
 
 	public void actionPerformed(ActionEvent a) {
-		if(a.getActionCommand().equals("b1"))
+		if(a.getActionCommand().equals("b1")) //quiz button press
 		{
 			view.setAnswer(model.question, model.checkQuiz(1));
 		}
-		else if(a.getActionCommand().equals("b2"))
+		else if(a.getActionCommand().equals("b2"))//quiz button press
 		{
 			view.setAnswer(model.question, model.checkQuiz(2));
 		}
-		else if(a.getActionCommand().equals("b3"))
+		else if(a.getActionCommand().equals("b3"))//quiz button press
 		{
 			view.setAnswer(model.question, model.checkQuiz(3));
 		}
-		else if(a.getActionCommand().equals("b4"))
+		else if(a.getActionCommand().equals("b4"))//quiz button press
 		{
 			view.setAnswer(model.question, model.checkQuiz(4));
 		}
-		else if(a.getActionCommand().equals("Submit"))
+		else if(a.getActionCommand().equals("Submit"))//Scoreboard submit button
 		{
 			writeScore(view.submitScore());
 		}
@@ -186,22 +186,22 @@ public class Controller implements ActionListener, KeyListener{
 			if (!run) {
 				switch(gameStage) {
 				case -1: //start level 1 when restarting game from space input
-					View.lvlStart = !View.lvlStart;
-					run = true;
+					View.lvlStart = !View.lvlStart; //turn off level image
+					run = true; 
 					timerStop=true;
-					start();
-					gameStage++;
+					start(); //start game
+					gameStage++; 
 					break;
-				case 0:
+				case 0: //first level 
 					run = true;
 					start();
 					View.lvlStart = false;
 					break;
-				case 1:
+				case 1: //2nd level
 					switchStates();
 					start();
-					drawTime = new java.util.Timer();
-					drawTime.schedule(new ViewDrawTask(), 0, 400);
+					drawTime = new java.util.Timer(); //timer for mini map
+					drawTime.schedule(new ViewDrawTask(), 0, 500);
 					break;
 				case 3:
 					switchStates();
@@ -225,7 +225,7 @@ public class Controller implements ActionListener, KeyListener{
 			break;
 		
 		case 32: //space
-			if(gameStage > 3 && model.question == 6) {
+			if(gameStage > 3 && model.question == 6) { //restarting the game
 				Model.score = 0;
 				playerArr = new ArrayList<>();
 				JFrame temp = view.frame;
@@ -246,11 +246,11 @@ public class Controller implements ActionListener, KeyListener{
 				view.cropAmount = 150;
 			}
 			else{
-				if(tutorial == 0)
+				if(tutorial == 0) //using space bar in tutorial
 				{
 					tutorial++;
 				}
-				model.eatFlag = true;
+				model.eatFlag = true; //making the bird eat 
 				model.getPlayer().risefall = 1;
 			}
 			break;
@@ -266,7 +266,7 @@ public class Controller implements ActionListener, KeyListener{
 			
 		default:
 			model.getPlayer().keyToDirec(e.getKeyCode());
-			if(tutorial ==1)
+			if(tutorial ==1) //bird movement in tutorial
 			{
 				tutorial++;
 				start_stop=true;
@@ -309,6 +309,13 @@ public class Controller implements ActionListener, KeyListener{
 		view.frame.addKeyListener(this);
 	}
 	
+	
+	/**
+	 * Adds Action listener to all the quiz buttons.
+	 *
+	 * @param Nothing
+	 * @return Nothing
+	 */
 	public void addQuizButton() {
 		view.qb1.addActionListener(this);
 		view.qb2.addActionListener(this);
@@ -342,11 +349,23 @@ public class Controller implements ActionListener, KeyListener{
 		});
 	}
 	
+	/** 
+	 * Creates & starts timer used for each level
+	 * @param Nothing
+	 * @return Nothing
+	 */
+	
 	public void startTimer() {
 		gameTime = new java.util.Timer();
 		gameTime.schedule(new GameTask(), 60000);
 	}
 	
+	
+	/** 
+	 * writes the player array list to a file 
+	 * @param Nothing
+	 * @return Nothing
+	 */
 
 	public void serialize() {
 		try {
@@ -358,6 +377,12 @@ public class Controller implements ActionListener, KeyListener{
         catch (Exception e)
         {}
 	}
+	
+	/** 
+	 * reads the serial file and writes it to an arraylist to be used in game
+	 * @param Nothing
+	 * @return Nothing
+	 */
 	
 	public void deserialize() {
 		try {
@@ -375,6 +400,12 @@ public class Controller implements ActionListener, KeyListener{
 		
 	}
 	
+	/** 
+	 * switches the game stage and sets the required flags
+	 * @param Nothing
+	 * @return Nothing
+	 */
+	
 	public void switchStates() {
 		if(gameStage == 0) { //level 1 finished, switch to level 2
 			model.switchGame();
@@ -383,7 +414,7 @@ public class Controller implements ActionListener, KeyListener{
 			gameStage++;
 
 		}
-		else if (gameStage ==1)
+		else if (gameStage ==1) //reset all the flags 
 		{
 			run = true;
 			View.lvlStart = false;
@@ -418,10 +449,15 @@ public class Controller implements ActionListener, KeyListener{
 			}
 			
 		}
-		addKey();
+		addKey(); //add the key listeners to the frame
 		
 	}
 	
+	/** 
+	 * writes the score List to a file 
+	 * @param string array of the scores and names
+	 * @return Nothing
+	 */
 	public void writeScore(String [][] hsArr) {
 		try {
             FileOutputStream fos = new FileOutputStream("highScores.txt");
@@ -433,6 +469,11 @@ public class Controller implements ActionListener, KeyListener{
         {}
 	}
 	
+	/** 
+	 * Reads the score list and names and sets the labels in the view
+	 * @param Nothing
+	 * @return Nothing
+	 */
 	public void readScores()
 	{
 		try {
@@ -441,7 +482,7 @@ public class Controller implements ActionListener, KeyListener{
 	        System.out.println("here");
 	        
 	        String[] []arr = (String [] []) ois.readObject();
-	        view.setScores(arr);
+	        view.setScores(arr); //set the labels in vie
 	        ois.close();        
 	        //new File("bird.ser").delete();
 			}catch (Exception e)
@@ -450,24 +491,33 @@ public class Controller implements ActionListener, KeyListener{
 			}
 	}
 	
-
+	/** 
+	 * Creates the action that the game timer calls when a level is over
+	 * @param Nothing
+	 * @return Nothing
+	 */
 	 class GameTask extends TimerTask 
 	 {
-
+	
 	        public void run() {
 	        	 timerStop = false;
 	            System.out.println("Time's up!");
 	            gameTime.cancel(); //Terminate the timer thread
-
+	
 	        }
 	 }
 	 
+	 /** 
+	 * Creates the action that the draw timer calls for the mini map
+	 * @param Nothing
+	 * @return Nothing
+	 */
 	 class ViewDrawTask extends TimerTask 
 	 {
 	        public void run() {
 	        	if(view.cropAmount!=0)
 	        		view.cropAmount--;
-
+	
 	        }
 	 }
 	

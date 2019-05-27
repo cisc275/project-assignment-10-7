@@ -639,7 +639,7 @@ public class View extends JPanel{
 		highScorePanel.add(highscore4);
 		highScorePanel.add(highscore5);
 		
-		endLabel = new JLabel("");
+		endLabel = new JLabel(String.valueOf(Model.score));
 		endLabel.setFont(new Font("Verdana", Font.BOLD, frameHeight / 15));
 		endLabel.setBounds(0, frameHeight/2, frameWidth, frameHeight/8);
 		endLabel.setHorizontalAlignment(SwingConstants.CENTER);
