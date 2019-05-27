@@ -89,6 +89,9 @@ public class View extends JPanel{
 	BufferedImage birdHealth;
 	BufferedImage birdHealthEmpty;
 	
+	BufferedImage bird2Health;
+	BufferedImage bird2HealthEmpty;
+	
 	JFrame frame;
 	JFrame frame2;
 	
@@ -180,8 +183,16 @@ public class View extends JPanel{
     	quizImg = resize(q, frameHeight, frameWidth);
     	mapImg = resize(createImage("OspreyMiniMap.png"), 196, 250);
     	pathImg = resize(createImage("path.png"), 196, 250);
-    	birdHealth = createImage("bird_health.png");
-    	birdHealthEmpty = createImage("bird_health_empty.png");
+    	
+    	birdHealth = createImage("healthbar_lvl1.png");
+    	birdHealth = resizeImg(birdHealth, birdHealth.getWidth(), birdHealth.getHeight());
+    	birdHealthEmpty = createImage("healthbar_lvl1_bw.png");
+    	birdHealthEmpty = resizeImg(birdHealthEmpty, birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight());
+    	
+    	bird2Health = createImage("healthbar_lvl2.png");
+    	bird2Health = resizeImg(bird2Health, bird2Health.getWidth(), bird2Health.getHeight());
+    	bird2HealthEmpty = createImage("healthbar_lvl2_bw.png");
+    	bird2HealthEmpty = resizeImg(bird2HealthEmpty, bird2HealthEmpty.getWidth(), bird2HealthEmpty.getHeight());
     	
     	for(int i = 0; i < frameCount; i++) {
     		pics[NonMigFwd][i] = resizeImg(img.getSubimage(Bird.width*i,  0,  Bird.width,  Bird.height), Bird.width, Bird.height);
@@ -225,8 +236,7 @@ public class View extends JPanel{
 	}
 	
 	/**
-	 * Calculates new image height and width based on calculated ratios for image scaling based on screen size,
-	 *  calls resize function to create new images with new dimensions. 
+	 * Changes image height and width based on calculated ratios for image scaling based on screen size. 
 	 * @param img Buffered sub image 
 	 * @param width default image width
 	 * @param height default image height
@@ -258,8 +268,10 @@ public class View extends JPanel{
 	
 	
 	/**
-	 * Handles image paint rate and movement for on-screen motions. 
-	 * @param p current Bird player
+	 * This will update the frame of the image 
+	 * @param x position of the image to be animated 
+	 * @param y position of the image to be animated
+	 * @param d string of the direction
 	 * @param flag changed to true/false based on 
 	 *        the key/button press
 	 * @return nothing
@@ -286,9 +298,9 @@ public class View extends JPanel{
 	}
 	
 	/**
-	 * Reads the filename and returns a buffered image for animation.
+	 * This will read the filename and return a buffered image for animation
 	 * @param filename of the image to be accessed 
-	 * @return BufferedImage
+	 * @return a buffered image when implemented
 	 */
 	private BufferedImage createImage(String filename){
 		BufferedImage bufferedImage;
@@ -306,8 +318,8 @@ public class View extends JPanel{
 	
 	
 	/**
-	 * Handles drawing of all images and text for levels and level start frames.
-	 * @param g Graphics used to draw on screen
+	 * JPanel to cycle through the picture array and draw the image on the user screen
+	 * @param g graphic 
 	 * @return nothing
 	 */
 	public void paint(Graphics g){
@@ -358,6 +370,9 @@ public class View extends JPanel{
 				//drawing health bar
 //				g.setColor(Color.black);
 //				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
+				BufferedImage healthVisual = bird2Health.getSubimage(0, 0, (bird2HealthEmpty.getWidth() * (player.getHealth()))/1000 , bird2Health.getHeight());
+				g.drawImage(bird2HealthEmpty, frameWidth - bird2HealthEmpty.getWidth(), bird2HealthEmpty.getHeight() , null, this);
+				g.drawImage(healthVisual, frameWidth - bird2HealthEmpty.getWidth(), bird2HealthEmpty.getHeight(), null, this);
 			}
 		}
 		// Drawing images in level 1
@@ -372,6 +387,9 @@ public class View extends JPanel{
 				g.drawImage(grassImg, 0, 0, null, this);
 
 				g.drawString(tutStr, frameWidth/4, frameHeight/3);
+				BufferedImage healthVisual = birdHealth.getSubimage(0, 0, (birdHealthEmpty.getWidth() * (player.getHealth()))/1000 , birdHealth.getHeight());
+				g.drawImage(birdHealthEmpty, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight() , null, this);
+				g.drawImage(healthVisual, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight(), null, this);
 //				g.setColor(Color.black);
 //				g.drawRect(frameWidth-(frameWidth/5+frameWidth/20), frameHeight/10, frameWidth/5, frameHeight/30);
 			}
@@ -398,9 +416,9 @@ public class View extends JPanel{
 //	    	g.setColor(Color.red);
 //			g.fillRect(frameWidth-(frameWidth/5+frameWidth/20)+1, 1+frameHeight/10, 
 //					((frameWidth/5-1)*(player.getHealth()))/1000, frameHeight/30-1);
-			BufferedImage healthVisual = birdHealth.getSubimage(0, 0, (birdHealthEmpty.getWidth() * (player.getHealth()))/1000 , birdHealth.getHeight());
-			g.drawImage(birdHealthEmpty, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight() , null, this);
-			g.drawImage(healthVisual, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight(), null, this);
+//**			BufferedImage healthVisual = bird2Health.getSubimage(0, 0, (bird2HealthEmpty.getWidth() * (player.getHealth()))/1000 , bird2Health.getHeight());
+//			g.drawImage(bird2HealthEmpty, frameWidth - bird2HealthEmpty.getWidth(), bird2HealthEmpty.getHeight() , null, this);
+//			g.drawImage(healthVisual, frameWidth - bird2HealthEmpty.getWidth(), bird2HealthEmpty.getHeight(), null, this);
 			
 			//bird player
 			g.drawImage(pics[player.imgArrNum][frameNum], player.xPos, player.yPos, null, this);
@@ -450,8 +468,7 @@ public class View extends JPanel{
 			    
 			}
 		};
-		// Boolean quiz is false after pressing enter on quiz transition frame, 
-		// this sets panel logic, buttons, and labels for quiz. 
+		// quiz=false after pressing enter on quiz transition frame
 		if(!quiz) {
 			quizPanel.setBackground(Color.gray);
 			quizPanel.setLayout(null);
@@ -516,11 +533,7 @@ public class View extends JPanel{
 
 	}
 	
-	/**
-	 * Sets the answer labels on the quiz buttons based on current quiz question. 
-	 * @param q The current question in the quiz
-	 * @return Nothing
-	 */
+	
 	public void setText(int q) {
 		quizLabel.setText(questArr[q][0]);
 		qb1.setText(questArr[q][1]);
@@ -530,12 +543,6 @@ public class View extends JPanel{
 		
 	}
 	
-	/**
-	 * Sets text above buttons to alert the player what to do next &
-	 * their success in answering questions. Also repaints quiz frame to update score. 
-	 * @param q The current question in the quiz
-	 * @param ans True if the user got the question corrent, false otherwise. 
-	 */
 	public void setAnswer(int q, boolean ans)
 	{
 		quizLabel2.setForeground(Color.black);
@@ -546,7 +553,7 @@ public class View extends JPanel{
 		}
 		else
 		{
-			//sets text to help user with false answers
+			
 			switch(q) {
 			case 0:
 				quizLabel2.setText("Incorrect! The Northern Harrier is the non-migratory bird. Try again!");
@@ -581,22 +588,11 @@ public class View extends JPanel{
 		frame.requestFocus();
 	}
 	
-	/**
-	 * Sets default text for quiz. Used when user hasn't 
-	 * yet selcted an answer and the text is blank. 
-	 * @param Nothing
-	 * @return Nothing
-	 */
 	public void setAnswer()
 	{
 		quizLabel2.setText("");
 	}
 	
-	/**
-	 * Sets instruction text for tutorial.
-	 * @param stage Current stage of the tutorial
-	 * @return Nothing
-	 */
 	public void setTutorial(int stage) {
 		switch(stage)
 		{
@@ -613,7 +609,7 @@ public class View extends JPanel{
 			tutStr="Collect sticks for points!";
 			break;
 		case 4:
-			tutStr="Avoid predators and pollution. Touch to start!";
+			tutStr="Avoid predators and pollution!";
 			break;
 		case 5:
 			tutStr="";
@@ -621,12 +617,6 @@ public class View extends JPanel{
 		}
 	}
 	
-	/** 
-	 * Handles all logic, painting, & frame creation for high score 
-	 * page after quiz has ended. 
-	 * @param Nothing
-	 * @return Nothing
-	 */
 	public void setEnd() {
 		highScorePanel = new JPanel() {
 			@Override
@@ -697,12 +687,6 @@ public class View extends JPanel{
 
 	}
 	
-	/**
-	 * Adds new submitted score to high score array,
-	 * sorts array to have highest score at the top. 
-	 * @param Nothing 
-	 * @return hsArr High Score  Stringarray
-	 */
 	public String[][] submitScore() {
 		
 		scores.add(Model.score);
@@ -729,11 +713,6 @@ public class View extends JPanel{
 		return hsArr;
 	}
 	
-	/**
-	 * 
-	 * @param arr High Score String array
-	 * @return Nothing
-	 */
 	public void setScores(String [] [] arr) {
 		int i=0;
 		for (String [] s : arr)
@@ -744,11 +723,6 @@ public class View extends JPanel{
 		}
 	}
 	
-	/**
-	 * Sets font & size for labels of high score names in score board. 
-	 * @param l JLabel being edited. 
-	 * @param i Index of current high score
-	 */
 	public void setLabels(JLabel l, int i) {
 		Font font = new Font("Verdana", Font.BOLD, frameHeight / 25);
 		l.setFont(font);
