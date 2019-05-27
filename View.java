@@ -102,6 +102,7 @@ public class View extends JPanel{
 
 	Bird player;
 
+	//quiz components
 	JButton qb1;
 	JButton qb2;
 	JButton qb3;
@@ -533,7 +534,11 @@ public class View extends JPanel{
 
 	}
 	
-	
+	/**
+	 * This function sets all the labels for the question and buttons in the quiz
+	 * @param q
+	 * @return nothing 
+	 */
 	public void setText(int q) {
 		quizLabel.setText(questArr[q][0]);
 		qb1.setText(questArr[q][1]);
@@ -543,6 +548,11 @@ public class View extends JPanel{
 		
 	}
 	
+	/**
+	 * This function sets the label to tell the user if they got it right
+	 * @param q
+	 * @param ans
+	 */
 	public void setAnswer(int q, boolean ans)
 	{
 		quizLabel2.setForeground(Color.black);
@@ -554,7 +564,7 @@ public class View extends JPanel{
 		else
 		{
 			
-			switch(q) {
+			switch(q) { //switch based on question
 			case 0:
 				quizLabel2.setText("Incorrect! The Northern Harrier is the non-migratory bird. Try again!");
 				break;
@@ -588,11 +598,21 @@ public class View extends JPanel{
 		frame.requestFocus();
 	}
 	
+	/**
+	 * This function resets the answer label to nothing
+	 * @param nothing
+	 * @return nothing
+	 */
 	public void setAnswer()
 	{
 		quizLabel2.setText("");
 	}
 	
+	/**
+	 * This function sets the labels in the tutorial
+	 * @param stage that the tutorial is on
+	 * @return nothing
+	 */
 	public void setTutorial(int stage) {
 		switch(stage)
 		{
@@ -617,13 +637,18 @@ public class View extends JPanel{
 		}
 	}
 	
+	/**
+	 * THis function creates the highscore frame for the end
+	 * @param nothing
+	 * @return nothing
+	 */
 	public void setEnd() {
-		highScorePanel = new JPanel() {
+		highScorePanel = new JPanel() { //new panel 
 			@Override
 			  protected void paintComponent(Graphics g) {
 
 			    super.paintComponent(g);
-			        g.drawImage(marshImg, 0, 0, null);
+			        g.drawImage(marshImg, 0, 0, null); //draw background
 			    
 			}
 		};
@@ -632,11 +657,13 @@ public class View extends JPanel{
 		textfield.setBounds(frameWidth/3, frameHeight/3, frameWidth/3, frameHeight/16);
 		highScorePanel.add(textfield);
 		
+		//Title label
 		JLabel title = new JLabel("High Scores");
 		title.setFont(new Font("Verdana", Font.BOLD, frameHeight / 15));
 		title.setBounds(0, frameHeight/6, frameWidth, frameHeight/8);
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		//Button to submit
 		submit = new JButton ("Submit");
 		submit.setBounds(5*frameWidth/12, 5*frameHeight/12, frameWidth/6, frameHeight/16);
 		submit.setActionCommand("Submit");
@@ -644,6 +671,7 @@ public class View extends JPanel{
 		highScorePanel.add(submit);
 		highScorePanel.add(title);
 		
+		//Highscore labels
 		JLabel highscore1 = new JLabel("1");
 		JLabel highscore2 = new JLabel("2");
 		JLabel highscore3 = new JLabel("3");
@@ -687,6 +715,11 @@ public class View extends JPanel{
 
 	}
 	
+	/**
+	 * This function writes scores to a text file 
+	 * @param nothing
+	 * @return string [] []
+	 */
 	public String[][] submitScore() {
 		
 		scores.add(Model.score);
@@ -713,6 +746,11 @@ public class View extends JPanel{
 		return hsArr;
 	}
 	
+	/**
+	 * This function reads scores from an array and writes them to the high score labels
+	 * @param arr string
+	 * @return nothing
+	 */
 	public void setScores(String [] [] arr) {
 		int i=0;
 		for (String [] s : arr)
@@ -723,6 +761,11 @@ public class View extends JPanel{
 		}
 	}
 	
+	/**
+	 * This function sets the high score labels
+	 * @param l the label it is setting
+	 * @param i the index in the array of scores
+	 */
 	public void setLabels(JLabel l, int i) {
 		Font font = new Font("Verdana", Font.BOLD, frameHeight / 25);
 		l.setFont(font);

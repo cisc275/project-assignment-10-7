@@ -23,6 +23,11 @@ public class Prey extends Character implements Movers{
 	
 	}
 	
+	/**
+	 * This function creates prey but limits when the the constructor can be called
+	 * @param preyInd
+	 * @return nothing
+	 */
 	public static void preyFactory(int preyInd) {
 		
 		Random rand = new Random();
@@ -48,9 +53,19 @@ public class Prey extends Character implements Movers{
 
 	}
 	
+	/**
+	 * This function sets the speed that the prey move
+	 * @param x
+	 * @return nothing
+	 */
 	public static void setSpeed(int x) {
 		preySpeed = x;
 	}
+	/**
+	 * This function returns the speed the prey are moving at
+	 * @param nothing
+	 * @return preySpeed
+	 */
 	
 	public static int getSpeed() {
 		return preySpeed;
