@@ -371,7 +371,10 @@ public class View extends JPanel{
 				//drawing health bar
 //				g.setColor(Color.black);
 //				g.drawRect(frameWidth-(frameWidth/4), frameHeight/10, frameWidth/5, frameHeight/30);
-				BufferedImage healthVisual = bird2Health.getSubimage(0, 0, (bird2HealthEmpty.getWidth() * (player.getHealth()))/1000 , bird2Health.getHeight());
+				BufferedImage healthVisual = bird2Health.getSubimage(0, 0, (bird2HealthEmpty.getWidth() * (1000))/1000 , bird2Health.getHeight());
+				if(player.getHealth() != 0) {
+				healthVisual = bird2Health.getSubimage(0, 0, (bird2HealthEmpty.getWidth() * (player.getHealth()))/1000 , bird2Health.getHeight());
+				}
 				g.drawImage(bird2HealthEmpty, frameWidth - bird2HealthEmpty.getWidth(), bird2HealthEmpty.getHeight() , null, this);
 				g.drawImage(healthVisual, frameWidth - bird2HealthEmpty.getWidth(), bird2HealthEmpty.getHeight(), null, this);
 			}
@@ -388,7 +391,10 @@ public class View extends JPanel{
 				g.drawImage(grassImg, 0, 0, null, this);
 
 				g.drawString(tutStr, frameWidth/4, frameHeight/3);
-				BufferedImage healthVisual = birdHealth.getSubimage(0, 0, (birdHealthEmpty.getWidth() * (player.getHealth()))/1000 , birdHealth.getHeight());
+				BufferedImage healthVisual = birdHealth.getSubimage(0, 0, (birdHealthEmpty.getWidth() * (1000))/1000 , birdHealth.getHeight());
+				if(player.getHealth() != 0) {
+				healthVisual = birdHealth.getSubimage(0, 0, (birdHealthEmpty.getWidth() * (player.getHealth()))/1000 , birdHealth.getHeight());
+				}
 				g.drawImage(birdHealthEmpty, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight() , null, this);
 				g.drawImage(healthVisual, frameWidth - birdHealthEmpty.getWidth(), birdHealthEmpty.getHeight(), null, this);
 //				g.setColor(Color.black);
